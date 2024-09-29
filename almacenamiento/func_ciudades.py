@@ -23,6 +23,32 @@ def obtener_ciudades():
     conexion.close()
     return ciudades
 
+#Consultar ciudades/proyectos filtradass
+def obtener_ciudades_filtradas(subsistema=None, proyecto=None, documento=None):
+    """Devuelve las ciudades filtrados por subsistema, documento o ambos."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    
+    query = "SELECT * FROM Ciudades WHERE 1=1"
+    params = []
+    
+    if subsistema:
+        query += " AND subsistema_id = ?"
+        params.append(subsistema)
+    
+    if proyecto:
+        query += " AND ciudad_id = ?"
+        params.append(proyecto)
+    
+    if documento:
+        query += " AND titulo LIKE ?"
+        params.append(f"%{documento}%")
+    
+    cursor.execute(query, params)
+    proyecto = cursor.fetchall()
+    conexion.close()
+    return proyecto
+
 # Eliminar una ciudad
 def borrar_ciudad(ciudad_id):
     """Elimina una ciudad por su ID."""

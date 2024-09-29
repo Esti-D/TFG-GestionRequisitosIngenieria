@@ -24,6 +24,32 @@ def obtener_documentos():
     conexion.close()
     return documentos
 
+def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
+    """Devuelve los documentos filtrados por subsistema, proyecto o ambos."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    
+    query = "SELECT * FROM Documentos WHERE 1=1"
+    params = []
+    
+    if subsistema:
+        query += " AND subsistema_id = ?"
+        params.append(subsistema)
+    
+    if proyecto:
+        query += " AND ciudad_id = ?"
+        params.append(proyecto)
+    
+    if documento:
+        query += " AND titulo LIKE ?"
+        params.append(f"%{documento}%")
+    
+    cursor.execute(query, params)
+    documentos = cursor.fetchall()
+    conexion.close()
+    return documentos
+
+
 # Eliminar un documento
 def borrar_documento(documento_id):
     """Elimina un documento por su ID."""

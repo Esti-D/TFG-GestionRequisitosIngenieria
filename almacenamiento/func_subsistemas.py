@@ -23,6 +23,32 @@ def obtener_subsistemas():
     conexion.close()
     return subsistemas
 
+#Consultar subsistemas filtrados
+def obtener_subsistemas_filtrados(subsistema=None, proyecto=None, documento=None):
+    """Devuelve los subsistemas filtrados por proyecto, documento o ambos."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    
+    query = "SELECT * FROM Subsistemas WHERE 1=1"
+    params = []
+    
+    if subsistema:
+        query += " AND subsistema_id = ?"
+        params.append(subsistema)
+    
+    if proyecto:
+        query += " AND ciudad_id = ?"
+        params.append(proyecto)
+    
+    if documento:
+        query += " AND titulo LIKE ?"
+        params.append(f"%{documento}%")
+    
+    cursor.execute(query, params)
+    subsistemas = cursor.fetchall()
+    conexion.close()
+    return subsistemas
+
 # Eliminar un subsistema
 def borrar_subsistema(subsistema_id):
     """Elimina un subsistema por su ID."""
