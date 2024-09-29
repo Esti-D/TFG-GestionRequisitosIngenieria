@@ -4,6 +4,13 @@ import os
 
 from bloque_proyecto import crear_boton_proyecto  # Importamos la función para el botón
 from bloque_subsistema import crear_boton_subsistema  # Importamos la función para el botón Subsistema
+from bloque_load import seleccionar_archivo # importamos la función selecionar_archivo
+from bloque_load import ventana_seleccionar_proyecto
+from bloque_load import aceptar_proyecto
+from bloque_load import cargar_documento #importamos la función cargar_documento
+from bloque_consulta import realizar_consulta #importamos la función realizar_consulta
+from bloque_consulta import verificar_opcion_seleccionada #verificar la opcion de consulta
+
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
@@ -42,11 +49,16 @@ label_fondo = tk.Label(frame_visual, image=imagen_fondo_tk, bg="white")
 label_fondo.pack(expand=True)
 
 # Botón de LOAD
-boton_load = tk.Button(frame_funcionalidades, text="LOAD")
+boton_load = tk.Button(frame_funcionalidades, text="LOAD", 
+                           command=lambda: ventana_seleccionar_proyecto(
+                               lambda proyecto_nombre, proyectos, ventana: 
+                                   aceptar_proyecto(proyecto_nombre, proyectos, ventana, entry_archivo, 
+                                   lambda proyecto_id: cargar_documento(entry_archivo, proyecto_id))))
 boton_load.grid(row=0, column=0, padx=10, pady=10, sticky="ew", ipady=10)
 
+
 # Botón de Seleccionar archivo
-boton_seleccionar = tk.Button(frame_funcionalidades, text="Seleccionar archivo")
+boton_seleccionar = tk.Button(frame_funcionalidades, text="Seleccionar archivo",command=lambda: seleccionar_archivo(entry_archivo))
 boton_seleccionar.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
 
 # Cuadro de texto para mostrar la ruta seleccionada
@@ -54,7 +66,7 @@ entry_archivo = tk.Entry(frame_funcionalidades)
 entry_archivo.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
 
 # Botón de CONSULTA
-boton_consulta = tk.Button(frame_funcionalidades, text="CONSULTA")
+boton_consulta = tk.Button(frame_funcionalidades, text="CONSULTA",command=lambda: realizar_consulta(verificar_opcion_seleccionada(var_requisitos,var_documentos, var_proyectos, var_subsistemas),entry_subsistemas, entry_proyectos,entry_documentos,frame_visual))
 boton_consulta.grid(row=3, column=0, padx=10, pady=10, sticky="ew", ipady=10)
 
 # Filtros: Requisitos, Documentos, Proyectos, Subsistemas (en una sola línea)
@@ -62,17 +74,23 @@ filtros_frame = tk.Frame(frame_funcionalidades, bg="lightgray")
 filtros_frame.grid(row=4, column=0, pady=10, sticky="ew")
 filtros_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
-# Filtros de selección
-checkbox_requisitos = tk.Checkbutton(filtros_frame, text="Requisitos")
+# variables para almacenar el estado de las opciones
+var_requisitos = tk.BooleanVar()
+var_documentos = tk.BooleanVar()
+var_proyectos = tk.BooleanVar()
+var_subsistemas = tk.BooleanVar()
+
+# Casillas de selección
+checkbox_requisitos = tk.Checkbutton(filtros_frame, text="Requisitos", variable=var_requisitos)
 checkbox_requisitos.grid(row=0, column=0, padx=5, pady=5, sticky="ew")
 
-checkbox_documentos = tk.Checkbutton(filtros_frame, text="Documentos")
+checkbox_documentos = tk.Checkbutton(filtros_frame, text="Documentos", variable=var_documentos)
 checkbox_documentos.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
-checkbox_proyectos = tk.Checkbutton(filtros_frame, text="Proyectos")
+checkbox_proyectos = tk.Checkbutton(filtros_frame, text="Proyectos",variable=var_proyectos)
 checkbox_proyectos.grid(row=0, column=2, padx=5, pady=5, sticky="ew")
 
-checkbox_subsistemas = tk.Checkbutton(filtros_frame, text="Subsistemas")
+checkbox_subsistemas = tk.Checkbutton(filtros_frame, text="Subsistemas",variable=var_subsistemas)
 checkbox_subsistemas.grid(row=0, column=3, padx=5, pady=5, sticky="ew")
 
 # Filtro de Subsistemas (Texto y ventana en blanco)
