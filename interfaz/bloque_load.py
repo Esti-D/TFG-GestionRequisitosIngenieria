@@ -4,7 +4,8 @@ from tkinter import filedialog # Para abrir el explorador de archivos
 from extraccion.leer_pdf import extraer_texto_pdf
 from almacenamiento. func_documentos import insertar_documento
 from almacenamiento.func_requisitos import insertar_requisito
-from almacenamiento.func_ciudades import obtener_ciudades  
+from almacenamiento.func_ciudades import obtener_ciudades
+from interfaz.bloque_asignar import limpiar_visualizador  
 
 
 # Función para crear el bloque de carga de archivos
@@ -65,33 +66,48 @@ def aceptar_proyecto(proyecto_seleccionado, proyectos, ventana, entry_archivo, c
 
     # Llamar al callback que pasa el proyecto_id a cargar_documento
     callback(proyecto_id)
-   
-def cargar_documento(entry_archivo,proyecto_id):
-    #obtener la ruta del archivo
+  
+def cargar_documento(entry_archivo, proyecto_id, frame_visual):
+    # Obtener la ruta del archivo
     ruta_archivo = entry_archivo.get()
-    print(f"Ruta del archivo seleccionada: {ruta_archivo}") #mesnaje de  depuración
 
     if not ruta_archivo:
-        messagebox.showerror("Error", "No se ha selecionado ningún archivo.")
+        messagebox.showerror("Error", "No se ha seleccionado ningún archivo.")
         return
+    
     try:
-        #extraer el texto del archivo PDf
-        print("Extrayendo texto del pdf..")
-        texto_pdf = extraer_texto_pdf(ruta_archivo)
-        print("texto extraido correctamente")
+        # Extraer el texto del PDF (sin guardar aún)
+        print("Extrayendo texto del PDF...")
+        texto_pdf = extraer_texto_pdf(ruta_archivo)  # Usamos la función de extracción de texto
 
-        # funcion insertar documetno
-        print("insertando documento e nla base de datos..")
-        documento_id= insertar_documento("Titulo del documento","1.0",ciudad_id=1)
-        print(f"Documento insertado con ID: {documento_id}")
+        # Limpiar el visualizador derecho
+        limpiar_visualizador(frame_visual)
 
-        print("insertando requisitos..")
-        insertar_requisito(documento_id, 1, texto_pdf)
-        print("requisitos insertados correctamente")
+        # Crear un widget de texto en el visor para mostrar los requisitos extraídos y permitir la edición
+        texto_requisitos = tk.Text(frame_visual, wrap="word", height=20)
+        texto_requisitos.insert(tk.END, texto_pdf)  # Insertar el texto extraído del PDF
+        texto_requisitos.pack(pady=10, padx=10, fill="both", expand=True)
 
-        messagebox.showinfo("Exito","Documento cargado correctamente")
+        # Crear un botón "Guardar" en el visor para confirmar la edición y proceder con el guardado
+        boton_guardar = tk.Button(frame_visual, text="Guardar",
+                                  command=lambda: guardar_requisitos_y_asociaciones(texto_requisitos.get("1.0", tk.END), ruta_archivo, proyecto_id))
+        boton_guardar.pack(pady=10)
 
     except Exception as e:
         messagebox.showerror("Error", f"Error al cargar el documento: {e}")
 
+def guardar_requisitos_y_asociaciones(requisitos_editados, ruta_archivo, proyecto_id):
+    try:
+        # Aquí es donde guardamos los requisitos y el documento, después de que el usuario los haya revisado
+        documento_id = insertar_documento("Título del documento", "1.0", proyecto_id)
+
+        # Guardar los requisitos en la base de datos
+        insertar_requisito(documento_id, 1, requisitos_editados)
+
+        # Aquí puedes integrar la lógica para buscar coincidencias con subsistemas (en un paso posterior)
+
+        messagebox.showinfo("Éxito", "Documento, requisitos y asociaciones guardados correctamente")
+
+    except Exception as e:
+        messagebox.showerror("Error", f"Error al guardar los requisitos: {e}")
 

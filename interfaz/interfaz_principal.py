@@ -53,7 +53,7 @@ boton_load = tk.Button(frame_funcionalidades, text="LOAD",
                            command=lambda: ventana_seleccionar_proyecto(
                                lambda proyecto_nombre, proyectos, ventana: 
                                    aceptar_proyecto(proyecto_nombre, proyectos, ventana, entry_archivo, 
-                                   lambda proyecto_id: cargar_documento(entry_archivo, proyecto_id))))
+                                   lambda proyecto_id: cargar_documento(entry_archivo, proyecto_id,frame_visual))))
 boton_load.grid(row=0, column=0, padx=10, pady=10, sticky="ew", ipady=10)
 
 
