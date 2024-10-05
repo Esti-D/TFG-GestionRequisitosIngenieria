@@ -6,7 +6,7 @@ from almacenamiento. func_documentos import insertar_documento
 from almacenamiento.func_requisitos import insertar_requisito
 from almacenamiento.func_ciudades import obtener_ciudades
 from interfaz.bloque_asignar import limpiar_visualizador  
-
+from asignacion.asignacion_subsistemas import asignar_subsistemas_a_documento  # Lógica para asignar subsistemas
 
 # Función para crear el bloque de carga de archivos
 def crear_boton_load(frame_funcionalidades):
@@ -90,24 +90,57 @@ def cargar_documento(entry_archivo, proyecto_id, frame_visual):
 
         # Crear un botón "Guardar" en el visor para confirmar la edición y proceder con el guardado
         boton_guardar = tk.Button(frame_visual, text="Guardar",
-                                  command=lambda: guardar_requisitos_y_asociaciones(texto_requisitos.get("1.0", tk.END), ruta_archivo, proyecto_id))
+                                  command=lambda: guardar_requisitos_y_asociaciones(texto_requisitos.get("1.0", tk.END), ruta_archivo, proyecto_id, frame_visual))
         boton_guardar.pack(pady=10)
 
     except Exception as e:
         messagebox.showerror("Error", f"Error al cargar el documento: {e}")
 
-def guardar_requisitos_y_asociaciones(requisitos_editados, ruta_archivo, proyecto_id):
+def guardar_requisitos_y_asociaciones(requisitos_editados, ruta_archivo, proyecto_id,frame_visual):
     try:
         # Aquí es donde guardamos los requisitos y el documento, después de que el usuario los haya revisado
         documento_id = insertar_documento("Título del documento", "1.0", proyecto_id)
 
         # Guardar los requisitos en la base de datos
         insertar_requisito(documento_id, 1, requisitos_editados)
-
-        # Aquí puedes integrar la lógica para buscar coincidencias con subsistemas (en un paso posterior)
-
         messagebox.showinfo("Éxito", "Documento, requisitos y asociaciones guardados correctamente")
+        # **Asignar subsistemas**: Después de guardar los requisitos, se pasa el texto del visor para asignar subsistemas
+        asignar_subsistemas_a_documento_y_mostrar_ventana(requisitos_editados, documento_id, frame_visual)
+        
 
     except Exception as e:
         messagebox.showerror("Error", f"Error al guardar los requisitos: {e}")
 
+# Función para asignar subsistemas y mostrar la ventana de asignación
+def asignar_subsistemas_a_documento_y_mostrar_ventana(texto_documento, documento_id, frame_visual):
+    subsistemas_sugeridos = asignar_subsistemas_a_documento(texto_documento)
+
+    ventana_subsistemas = tk.Toplevel()
+    ventana_subsistemas.title("Asignación de Subsistemas")
+    
+    # Ajustar el tamaño de la ventana
+    ventana_subsistemas.geometry("400x300")
+
+    tk.Label(ventana_subsistemas, text="Subsistemas sugeridos para el documento:").pack(pady=10)
+
+     # Crear una Listbox para mostrar los subsistemas sugeridos
+    lista_subsistemas = tk.Listbox(ventana_subsistemas, selectmode=tk.MULTIPLE, height=10)
+    for subsistema in subsistemas_sugeridos:
+        lista_subsistemas.insert(tk.END, subsistema)  # Insertar los subsistemas en la lista
+
+    lista_subsistemas.pack(pady=10, padx=20, fill=tk.BOTH, expand=True)
+
+    boton_aceptar = tk.Button(ventana_subsistemas, text="Aceptar", 
+                              command=lambda: aceptar_asignacion_subsistemas(documento_id, lista_subsistemas, ventana_subsistemas))
+    boton_aceptar.pack(pady=10)
+
+
+# Función para aceptar y guardar las asignaciones de subsistemas
+def aceptar_asignacion_subsistemas(documento_id, lista_subsistemas, ventana_subsistemas):
+    seleccionados = lista_subsistemas.curselection()
+    subsistemas_asignados = [lista_subsistemas.get(i) for i in seleccionados]
+
+    # Aquí puedes guardar la relación subsistema-documento en la base de datos
+    print(f"Subsistemas asignados al documento {documento_id}: {subsistemas_asignados}")
+
+    ventana_subsistemas.destroy()

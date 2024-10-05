@@ -2,14 +2,14 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import os
 
-from bloque_proyecto import crear_boton_proyecto  # Importamos la función para el botón
-from bloque_subsistema import crear_boton_subsistema  # Importamos la función para el botón Subsistema
-from bloque_load import seleccionar_archivo # importamos la función selecionar_archivo
-from bloque_load import ventana_seleccionar_proyecto
-from bloque_load import aceptar_proyecto
-from bloque_load import cargar_documento #importamos la función cargar_documento
-from bloque_consulta import realizar_consulta #importamos la función realizar_consulta
-from bloque_consulta import verificar_opcion_seleccionada #verificar la opcion de consulta
+from .bloque_proyecto import crear_boton_proyecto  # Importamos la función para el botón
+from .bloque_subsistema import crear_boton_subsistema  # Importamos la función para el botón Subsistema
+from .bloque_load import seleccionar_archivo # importamos la función selecionar_archivo
+from .bloque_load import ventana_seleccionar_proyecto
+from .bloque_load import aceptar_proyecto
+from .bloque_load import cargar_documento #importamos la función cargar_documento
+from .bloque_consulta import realizar_consulta #importamos la función realizar_consulta
+from .bloque_consulta import verificar_opcion_seleccionada #verificar la opcion de consulta
 
 
 # Función para limpiar el visualizador
@@ -116,13 +116,10 @@ entry_documentos.grid(row=10, column=0, padx=10, pady=5, sticky="ew")
 
 # Botón Proyecto / Ciudad
 boton_proyecto = tk.Button(frame_funcionalidades, text="Proyecto / Ciudad", command=lambda: crear_boton_proyecto(frame_funcionalidades, frame_visual))
-#boton_proyecto = tk.Button(frame_funcionalidades, text="Proyecto / Ciudad")
 boton_proyecto.grid(row=11, column=0, padx=10, pady=10, sticky="ew", ipady=10)
 
 # Botón Subsistema
-# Botón Subsistema (ahora correctamente vinculado)
 boton_subsistema = tk.Button(frame_funcionalidades, text="Subsistema", command=lambda: crear_boton_subsistema(frame_funcionalidades, frame_visual))
-#boton_subsistema = tk.Button(frame_funcionalidades, text="Subsistema")
 boton_subsistema.grid(row=12, column=0, padx=10, pady=10, sticky="ew", ipady=10)
 
 # Botón Asignar
