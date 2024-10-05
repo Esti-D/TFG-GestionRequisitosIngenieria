@@ -1,5 +1,9 @@
-from cargar_palabras import cargar_palabras_desde_csv
-from trie import Trie
+import csv
+import ast
+import os
+
+from .cargar_palabras import cargar_palabras_desde_csv
+from .trie import Trie
 
 # Función para construir un Trie para cada subsistema
 def construir_trie_para_subsistemas(subsistemas_palabras):
@@ -43,26 +47,58 @@ def asignar_subsistemas_a_documento_trie(texto_documento, subsistemas_trie):
 
     return subsistemas_sugeridos
 
-# Ejemplo de uso
-if __name__ == "__main__":
+
+# Función para asignar subsistemas a un documento (para ser llamada desde bloque_load.py)
+def asignar_subsistemas_a_documento(texto_documento):
+     # Obtener la ruta de la carpeta actual donde se encuentra el script
+    ruta_base = os.path.dirname(os.path.abspath(__file__))  # Ruta base del archivo actual
+
+    # Combinar la ruta base con la carpeta 'asignacion' y el archivo 'TOKENES.csv'
+    ruta_csv = os.path.join(ruta_base, "TOKENES.csv")
+
     # Cargar las palabras clave desde el archivo CSV
-    subsistemas_palabras = cargar_palabras_desde_csv("TOKENES.csv")
+    subsistemas_palabras = cargar_palabras_desde_csv(ruta_csv)
+   
+    # Cargar las palabras clave desde el archivo CSV
+    #subsistemas_palabras = cargar_palabras_desde_csv("TOKENES.csv")
 
     # Construir los Tries para cada subsistema
     subsistemas_trie = construir_trie_para_subsistemas(subsistemas_palabras)
 
-    # Simular el texto de un documento
-    texto_documento = """
-    The train's propulsion system is connected to the power supply system,
-    and the chassis includes bogies, axles, and suspension systems. The pantograph 
-    interacts with the overhead catenary system, and the vehicle's aerodynamics ensure chassis chassis chassis chassis
-    smooth motion. Passenger comfort is enhanced by the HVAC system and vibration control.
-    """
-
     # Asignar subsistemas basados en el texto del documento
     subsistemas_sugeridos = asignar_subsistemas_a_documento_trie(texto_documento, subsistemas_trie)
 
+    return subsistemas_sugeridos
+
+# Ejemplo de uso
+#if __name__ == "__main__":
+    # Cargar las palabras clave desde el archivo CSV
+ #   subsistemas_palabras = cargar_palabras_desde_csv("tokenes.csv")
+
+    # Construir los Tries para cada subsistema
+    #subsistemas_trie = construir_trie_para_subsistemas(subsistemas_palabras)
+
+    # Simular el texto de un documento
+  #  texto_documento = """
+   # The train's propulsion system is connected to the power supply system,
+   # and the chassis includes bogies, axles, and suspension systems. The pantograph 
+   # interacts with the overhead catenary system, and the vehicle's aerodynamics ensure chassis chassis chassis chassis bogies a
+   # smooth motion. Passenger comfort is enhanced by the HVAC system and vibration control.
+   # chassis bogies axles bearings brakes suspension traction speed control pantograph power systems train aerodynamics automatic doors interior and exterior lighting
+  #  information security cyber defense operatinal technology security cyber resilience
+  #  firewalls intrusion detection system intruction prevention system network segmentation encrytption virtual private networks secure access control
+  #  identify and access management security information and event management endpoint security zero trust architecture public key enfraestructure
+  #  vulnerability assessment penetratrion testing pen testing patch management threat intelligence security monitoring
+   # incident response plan data protection data privacy malware detection
+   # cybersecurity cybersecurity cybersecurity cybersecurity cybersecurity cybersecurity
+
+   # Poles Supra Trolley Catenary
+   # """
+
+    # Asignar subsistemas basados en el texto del documento
+  #  subsistemas_sugeridos = asignar_subsistemas_a_documento_trie(texto_documento, subsistemas_trie)
+
     # Imprimir los subsistemas sugeridos y el número de coincidencias
-    print("Subsistemas sugeridos para el documento:")
-    for subsistema, coincidencias in subsistemas_sugeridos.items():
-        print(f"{subsistema}: {coincidencias} coincidencias")
+  #  print("Subsistemas sugeridos para el documento:")
+  #  for subsistema, coincidencias in subsistemas_sugeridos.items():
+  #      print(f"{subsistema}: {coincidencias} coincidencias")
