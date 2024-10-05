@@ -1,7 +1,15 @@
-from extraccion.leer_pdf import extraer_texto_pdf
+import os
+from almacenamiento.db import crear_tablas
+from interfaz.interfaz_principal import iniciar_interfaz
+
+def iniciar_aplicacion():
+    # Verificar si la base de datos ya existe
+    if not os.path.exists('BD_Requisitos.db'):
+        print("La base de datos no existe, creando tablas...")
+        crear_tablas()
+
+    # Iniciar la interfaz gráfica
+    iniciar_interfaz()
 
 if __name__ == "__main__":
-    ruta_pdf = "PDF/PDF1.pdf"
-    print(f"Intentando abrir el archivo: {ruta_pdf}")  # Mensaje de depuración
-    texto = extraer_texto_pdf(ruta_pdf)
-    print(texto)
+    iniciar_aplicacion()
