@@ -1,30 +1,60 @@
-import sys
-import os
+import unittest
+import sqlite3
+import logging
 
-# Añadir la ruta del directorio principal del proyecto al sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+def listar_tablas(conexion):
+    """
+    Función para listar las tablas de la base de datos.
+    Recibe una conexión a la base de datos.
+    Devuelve una lista con los nombres de las tablas.
+    """
+    try:
+        cursor = conexion.cursor()
 
-# Importamos las funciones desde la carpeta almacenamiento
-from almacenamiento.func_ciudades import insertar_ciudad, obtener_ciudades, borrar_ciudad
+        # Consultar las tablas existentes
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tablas = cursor.fetchall()
 
-# Prueba 1: Insertar una ciudad
-print("Insertando ciudades...")
-insertar_ciudad("Madrid")
-insertar_ciudad("Barcelona")
-insertar_ciudad("Valencia")
+        logging.info(f"Tablas encontradas: {[tabla[0] for tabla in tablas]}")
+        return tablas
 
-# Prueba 2: Consultar las ciudades
-print("\nConsultando todas las ciudades...")
-ciudades = obtener_ciudades()
-print(ciudades)
+    except sqlite3.Error as e:
+        logging.error(f"Error al listar las tablas: {e}")
+        return []
 
-# Prueba 3: Borrar una ciudad (por ejemplo, Madrid, que tiene ID 1)
-print("\nEliminando la ciudad con ID 1 (Madrid)...")
-borrar_ciudad(1)
+class TestAlmacenamiento(unittest.TestCase):
 
-# Consultar de nuevo para verificar que fue eliminada
-print("\nConsultando ciudades después de eliminar...")
-ciudades_actualizadas = obtener_ciudades()
-print(ciudades_actualizadas)
+    def setUp(self):
+        """
+        Configuración inicial para cada test.
+        Crea una base de datos en memoria y tablas de prueba.
+        """
+        # Crear base de datos en memoria
+        self.conexion = sqlite3.connect(":memory:")
+        cursor = self.conexion.cursor()
 
+        # Crear tablas de ejemplo
+        cursor.execute("CREATE TABLE IF NOT EXISTS Ciudad (id INTEGER PRIMARY KEY, nombre TEXT)")
+        cursor.execute("CREATE TABLE IF NOT EXISTS Documento (id INTEGER PRIMARY KEY, titulo TEXT)")
+        self.conexion.commit()
+
+    def tearDown(self):
+        """
+        Limpieza posterior a cada test.
+        Cierra la conexión a la base de datos.
+        """
+        self.conexion.close()
+
+    def test_listar_tablas(self):
+        """
+        Prueba que verifica si las tablas creadas se listan correctamente.
+        """
+        tablas = listar_tablas(self.conexion)
+        tablas_esperadas = [('Ciudad',), ('Documento',)]
+        
+        # Comprobamos que las tablas esperadas están en la base de datos
+        self.assertEqual(set(tablas), set(tablas_esperadas))
+
+if __name__ == "__main__":
+    unittest.main()
 

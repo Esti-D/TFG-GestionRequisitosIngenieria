@@ -1,47 +1,73 @@
-import sys
-import os
+import unittest
 import sqlite3
-
-# Añadir la ruta del directorio principal del proyecto al sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Importamos las funciones desde la carpeta almacenamiento
 from almacenamiento.func_documentos import insertar_documento, obtener_documentos, borrar_documento
 
-# Función para borrar todos los datos de la tabla 'Documentos' (sin eliminar la tabla) y resetear el AUTOINCREMENT
-def limpiar_tabla_documentos():
-    conexion = sqlite3.connect('BD_Requisitos.db')
+def limpiar_tabla_documentos(conexion):
+    """
+    Función para limpiar la tabla Documentos en una base de datos dada.
+    """
     cursor = conexion.cursor()
-    # Eliminar todos los registros de la tabla Documentos
     cursor.execute('DELETE FROM Documentos')
-    # Reiniciar el contador de AUTOINCREMENT
     cursor.execute('DELETE FROM sqlite_sequence WHERE name="Documentos"')
     conexion.commit()
-    conexion.close()
 
-# Borrar los registros existentes antes de empezar el test y reiniciar el ID
-print("Limpiando la tabla 'Documentos' antes de empezar el test...")
-limpiar_tabla_documentos()
+class TestDocumentos(unittest.TestCase):
 
-# Prueba 1: Insertar un documento
-print("Insertando documentos...")
-insertar_documento("Plan de Ingeniería", "1.0", 1)  # Suponemos que la ciudad con ID 1 existe
-insertar_documento("Especificaciones Técnicas", "1.2", 2)  # Suponemos que la ciudad con ID 2 existe
+    def setUp(self):
+        """
+        Configuración inicial para cada test.
+        Limpia la tabla Documentos antes de comenzar.
+        """
+        # Conectarse a la base de datos real
+        self.conexion = sqlite3.connect('BD_Requisitos.db')
+        limpiar_tabla_documentos(self.conexion)
 
-# Prueba 2: Consultar los documentos
-print("\nConsultando todos los documentos...")
-documentos = obtener_documentos()
-print(documentos)
+    def tearDown(self):
+        """
+        Limpieza posterior a cada test.
+        Limpia la tabla Documentos y cierra la conexión a la base de datos.
+        """
+        limpiar_tabla_documentos(self.conexion)
+        self.conexion.close()
 
-# Prueba 3: Borrar un documento (por ejemplo, el documento con ID 1)
-print("\nEliminando el documento con ID 1...")
-borrar_documento(1)
+    def test_insertar_documento(self):
+        """
+        Prueba que inserta varios documentos y verifica que fueron insertados correctamente.
+        """
+        # Insertar documentos (suponiendo que las ciudades con ID 1 y 2 existen)
+        insertar_documento("Plan de Ingeniería", "1.0", 1)  # Documento vinculado a Ciudad 1
+        insertar_documento("Especificaciones Técnicas", "1.2", 2)  # Documento vinculado a Ciudad 2
 
-# Consultar de nuevo para verificar que fue eliminado
-print("\nConsultando documentos después de eliminar...")
-documentos_actualizados = obtener_documentos()
-print(documentos_actualizados)
+        # Obtener documentos de la base de datos
+        documentos = obtener_documentos()
 
-# Limpiar la tabla al final del test y reiniciar el ID
-print("\nLimpiando la tabla 'Documentos' al final del test...")
-limpiar_tabla_documentos()
+        # Verificar que los documentos insertados están presentes
+        titulos_esperados = ["Plan de Ingeniería", "Especificaciones Técnicas"]
+        titulos_obtenidos = [documento[1] for documento in documentos]
+        self.assertEqual(set(titulos_obtenidos), set(titulos_esperados))
+
+    def test_borrar_documento(self):
+        """
+        Prueba que inserta y luego borra un documento, verificando que fue eliminado correctamente.
+        """
+        # Insertar documentos
+        insertar_documento("Plan de Ingeniería", "1.0", 1)
+        insertar_documento("Especificaciones Técnicas", "1.2", 2)
+
+        # Obtener documentos
+        documentos = obtener_documentos()
+        self.assertEqual(len(documentos), 2)
+
+        # Buscar el ID del primer documento e intentar eliminarlo
+        documento_id = documentos[0][0]
+
+        # Borrar el primer documento usando su ID
+        borrar_documento(documento_id)
+
+        # Verificar que el documento ha sido eliminado
+        documentos_actualizados = obtener_documentos()
+        titulos_obtenidos = [documento[1] for documento in documentos_actualizados]
+        self.assertNotIn("Plan de Ingeniería", titulos_obtenidos)
+
+if __name__ == "__main__":
+    unittest.main()

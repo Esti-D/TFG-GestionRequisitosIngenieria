@@ -1,36 +1,73 @@
-import sys
-import os
+import unittest
 import sqlite3
-
-# Añadir la ruta del directorio principal del proyecto al sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Importamos las funciones desde la carpeta almacenamiento
 from almacenamiento.func_requisitos import insertar_requisito, obtener_requisitos, borrar_requisito
 
-# Función para borrar todos los datos de la tabla 'Requisitos' (sin eliminar la tabla) y resetear el AUTOINCREMENT
-def limpiar_tabla_requisitos():
-    conexion = sqlite3.connect('BD_Requisitos.db')
+def limpiar_tabla_requisitos(conexion):
+    """
+    Función para limpiar la tabla Requisitos en una base de datos dada.
+    """
     cursor = conexion.cursor()
-    # Eliminar todos los registros de la tabla Requisitos
     cursor.execute('DELETE FROM Requisitos')
-    # Reiniciar el contador de AUTOINCREMENT
     cursor.execute('DELETE FROM sqlite_sequence WHERE name="Requisitos"')
     conexion.commit()
-    conexion.close()
 
-# Borrar los registros existentes antes de empezar el test y reiniciar el ID
-print("Limpiando la tabla 'Requisitos' antes de empezar el test...")
-limpiar_tabla_requisitos()
+class TestRequisitos(unittest.TestCase):
 
-# Prueba 1: Insertar requisitos
-print("Insertando requisitos...")
-insertar_requisito(2, "Requisito de Seguridad", 1)  # Suponemos que el documento con ID 1 existe
-insertar_requisito(3, "Requisito de Rendimiento", 2)  # Suponemos que el documento con ID 2 existe
+    def setUp(self):
+        """
+        Configuración inicial para cada test.
+        Limpia la tabla Requisitos antes de comenzar.
+        """
+        # Conectarse a la base de datos real
+        self.conexion = sqlite3.connect('BD_Requisitos.db')
+        limpiar_tabla_requisitos(self.conexion)
 
-# Prueba 2: Consultar los requisitos
-print("\nConsultando todos los requisitos...")
-requisitos = obtener_requisitos()
-print(requisitos)
+    def tearDown(self):
+        """
+        Limpieza posterior a cada test.
+        Limpia la tabla Requisitos y cierra la conexión a la base de datos.
+        """
+        limpiar_tabla_requisitos(self.conexion)
+        self.conexion.close()
 
-# Prueba 3: Borrar un requisito (por ejemplo, el requisito con
+    def test_insertar_requisito(self):
+        """
+        Prueba que inserta requisitos y verifica que fueron insertados correctamente.
+        """
+        # Insertar requisitos (suponiendo que los documentos con IDs 1 y 2 existen)
+        insertar_requisito(2, "Requisito de Seguridad", 1)  # Requisito vinculado al documento 1
+        insertar_requisito(3, "Requisito de Rendimiento", 2)  # Requisito vinculado al documento 2
+
+        # Obtener requisitos de la base de datos
+        requisitos = obtener_requisitos()
+
+        # Verificar que los requisitos insertados están presentes
+        descripciones_esperadas = ["Requisito de Seguridad", "Requisito de Rendimiento"]
+        descripciones_obtenidas = [requisito[1] for requisito in requisitos]
+        self.assertEqual(set(descripciones_obtenidas), set(descripciones_esperadas))
+
+    def test_borrar_requisito(self):
+        """
+        Prueba que inserta y luego borra un requisito, verificando que fue eliminado correctamente.
+        """
+        # Insertar requisitos
+        insertar_requisito(2, "Requisito de Seguridad", 1)
+        insertar_requisito(3, "Requisito de Rendimiento", 2)
+
+        # Obtener requisitos
+        requisitos = obtener_requisitos()
+        self.assertEqual(len(requisitos), 2)
+
+        # Buscar el ID del primer requisito e intentar eliminarlo
+        requisito_id = requisitos[0][0]
+
+        # Borrar el primer requisito usando su ID
+        borrar_requisito(requisito_id)
+
+        # Verificar que el requisito ha sido eliminado
+        requisitos_actualizados = obtener_requisitos()
+        descripciones_obtenidas = [requisito[1] for requisito in requisitos_actualizados]
+        self.assertNotIn("Requisito de Seguridad", descripciones_obtenidas)
+
+if __name__ == "__main__":
+    unittest.main()

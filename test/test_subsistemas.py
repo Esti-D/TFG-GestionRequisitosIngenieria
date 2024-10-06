@@ -1,47 +1,73 @@
-import sys
-import os
+import unittest
 import sqlite3
-
-# Añadir la ruta del directorio principal del proyecto al sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-# Importamos las funciones desde la carpeta almacenamiento
 from almacenamiento.func_subsistemas import insertar_subsistema, obtener_subsistemas, borrar_subsistema
 
-# Función para borrar todos los datos de la tabla 'Subsistemas' (sin eliminar la tabla) y resetear el AUTOINCREMENT
-def limpiar_tabla_subsistemas():
-    conexion = sqlite3.connect('BD_Requisitos.db')
+def limpiar_tabla_subsistemas(conexion):
+    """
+    Función para limpiar la tabla Subsistemas en una base de datos dada.
+    """
     cursor = conexion.cursor()
-    # Eliminar todos los registros de la tabla Subsistemas
     cursor.execute('DELETE FROM Subsistemas')
-    # Reiniciar el contador de AUTOINCREMENT
     cursor.execute('DELETE FROM sqlite_sequence WHERE name="Subsistemas"')
     conexion.commit()
-    conexion.close()
 
-# Borrar los registros existentes antes de empezar el test y reiniciar el ID
-print("Limpiando la tabla 'Subsistemas' antes de empezar el test...")
-limpiar_tabla_subsistemas()
+class TestSubsistemas(unittest.TestCase):
 
-# Prueba 1: Insertar subsistemas
-print("Insertando subsistemas...")
-insertar_subsistema("Energía")
-insertar_subsistema("Comunicaciones")
+    def setUp(self):
+        """
+        Configuración inicial para cada test.
+        Limpia la tabla Subsistemas antes de comenzar.
+        """
+        # Conectarse a la base de datos real
+        self.conexion = sqlite3.connect('BD_Requisitos.db')
+        limpiar_tabla_subsistemas(self.conexion)
 
-# Prueba 2: Consultar los subsistemas
-print("\nConsultando todos los subsistemas...")
-subsistemas = obtener_subsistemas()
-print(subsistemas)
+    def tearDown(self):
+        """
+        Limpieza posterior a cada test.
+        Limpia la tabla Subsistemas y cierra la conexión a la base de datos.
+        """
+        limpiar_tabla_subsistemas(self.conexion)
+        self.conexion.close()
 
-# Prueba 3: Borrar un subsistema (por ejemplo, el subsistema con ID 1)
-print("\nEliminando el subsistema con ID 1...")
-borrar_subsistema(1)
+    def test_insertar_subsistema(self):
+        """
+        Prueba que inserta subsistemas y verifica que fueron insertados correctamente.
+        """
+        # Insertar subsistemas
+        insertar_subsistema("Energía")
+        insertar_subsistema("Comunicaciones")
 
-# Consultar de nuevo para verificar que fue eliminado
-print("\nConsultando subsistemas después de eliminar...")
-subsistemas_actualizados = obtener_subsistemas()
-print(subsistemas_actualizados)
+        # Obtener subsistemas de la base de datos
+        subsistemas = obtener_subsistemas()
 
-# Limpiar la tabla al final del test y reiniciar el ID
-print("\nLimpiando la tabla 'Subsistemas' al final del test...")
-limpiar_tabla_subsistemas()
+        # Verificar que los subsistemas insertados están presentes
+        nombres_esperados = ["Energía", "Comunicaciones"]
+        nombres_obtenidos = [subsistema[1] for subsistema in subsistemas]
+        self.assertEqual(set(nombres_obtenidos), set(nombres_esperados))
+
+    def test_borrar_subsistema(self):
+        """
+        Prueba que inserta y luego borra un subsistema, verificando que fue eliminado correctamente.
+        """
+        # Insertar subsistemas
+        insertar_subsistema("Energía")
+        insertar_subsistema("Comunicaciones")
+
+        # Obtener subsistemas
+        subsistemas = obtener_subsistemas()
+        self.assertEqual(len(subsistemas), 2)
+
+        # Buscar el ID del primer subsistema e intentar eliminarlo
+        subsistema_id = subsistemas[0][0]
+
+        # Borrar el primer subsistema usando su ID
+        borrar_subsistema(subsistema_id)
+
+        # Verificar que el subsistema ha sido eliminado
+        subsistemas_actualizados = obtener_subsistemas()
+        nombres_obtenidos = [subsistema[1] for subsistema in subsistemas_actualizados]
+        self.assertNotIn("Energía", nombres_obtenidos)
+
+if __name__ == "__main__":
+    unittest.main()
