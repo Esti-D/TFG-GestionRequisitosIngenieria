@@ -50,7 +50,6 @@ def ventana_seleccionar_proyecto(callback):
                               command=lambda: callback(lista_proyectos.get(lista_proyectos.curselection()), proyectos, ventana))
     boton_aceptar.pack(pady=10, padx=20)
 
-
 # Función para aceptar el proyecto seleccionado y proceder con la carga del documento
 def aceptar_proyecto(proyecto_seleccionado, proyectos, ventana, entry_archivo, callback):
     """Asocia el proyecto seleccionado al documento y cierra la ventana."""
@@ -62,10 +61,8 @@ def aceptar_proyecto(proyecto_seleccionado, proyectos, ventana, entry_archivo, c
     callback(proyecto_id)  # Llamar al callback con el ID del proyecto
 
 # Función para cargar el documento seleccionado
-import re
-
 def cargar_documento(entry_archivo, proyecto_id, frame_visual):
-    """Extrae el texto del PDF, organiza capítulos y divide requisitos basados en los puntos y aparte."""
+    """Extrae el texto del PDF, lo muestra en el visualizador y permite la edición antes de guardarlo."""
     ruta_archivo = entry_archivo.get()
 
     if not ruta_archivo:
@@ -76,62 +73,20 @@ def cargar_documento(entry_archivo, proyecto_id, frame_visual):
         # Extraer el texto del PDF
         texto_pdf = extraer_texto_pdf(ruta_archivo)
 
-        # Verificar si se extrajo correctamente el texto
-        if not texto_pdf:
-            messagebox.showerror("Error", "No se pudo extraer texto del PDF.")
-            return
-
-        # Limpiar el visualizador antes de mostrar el nuevo contenido
+        # Limpiar el visualizador derecho
         limpiar_visualizador(frame_visual)
 
-        # Dividir el texto en capítulos basados en números seguidos de puntos
-        capitulos = re.split(r'(?=\d+\.\s)', texto_pdf)  # Detectar capítulos basados en números seguidos de un punto
+        # Mostrar el texto extraído en un widget de texto para revisión
+        texto_requisitos = tk.Text(frame_visual, wrap="word", height=20)
+        texto_requisitos.insert(tk.END, texto_pdf)
+        texto_requisitos.pack(pady=10, padx=10, fill="both", expand=True)
 
-        contenido = ""  # Aquí almacenamos el contenido que se mostrará en el visor
-
-        # Recorremos los capítulos para extraer los requisitos
-        for capitulo in capitulos:
-            capitulo = capitulo.strip()  # Limpiar espacios en blanco
-
-            # Asegurarse de que no estamos en un bloque vacío
-            if not capitulo:
-                continue
-
-            # Detectar el número del capítulo
-            match_capitulo = re.match(r'^(\d+)\.\s+(.+)', capitulo, re.DOTALL)
-            if match_capitulo:
-                numero_capitulo = match_capitulo.group(1)  # Número del capítulo
-                texto_capitulo = match_capitulo.group(2)  # Resto del capítulo
-
-                contenido += f"Capítulo {numero_capitulo}:\n"
-
-                # Dividir los párrafos en requisitos por punto y aparte (detectamos un punto, seguido de un salto de línea, seguido de mayúscula)
-                requisitos = re.split(r'(?<=\.)\s*\n(?=[A-Z])', texto_capitulo)
-                id_requisito = 1
-
-                for requisito in requisitos:
-                    requisito = requisito.strip()  # Limpiar espacios en blanco
-                    if requisito:
-                        contenido += f"Requisito {id_requisito}: {requisito}\n"
-                        id_requisito += 1
-
-            contenido += "\n"  # Separar capítulos visualmente
-
-        # Mostrar el contenido estructurado en el visualizador para que el usuario lo pueda editar
-        if contenido:
-            texto_requisitos_visualizador = tk.Text(frame_visual, wrap="word", height=20)
-            # Insertamos el contenido de capítulos y requisitos en el visor
-            texto_requisitos_visualizador.insert(tk.END, contenido)
-            texto_requisitos_visualizador.pack(pady=10, padx=10, fill="both", expand=True)
-        else:
-            messagebox.showerror("Error", "No se pudo encontrar ningún capítulo o requisito en el documento.")
-
-        # Botón para guardar después de la revisión
-        boton_guardar = tk.Button(frame_visual, text="Guardar", command=lambda: guardar_requisitos_y_asociaciones(texto_requisitos_visualizador.get("1.0", tk.END),ruta_archivo, proyecto_id, frame_visual))
+        # Botón "Guardar" para confirmar la edición y guardar
+        boton_guardar = tk.Button(frame_visual, text="Guardar",
+                                  command=lambda: guardar_requisitos_y_asociaciones(texto_requisitos.get("1.0", tk.END), ruta_archivo, proyecto_id, frame_visual))
         boton_guardar.pack(pady=10)
 
     except Exception as e:
-        print(f"Error al cargar el documento: {e}")  # Para depuración
         messagebox.showerror("Error", f"Error al cargar el documento: {e}")
 
 # Función para guardar los requisitos y asociar subsistemas
