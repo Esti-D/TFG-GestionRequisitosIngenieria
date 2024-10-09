@@ -20,6 +20,12 @@ def obtener_subsistemas():
     cursor = conexion.cursor()
     cursor.execute('SELECT * FROM Subsistemas')
     subsistemas = cursor.fetchall()
+    
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    subsistemas = [nombres_columnas] + subsistemas
     conexion.close()
     return subsistemas
 

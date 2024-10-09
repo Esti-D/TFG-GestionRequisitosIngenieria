@@ -93,10 +93,10 @@ def realizar_consulta(tipo_consulta, entry_subsistemas, entry_proyectos, entry_d
             documentos = obtener_documentos_filtrados(subsistema, proyecto, documento)
         else:
             documentos = obtener_documentos() 
-        mostrar_resultados(documentos,frame_visual)
+            mostrar_resultados(documentos,frame_visual)
     
     elif tipo_consulta == "subsistemas":
-        subsistemas = obtener_subsistemas_filtrados(proyecto)
+        subsistemas = obtener_subsistemas()
         mostrar_resultados(subsistemas,frame_visual)
     
     elif tipo_consulta == "requisitos":
@@ -110,9 +110,48 @@ def realizar_consulta(tipo_consulta, entry_subsistemas, entry_proyectos, entry_d
     else:
         messagebox.showerror("Error","Debe seleccionar un tipo de consulta")
 
-#Función para mostrar los resultados en el visualizador
-def mostrar_resultados(resultados,frame_visual):
-    for resultado in resultados:
-        label_resultado = tk.Label(frame_visual, text=str(resultado))
-        label_resultado.pack(pady=5)
+
+def mostrar_resultados(resultados, frame_visual):
+
+    limpiar_visualizador(frame_visual)  # Limpiamos el visualizador de resultados previos
+
+    # Crear un Canvas y un Frame dentro de un Scrollbar para los resultados
+    canvas = tk.Canvas(frame_visual)
+    scrollbar = tk.Scrollbar(frame_visual, orient="vertical", command=canvas.yview)
+    scrollable_frame = tk.Frame(canvas)
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    # Si no hay resultados, mostramos un mensaje
+    if not resultados:
+        label_vacio = tk.Label(scrollable_frame, text="No se encontraron resultados.")
+        label_vacio.pack(pady=5)
+        return
+
+    # Configuramos el uso del grid en el frame visual
+    for i, nombre_columna in enumerate(resultados[0]):
+        label_encabezado = tk.Label(scrollable_frame, text=nombre_columna, font=("Arial", 10, "bold"), anchor="w", bg="lightgray", padx=5, pady=5)
+        label_encabezado.grid(row=0, column=i, sticky="nsew", padx=5, pady=5)
+
+    # Asignamos el peso de las columnas para que se distribuyan uniformemente
+    for i in range(len(resultados[0])):
+        scrollable_frame.grid_columnconfigure(i, weight=1, uniform="columna")
+
+    # Mostrar los datos
+    for fila_index, fila in enumerate(resultados[1:], start=1):  # Empezamos desde la segunda fila (los datos)
+        for col_index, dato in enumerate(fila):
+            label_dato = tk.Label(scrollable_frame, text=str(dato), anchor="w", padx=5, pady=5, wraplength=210)  # wraplength ajustado
+            label_dato.grid(row=fila_index, column=col_index, sticky="nsew", padx=5, pady=5)
+
+    # Forzar redimensionamiento equitativo
+    scrollable_frame.update_idletasks()
 

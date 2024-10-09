@@ -33,8 +33,8 @@ frame_visual = tk.Frame(ventana, bg="white")
 frame_visual.grid(row=0, column=1, sticky="nsew")
 
 # Configurar la ventana para que el bloque gris esté dividido en dos partes (izquierda y derecha)
-ventana.grid_columnconfigure(0, weight=1, uniform="group1")  # Parte izquierda para botones
-ventana.grid_columnconfigure(1, weight=1, uniform="group1")  # Parte derecha para visualización
+ventana.grid_columnconfigure(0, weight=1)#, uniform="group1")  # Parte izquierda para botones no respetaba la anchura neuva 1/4
+ventana.grid_columnconfigure(1, weight=4)#, uniform="group1")  # Parte derecha para visualización
 ventana.grid_rowconfigure(0, weight=1)
 
 # Cargar imagen de fondo para la parte visual
@@ -52,7 +52,7 @@ boton_load = tk.Button(
         lambda proyecto_nombre, proyectos, ventana: aceptar_proyecto(
             proyecto_nombre, proyectos, ventana, entry_archivo, 
             lambda proyecto_id: cargar_documento(entry_archivo, proyecto_id, frame_visual))))
-boton_load.grid(row=0, column=0, padx=10, pady=10, sticky="ew", ipady=10)
+boton_load.grid(row=0, column=0, padx=10, pady=10, ipady=10, sticky="ew")
 
 # Botón de Seleccionar archivo
 boton_seleccionar = tk.Button(frame_funcionalidades, text="Seleccionar archivo", 

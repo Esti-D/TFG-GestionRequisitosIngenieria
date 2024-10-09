@@ -68,6 +68,9 @@ def cargar_documento(entry_archivo, proyecto_id, frame_visual):
     """Extrae el texto del PDF, organiza capítulos y divide requisitos basados en los puntos y aparte."""
     ruta_archivo = entry_archivo.get()
 
+    # Extraer el nombre del archivo PDF directamente desde la ruta
+    titulo_documento = ruta_archivo.split("/")[-1]  # Obtener solo el nombre del archivo de la ruta
+    
     if not ruta_archivo:
         messagebox.showerror("Error", "No se ha seleccionado ningún archivo.")
         return
@@ -127,7 +130,7 @@ def cargar_documento(entry_archivo, proyecto_id, frame_visual):
             messagebox.showerror("Error", "No se pudo encontrar ningún capítulo o requisito en el documento.")
 
         # Botón para guardar después de la revisión
-        boton_guardar = tk.Button(frame_visual, text="Guardar", command=lambda: guardar_requisitos_y_asociaciones(texto_requisitos_visualizador.get("1.0", tk.END),ruta_archivo, proyecto_id, frame_visual))
+        boton_guardar = tk.Button(frame_visual, text="Guardar", command=lambda: guardar_requisitos_y_asociaciones(titulo_documento,texto_requisitos_visualizador.get("1.0", tk.END),ruta_archivo, proyecto_id, frame_visual))
         boton_guardar.pack(pady=10)
 
     except Exception as e:
@@ -135,11 +138,11 @@ def cargar_documento(entry_archivo, proyecto_id, frame_visual):
         messagebox.showerror("Error", f"Error al cargar el documento: {e}")
 
 # Función para guardar los requisitos y asociar subsistemas
-def guardar_requisitos_y_asociaciones(requisitos_editados, ruta_archivo, proyecto_id, frame_visual):
+def guardar_requisitos_y_asociaciones(titulo_documento, requisitos_editados, ruta_archivo, proyecto_id, frame_visual):
     """Guarda el documento, los requisitos, y luego asigna subsistemas."""
     try:
         # Guardar el documento y los requisitos
-        documento_id = insertar_documento("Título del documento", "1.0", proyecto_id)
+        documento_id = insertar_documento(titulo_documento, "1.0", proyecto_id)
         insertar_requisito(documento_id, 1, requisitos_editados)
 
         messagebox.showinfo("Éxito", "Documento, requisitos y asociaciones guardados correctamente")

@@ -19,9 +19,23 @@ def obtener_documentos():
     """Devuelve todos los documentos en la tabla Documentos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
-    cursor.execute('SELECT * FROM Documentos')
+    #cursor.execute('SELECT * FROM Documentos')
+    # Consulta con JOIN para obtener el nombre del proyecto
+    cursor.execute('''
+        SELECT Documentos.id, Documentos.titulo, Documentos.version, Ciudades.nombre 
+        FROM Documentos 
+        JOIN Ciudades ON Documentos.ciudad = Ciudades.id
+    ''')
+
     documentos = cursor.fetchall()
+
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    documentos = [nombres_columnas] + documentos
     conexion.close()
+
     return documentos
 
 def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
