@@ -30,6 +30,33 @@ def obtener_requisitos():
     conexion.close()
     return requisitos
 
+def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None):
+    """Devuelve los documentos filtrados por subsistema, proyecto o ambos."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    
+    query = "SELECT * FROM Requisitos WHERE 1=1"
+    params = []
+    
+    if subsistema:
+        query += " AND subsistema_id = ?"
+        params.append(subsistema)
+    
+    if proyecto:
+        query += " AND ciudad_id = ?"
+        params.append(proyecto)
+    
+    if documento:
+        query += " AND titulo LIKE ?"
+        params.append(f"%{documento}%")
+    
+    cursor.execute(query, params)
+    requisitos = cursor.fetchall()
+    conexion.close()
+    return requisitos
+
+
+
 # Eliminar un requisito
 def borrar_requisito(requisito_id):
     """Elimina un requisito por su ID."""
