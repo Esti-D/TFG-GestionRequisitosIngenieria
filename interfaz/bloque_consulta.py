@@ -4,6 +4,7 @@ from almacenamiento.func_documentos import obtener_documentos #función de consu
 from almacenamiento.func_subsistemas import obtener_subsistemas #funcion de consulta de subssistemas
 from almacenamiento.func_requisitos import obtener_requisitos # funcion de consulta de requisitos
 from almacenamiento.func_ciudades import obtener_ciudades # funcion de consulta de proyectos
+from almacenamiento.func_proyectos import obtener_proyectos # funcion de consulta de proyectos
 from almacenamiento.func_documentos import obtener_documentos_filtrados #funcion de consulta de doc filtrados
 from almacenamiento.func_subsistemas import obtener_subsistemas_filtrados #funcion de consulta de subsistemas filtrados
 from almacenamiento.func_requisitos import obtener_requisitos_filtrados #funcin de ocnsulta requisitos fitlrados
@@ -76,7 +77,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
             mostrar_resultados(requisitos,frame_visual)
     
     elif tipo_consulta == "proyectos":
-        requisitos = obtener_ciudades()
+        requisitos = obtener_proyectos()
         mostrar_resultados(requisitos,frame_visual)
 
     else:

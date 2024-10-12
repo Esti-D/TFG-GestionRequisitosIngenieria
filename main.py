@@ -13,19 +13,21 @@ def iniciar_aplicacion():
     Luego, inicia la interfaz de usuario.
     """
     try:
-        # Verificar si la base de datos ya existe
-        if not os.path.exists('BD_Requisitos.db'):
-            logging.info("La base de datos no existe, creando tablas...")
-            crear_tablas()
+        # Obtener la ruta absoluta de la base de datos
+        db_path = os.path.join(os.path.dirname(__file__), 'BD_Requisitos.db')
 
+        # Verificar si la base de datos ya existe
+        if not os.path.exists(db_path):
+            logging.info("La base de datos no existe, creando tablas...")
+            crear_tablas(db_path)  # Crear las tabals solo si la bas de datos no existe
+                        
         # Iniciar la interfaz gráfica
         logging.info("Iniciando la interfaz de usuario...")
-        interfaz_principal()
+        interfaz_principal(db_path)  # Pasar la ruta de la base de datos a la interfaz
         
-
     except Exception as e:
         logging.error(f"Error al iniciar la aplicación: {e}")
-        raise
+        raise # Propagar el error para obtener más detalles en la depuración
 
 if __name__ == "__main__":
     iniciar_aplicacion()

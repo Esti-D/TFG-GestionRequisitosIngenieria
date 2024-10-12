@@ -4,7 +4,7 @@ import sqlite3
 def conectar_db():
     return sqlite3.connect('BD_Requisitos.db')
 
-# Insertar una ciudad
+# Insertar una proyecto
 def insertar_proyecto(nombre_proyecto):
     """Inserta una nueva ciudad en la tabla Proyectos."""
     conexion = conectar_db()
@@ -14,12 +14,12 @@ def insertar_proyecto(nombre_proyecto):
     conexion.close()
 
 # Consultar todas las ciudades
-def obtener_ciudades():
+def obtener_proyectos():
     """Devuelve todas las ciudades en la tabla Proyectos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
     cursor.execute('SELECT * FROM Proyectos')
-    ciudades = cursor.fetchall()
+    proyectos = cursor.fetchall()
 
     # Obtenemos los nombres de las columnas sin afectar la base de datos
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
@@ -27,7 +27,7 @@ def obtener_ciudades():
     # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
     proyectos = [nombres_columnas] + proyectos
     conexion.close()
-    return ciudades
+    return proyectos
 
 #Consultar ciudades/proyectos filtradass
 def obtener_proyectos_filtradas(subsistema=None, proyecto=None, documento=None):
@@ -55,7 +55,7 @@ def obtener_proyectos_filtradas(subsistema=None, proyecto=None, documento=None):
     conexion.close()
     return proyecto
 
-# Eliminar una ciudad
+# Eliminar una proyecto
 def borrar_proyecto(proyecto_id):
     """Elimina una proyecto por su ID."""
     conexion = conectar_db()

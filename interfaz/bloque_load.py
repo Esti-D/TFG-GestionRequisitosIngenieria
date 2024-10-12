@@ -7,18 +7,6 @@ from almacenamiento.func_ciudades import obtener_ciudades
 from interfaz.bloque_asignar import limpiar_visualizador  # Para limpiar la ventana visual
 from asignacion.asignacion_subsistemas import asignar_subsistemas_a_documento  # Lógica para asignar subsistemas
 
-# Función para crear el bloque de carga de archivos (botones y cuadro de entrada)
-def crear_boton_load(frame_funcionalidades):
-    """Crea los botones de LOAD y Seleccionar archivo, así como el cuadro de entrada para la ruta."""
-    boton_load = tk.Button(frame_funcionalidades, text="LOAD")
-    boton_load.grid(row=0, column=0, padx=10, pady=10, sticky="ew", ipady=10)
-
-    boton_seleccionar = tk.Button(frame_funcionalidades, text="Seleccionar archivo")
-    boton_seleccionar.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
-
-    entry_archivo = tk.Entry(frame_funcionalidades)  # Cuadro de texto para mostrar la ruta seleccionada
-    entry_archivo.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
-
 # Función para abrir el explorador y seleccionar un archivo PDF
 def seleccionar_archivo(entry_archivo):
     """Abre el explorador de archivos para seleccionar un archivo PDF y muestra la ruta en el cuadro de texto."""
