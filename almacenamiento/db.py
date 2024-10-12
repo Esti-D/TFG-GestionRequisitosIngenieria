@@ -1,20 +1,17 @@
 import sqlite3
+import os
 
-def conectar_db():
-    """Función para conectar a la base de datos."""
-    conexion = sqlite3.connect('BD_Requisitos.db')  # Nombre del archivo de la base de datos
-    return conexion
-
-def crear_tablas():
-    """Función para crear las tablas necesarias."""
-    conexion = conectar_db()
+def crear_tablas(db_path):
+    """Función para crear las tablas necesarias en la base de datos."""
+    print(f"Conectando a la base de datos: {db_path}")  # Confirmar la ruta de la base de datos
+    conexion = sqlite3.connect(db_path)  # Usar la ruta de la base de datos pasada como argumento
     cursor = conexion.cursor()
 
     # Crear tabla Ciudades
     cursor.execute('''
-    CREATE TABLE IF NOT EXISTS Ciudades (
+    CREATE TABLE IF NOT EXISTS Proyectos (
         id INTEGER PRIMARY KEY,
-        nombre VARCHAR(20) UNIQUE NOT NULL
+        n_proyecto VARCHAR(20) UNIQUE NOT NULL
     );
     ''')
 
@@ -25,9 +22,9 @@ def crear_tablas():
         titulo VARCHAR(130),
         version VARCHAR(3),
         fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-        ciudad INTEGER NOT NULL,
-        UNIQUE (titulo, version, ciudad),
-        FOREIGN KEY (ciudad) REFERENCES Ciudades(id)
+        id_proyecto INTEGER NOT NULL,
+        UNIQUE (titulo, version, id_proyecto),
+        FOREIGN KEY (id_proyecto) REFERENCES Proyectos(id)
     );
     ''')
 

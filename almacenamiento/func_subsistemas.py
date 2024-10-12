@@ -1,8 +1,12 @@
 import sqlite3
+import os
 
-# Conectar a la base de datos
+
 def conectar_db():
-    return sqlite3.connect('BD_Requisitos.db')
+    # Obtener la ruta absoluta de la base de datos
+    db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'BD_Requisitos.db')
+    print(f"Conectando a la base de datos en: {db_path}")  # Esto imp
+    return sqlite3.connect(db_path)
 
 # Insertar un subsistema
 def insertar_subsistema(nombre_subsistema):
@@ -17,6 +21,7 @@ def insertar_subsistema(nombre_subsistema):
 def obtener_subsistemas():
     """Devuelve todos los subsistemas en la tabla Subsistemas."""
     conexion = conectar_db()
+  
     cursor = conexion.cursor()
     cursor.execute('SELECT * FROM Subsistemas')
     subsistemas = cursor.fetchall()
