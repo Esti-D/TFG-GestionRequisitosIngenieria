@@ -36,6 +36,8 @@ def crear_boton_proyecto(frame_funcionalidades, frame_visual):
         for proyecto in proyectos:
             lista_proyectos.insert(tk.END, f"ID: {proyecto[0]} - Nombre: {proyecto[1]}")  # Mostrar ciudades
 
+
+
     # Función interna para eliminar un proyecto/ciudad
     def eliminar_proyecto():
         """Elimina un proyecto/ciudad usando el ID proporcionado."""
@@ -73,3 +75,12 @@ def crear_boton_proyecto(frame_funcionalidades, frame_visual):
     
     boton_eliminar = tk.Button(frame_visual, text="Eliminar Proyecto / Ciudad", command=eliminar_proyecto)
     boton_eliminar.pack(pady=10)
+
+def mostrar_proyectos_combobox(combobox_proyectos):
+    """Muestra todos los subsistemas en el Combobox."""
+    proyectos = obtener_proyectos()  # Obtener subsistemas de la BD
+    # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)
+    lista_nombres_proyectos = [proyecto[1] for proyecto in proyectos]
+    
+    # Asignar los valores al combobox
+    combobox_proyectos['values'] = lista_nombres_proyectos

@@ -78,3 +78,12 @@ def crear_boton_subsistema(frame_funcionalidades, frame_visual):
     boton_eliminar = tk.Button(frame_visual, text="Eliminar Subsistema", 
                                command=lambda: eliminar_subsistema(entry_id_eliminar, lista_subsistemas))
     boton_eliminar.pack(pady=10)
+
+def mostrar_subsistemas_combobox(combobox_subsistemas):
+    """Muestra todos los subsistemas en el Combobox."""
+    subsistemas = obtener_subsistemas()  # Obtener subsistemas de la BD
+    # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)
+    lista_nombres_subsistemas = [subsistema[1] for subsistema in subsistemas]
+    
+    # Asignar los valores al combobox
+    combobox_subsistemas['values'] = lista_nombres_subsistemas
