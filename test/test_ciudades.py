@@ -1,6 +1,6 @@
 import unittest
 import sqlite3
-from almacenamiento.func_ciudades import insertar_ciudad, obtener_ciudades, borrar_ciudad
+from interfaz.versiones_anteriores.func_ciudades import insertar_ciudad, obtener_ciudades, borrar_ciudad
 
 def limpiar_tabla_ciudades(conexion):
     """
