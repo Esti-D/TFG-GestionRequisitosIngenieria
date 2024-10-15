@@ -1,0 +1,18 @@
+{
+    "P_LOAD": "CHARGE",
+    "P_SELECCIONAR": "Sélectionner un fichier",
+    "P_CONSULTA": "RECHERCHE",
+    "P_TICK_REQUISITOS": "Exigences",
+    "P_TICK_DOCUMENTOS": "Documents",
+    "P_TICK_PROYECTOS": "Projects",
+    "P_TICK_SUBSISTEMAS": "Sous-systèmes",
+    "P_FILTRO_SUBSISTEMAS": "Sou-systémes",
+    "P_FILTRO_PROYECTOS": "Projects",
+    "P_FILTRO_DOCUMENTOS": "Documents",
+    "P_PROYECTOS": "Projects",
+    "P_SUBSISTEMA": "Sous-système",
+    "P_ASIGNAR": "Affecter",
+    "P_ELIMINAR": "Supprimer",
+    "P_AJUSTES": "Paramètres"
+
+}
