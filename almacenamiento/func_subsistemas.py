@@ -44,11 +44,11 @@ def obtener_subsistemas_filtrados(subsistema=None, proyecto=None, documento=None
     params = []
     
     if subsistema:
-        query += " AND subsistema_id = ?"
+        query += " AND id = ?"
         params.append(subsistema)
     
     if proyecto:
-        query += " AND ciudad_id = ?"
+        query += " AND proyecto_id = ?"
         params.append(proyecto)
     
     if documento:

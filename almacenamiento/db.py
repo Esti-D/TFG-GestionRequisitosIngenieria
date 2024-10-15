@@ -7,7 +7,7 @@ def crear_tablas(db_path):
     conexion = sqlite3.connect(db_path)  # Usar la ruta de la base de datos pasada como argumento
     cursor = conexion.cursor()
 
-    # Crear tabla Ciudades
+    # Crear tabla Proyectos
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS Proyectos (
         id INTEGER PRIMARY KEY,

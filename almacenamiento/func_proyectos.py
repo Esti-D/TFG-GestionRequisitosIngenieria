@@ -30,7 +30,7 @@ def obtener_proyectos():
     return proyectos
 
 #Consultar ciudades/proyectos filtradass
-def obtener_proyectos_filtradas(subsistema=None, proyecto=None, documento=None):
+def obtener_proyectos_filtrados(subsistema=None, proyecto=None, documento=None):
     """Devuelve las proyectos filtrados por subsistema, documento o ambos."""
     conexion = conectar_db()
     cursor = conexion.cursor()

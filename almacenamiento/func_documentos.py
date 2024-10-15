@@ -5,12 +5,12 @@ def conectar_db():
     return sqlite3.connect('BD_Requisitos.db')
 
 # Insertar un documento
-def insertar_documento(titulo, version, ciudad_id):
+def insertar_documento(titulo, version, proyecto_id):
     """Inserta un nuevo documento en la tabla Documentos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
-    cursor.execute('INSERT INTO Documentos (titulo, version, ciudad) VALUES (?, ?, ?)', 
-                   (titulo, version, ciudad_id))
+    cursor.execute('INSERT INTO Documentos (titulo, version, id_proyecto) VALUES (?, ?, ?)', 
+                   (titulo, version, proyecto_id))
     conexion.commit()
     conexion.close()
 
@@ -19,12 +19,11 @@ def obtener_documentos():
     """Devuelve todos los documentos en la tabla Documentos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
-    #cursor.execute('SELECT * FROM Documentos')
-    # Consulta con JOIN para obtener el nombre del proyecto
+  
     cursor.execute('''
-        SELECT Documentos.id, Documentos.titulo, Documentos.version, Ciudades.nombre 
+        SELECT Documentos.id, Documentos.titulo, Documentos.version, Proyectos.n_proyecto 
         FROM Documentos 
-        JOIN Ciudades ON Documentos.ciudad = Ciudades.id
+        JOIN Proyectos ON Documentos.id_proyecto = Proyectos.id
     ''')
 
     documentos = cursor.fetchall()
@@ -39,29 +38,60 @@ def obtener_documentos():
     return documentos
 
 def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
-    """Devuelve los documentos filtrados por subsistema, proyecto o ambos."""
+    """Devuelve los documentos filtrados por nombre de proyecto, título del documento o subsistema."""
     conexion = conectar_db()
     cursor = conexion.cursor()
-    
-    query = "SELECT * FROM Documentos WHERE 1=1"
-    params = []
-    
-    if subsistema:
-        query += " AND subsistema_id = ?"
-        params.append(subsistema)
-    
+
+    # Imprimir los valores recibidos para debugging
+    print(f"Parámetros recibidos - Proyecto: {proyecto}, Documento: {documento}, Subsistema: {subsistema}")
+
+    # Asegurarnos de que los parámetros están limpios (quitar espacios y verificar None)
     if proyecto:
-        query += " AND ciudad_id = ?"
-        params.append(proyecto)
-    
+        proyecto = proyecto.strip()  # Eliminar espacios en blanco antes y después
     if documento:
-        query += " AND titulo LIKE ?"
-        params.append(f"%{documento}%")
-    
-    cursor.execute(query, params)
+        documento = documento.strip()
+    if subsistema:
+        subsistema = subsistema.strip()
+
+    # Imprimir después de limpiar los parámetros
+    print(f"Parámetros después de limpiar - Proyecto: {proyecto}, Documento: {documento}, Subsistema: {subsistema}")
+
+    # Base de la consulta
+    query = """
+    SELECT d.id, d.titulo, d.version, p.n_proyecto
+    FROM Documentos d
+    JOIN Proyectos p ON d.id_proyecto = p.id
+    WHERE 1=1
+    """
+    params = []
+
+    # Agregar filtro por nombre de proyecto si está presente
+    if proyecto:
+        query += " AND p.n_proyecto = ?"
+        params.append(proyecto)
+
+    # Agregar filtro por título del documento si está presente
+    if documento:
+        query += " AND d.titulo = ?"
+        params.append(documento)
+
+    # Agregar filtro por subsistema si está presente
+    if subsistema:
+        query += """
+        AND d.id IN (SELECT ads.documento_id FROM Asociacion_Documento_Subsistema ads
+                     JOIN Subsistemas s ON ads.subsistema_id = s.id WHERE s.nombre = ?)
+        """
+        params.append(subsistema)
+
+
+    # Ejecutar la consulta con los parámetros adecuados
+    cursor.execute(query,params)
     documentos = cursor.fetchall()
+
     conexion.close()
     return documentos
+
+
 
 
 # Eliminar un documento
