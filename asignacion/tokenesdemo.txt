@@ -1,5 +1,0 @@
-subsistemas,tokenes
-ROLLING,"['chassis','bogies','axles','bearings','brakes','suspension','traction','speed control','pantograph','power systems','train aerodynamics','automatic doors','interior and exterior lighting']"
-PSS,"['power supply system','electrical supply','energy distribution']"
-MEP,"['MV','Medium voltage','UPS','LVU','Diesel Generator','Water Supply','Plumbing']"
-COMS,"['communications system','wireless communications','radio systems','GSM-R','TETRA','LTE-R','Fiber-optic networks','cmicrowave communications','Communication-Base Train control']"
