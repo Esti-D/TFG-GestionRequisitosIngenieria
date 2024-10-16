@@ -35,7 +35,7 @@ def cargar_palabras_desde_csv(ruta_csv):
 
 # Verificación de la lectura del CSV
 if __name__ == "__main__":
-    subsistemas = cargar_palabras_desde_csv("tokenesdemo.csv")
+    subsistemas = cargar_palabras_desde_csv("TOKENES.csv")
     
     # Imprimir los subsistemas y sus palabras clave para verificar que se han leído correctamente
     for subsistema, palabras in subsistemas.items():
