@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
-from almacenamiento.func_documentos import obtener_documentos #función de consulta de documentos
-from almacenamiento.func_subsistemas import obtener_subsistemas #funcion de consulta de subssistemas
+from almacenamiento.func_documentos import obtener_documentos, obtener_iddocumento #función de consulta de documentos
+from almacenamiento.func_subsistemas import obtener_id_subsistema, obtener_subsistemas #funcion de consulta de subssistemas
 from almacenamiento.func_requisitos import obtener_requisitos # funcion de consulta de requisitos
-from almacenamiento.func_proyectos import obtener_proyectos # funcion de consulta de proyectos
+from almacenamiento.func_proyectos import obtener_id_proyecto, obtener_proyectos # funcion de consulta de proyectos
 from almacenamiento.func_documentos import obtener_documentos_filtrados #funcion de consulta de doc filtrados
 from almacenamiento.func_subsistemas import obtener_subsistemas_filtrados #funcion de consulta de subsistemas filtrados
 from almacenamiento.func_requisitos import obtener_requisitos_filtrados #funcin de ocnsulta requisitos fitlrados
@@ -51,8 +51,12 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
     print(f"Subsistema seleccionado: {subsistema}")
 
     if tipo_consulta == "requisitos":
-        if subsistema or proyecto or documentos:
-            requisitos = obtener_requisitos_filtrados(subsistema, proyecto, documento)
+        if subsistema or proyecto or documento:
+            subsistemaid = obtener_id_subsistema(subsistema)
+            proyectoid = obtener_id_proyecto(proyecto)
+            documentoid = obtener_iddocumento(documento,proyectoid)
+            
+            requisitos = obtener_requisitos_filtrados(subsistemaid, proyectoid, documentoid)
         else:
             requisitos = obtener_requisitos()
         mostrar_resultados(requisitos,frame_visual)

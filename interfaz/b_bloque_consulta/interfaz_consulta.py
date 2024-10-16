@@ -4,16 +4,11 @@ from tkinter import ttk
 import os
 import sys
 
-from .consulta_de import verificar_opcion_seleccionada, realizar_consulta, mostrar_resultados
-from .filtros import actualizar_combobox
-from interfaz.bloque_subsistema import mostrar_subsistemas_combobox 
-from interfaz.bloque_proyecto import mostrar_proyectos_combobox 
-#from interfaz.bloque_documento import mostrar_documentos_combobox 
-#from interfaz.bloque_requisito import mostrar_requisitos_combobox 
-
-
-
-
+from interfaz.b_bloque_consulta.consulta_de import verificar_opcion_seleccionada, realizar_consulta, mostrar_resultados
+from interfaz.b_bloque_consulta.filtros import actualizar_combobox
+from interfaz.c_bloque_acciones_independientes.bloque_subsistemas import mostrar_subsistemas_combobox 
+from interfaz.c_bloque_acciones_independientes.bloque_proyectos import mostrar_proyectos_combobox
+from interfaz.c_bloque_acciones_independientes.bloque_documentos import mostrar_documentos_combobox 
 
 # Color azul del logo 
 color_azul_logo = "#125ca6"
@@ -26,8 +21,7 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     frame_consulta.grid_columnconfigure(0, weight=1)
 
     # Botón de CONSULTA dentro del bloque 2
-    boton_consulta = tk.Button(frame_consulta, text=traducciones["P_CONSULTA"], command=lambda: realizar_consulta(
-        verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos, var_subsistemas),
+    boton_consulta = tk.Button(frame_consulta, text=traducciones["P_CONSULTA"], command=lambda: realizar_consulta(verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos, var_subsistemas),
         combobox_subsistemas, combobox_proyectos, combobox_documentos, frame_visual))
     boton_consulta.grid(row=0, column=0, padx=10, pady=8, ipady=5, sticky="ew")
 
