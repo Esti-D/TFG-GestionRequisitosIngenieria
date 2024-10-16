@@ -7,16 +7,15 @@ import json #importar la libreria json
 # Importar funciones específicas de otros módulos
 from interfaz.a_bloque_load.interfaz_load import crear_bloque_load
 from interfaz.b_bloque_consulta.interfaz_consulta import crear_bloque_consulta
+from interfaz.c_bloque_acciones_independientes.interfaz_acciones import crear_bloque_acciones
 
-from .bloque_proyecto import crear_boton_proyecto
-from .bloque_subsistema import crear_boton_subsistema, mostrar_subsistemas
 from .bloque_ajustes import abrir_ajustes
-from almacenamiento.func_subsistemas import obtener_subsistemas 
+
 
 # Cargar el archivo de idioma
 def cargar_idioma():
     ruta_base = os.path.dirname(os.path.abspath(__file__))
-    ruta_idioma = os.path.join(ruta_base, 'd_bloque_ajustes', 'idioma_ingles.json')
+    ruta_idioma = os.path.join(ruta_base, 'd_bloque_ajustes', 'idioma_castellano.json')
     try:
         with open(ruta_idioma, 'r', encoding='utf-8') as archivo:
             traducciones = json.load(archivo)
@@ -89,29 +88,9 @@ def interfaz_principal(db_path):
     
 
     ### BLOQUE 3: ACCIONES
-    frame_acciones = tk.Frame(frame_funcionalidades, bg=color_azul_logo, highlightbackground="#3790e9", highlightthickness=3,padx=5, pady=5)  # Ajustamos padding
-    frame_acciones.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
+    crear_bloque_acciones(frame_funcionalidades, traducciones, frame_visual)
 
-    # Configurar la columna del frame_acciones para que se expanda
-    frame_acciones.grid_columnconfigure(0, weight=1)
-
-    # Botón Proyecto / Ciudad dentro del bloque 3
-    boton_proyecto = tk.Button(frame_acciones, text=traducciones["P_PROYECTOS"], command=lambda: crear_boton_proyecto(frame_acciones, frame_visual))
-    boton_proyecto.grid(row=0, column=0, padx=10, pady=8, ipady=5, sticky="ew")
-
-    # Botón Subsistema dentro del bloque 3
-    boton_subsistema = tk.Button(frame_acciones, text=traducciones["P_SUBSISTEMA"], command=lambda: crear_boton_subsistema(frame_acciones, frame_visual))
-    boton_subsistema.grid(row=1, column=0, padx=10, pady=8, ipady=5,sticky="ew")
-
-    # Botón Asignar dentro del bloque 3
-    boton_asignar = tk.Button(frame_acciones, text=traducciones["P_ASIGNAR"])
-    boton_asignar.grid(row=2, column=0, padx=10, pady=8, ipady=5, sticky="ew")
-
-    # Botón Eliminar dentro del bloque 3
-    boton_eliminar = tk.Button(frame_acciones, text=traducciones["P_ELIMINAR"])
-    boton_eliminar.grid(row=3, column=0, padx=10, pady=8, ipady=5, sticky="ew")
-
-    # Botón Ajustes (lo colocamos debajo de Eliminar)
+   # Botón Ajustes (lo colocamos debajo de Eliminar)
     boton_ajustes = tk.Button(frame_funcionalidades, text=traducciones["P_AJUSTES"], command=lambda: abrir_ajustes(frame_visual))
     boton_ajustes.grid(row=3, column=0, padx=10, pady=8, sticky="ew", ipady=8)
 
