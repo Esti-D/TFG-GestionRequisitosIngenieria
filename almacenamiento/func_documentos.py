@@ -11,8 +11,23 @@ def insertar_documento(titulo, version, proyecto_id):
     cursor = conexion.cursor()
     cursor.execute('INSERT INTO Documentos (titulo, version, id_proyecto) VALUES (?, ?, ?)', 
                    (titulo, version, proyecto_id))
+   
     conexion.commit()
     conexion.close()
+    
+
+# obtener id un documento
+def obtener_iddocumento(titulo, proyecto_id):
+    """Inserta un nuevo documento en la tabla Documentos."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    cursor.execute('SELECT id FROM Documentos WHERE titulo = ? and id_proyecto = ?', 
+                   (titulo, proyecto_id))
+    id_documento = cursor.fetchone()
+    conexion.commit()
+    conexion.close()
+    return id_documento[0] if id_documento else None
+
 
 # Consultar todos los documentos
 def obtener_documentos():
@@ -56,6 +71,7 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
     # Imprimir después de limpiar los parámetros
     print(f"Parámetros después de limpiar - Proyecto: {proyecto}, Documento: {documento}, Subsistema: {subsistema}")
 
+  
     # Base de la consulta
     query = """
     SELECT d.id, d.titulo, d.version, p.n_proyecto
@@ -77,22 +93,23 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
 
     # Agregar filtro por subsistema si está presente
     if subsistema:
-        query += """
-        AND d.id IN (SELECT ads.documento_id FROM Asociacion_Documento_Subsistema ads
-                     JOIN Subsistemas s ON ads.subsistema_id = s.id WHERE s.nombre = ?)
-        """
+        #aqui el cambio unicamente.
+        query += """ AND d.id IN (SELECT ads.documento_id FROM Asociacion_Documento_Subsistema ads
+                     JOIN Subsistemas s ON ads.subsistema_id = s.id WHERE s.nombre = ?) """
+        
         params.append(subsistema)
 
 
+    # Imprimir la consulta final y parámetros
+    print("Consulta SQL generada:", query)
+    print("Parámetros de consulta:", params)
+
     # Ejecutar la consulta con los parámetros adecuados
+    
     cursor.execute(query,params)
     documentos = cursor.fetchall()
-
     conexion.close()
     return documentos
-
-
-
 
 # Eliminar un documento
 def borrar_documento(documento_id):

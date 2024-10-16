@@ -63,3 +63,13 @@ def borrar_proyecto(proyecto_id):
     cursor.execute('DELETE FROM Proyectos WHERE id = ?', (proyecto_id,))
     conexion.commit()
     conexion.close()
+
+def obtener_id_proyecto(nombre_proyecto):
+    """Devuelve el ID del subsistema dado su nombre."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT id FROM Proyectos WHERE n_proyecto = ?", (nombre_proyecto,))
+    resultado = cursor.fetchone()
+    conexion.close()
+    
+    return resultado[0] if resultado else None

@@ -69,3 +69,19 @@ def modificar_relacion_documento_subsistema(documento_id, subsistema_id_viejo, s
                    (documento_id, subsistema_id_nuevo))
     conexion.commit()
     conexion.close()
+
+# Consultar todas las relaciones
+def obtener_relaciones():
+    """Devuelve todas las realaciones en la tabla Asociaciones."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    cursor.execute('SELECT * FROM Asociacion_Documento_Subsistema')
+    proyectos = cursor.fetchall()
+
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    proyectos = [nombres_columnas] + proyectos
+    conexion.close()
+    return proyectos

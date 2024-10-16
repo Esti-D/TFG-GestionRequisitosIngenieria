@@ -19,7 +19,7 @@ def obtener_requisitos():
     """Devuelve todos los requisitos en la tabla Requisitos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
-    cursor.execute('SELECT * FROM Requisitos')
+    cursor.execute('SELECT Requisitos.id, Requisitos.capitulo, Requisitos.requisito, Requisitos.documento_id FROM Requisitos')
     requisitos = cursor.fetchall()
     # Obtenemos los nombres de las columnas sin afectar la base de datos
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
@@ -35,20 +35,34 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
     conexion = conectar_db()
     cursor = conexion.cursor()
     
-    query = "SELECT * FROM Requisitos WHERE 1=1"
+    # Base de la consulta
+    query = """
+    SELECT r.*
+    FROM Requisitos r
+    JOIN Asociacion_Documento_Subsistema ads ON r.documento_id = ads.documento_id
+    JOIN Documentos d ON r.documento_id = d.id
+    WHERE 1=1
+    """
     params = []
-    
+
+    # Filtro por subsistema si está presente
     if subsistema:
-        query += " AND subsistema_id = ?"
+        query += " AND ads.subsistema_id =  ?"
         params.append(subsistema)
-    
+
+    # Filtro por proyecto si está presente
     if proyecto:
-        query += " AND ciudad_id = ?"
+        query += " AND d.id_proyecto =  ?"
         params.append(proyecto)
-    
+
+    # Filtro por documento si está presente
     if documento:
-        query += " AND titulo LIKE ?"
-        params.append(f"%{documento}%")
+        query += " AND d.id = ?"
+        params.append(documento)
+
+    # Imprimir la consulta y los parámetros para debugging
+    print("Consulta SQL generada:", query)
+    print("Parámetros de consulta:", params)
     
     cursor.execute(query, params)
     requisitos = cursor.fetchall()

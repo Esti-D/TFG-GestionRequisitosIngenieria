@@ -68,3 +68,13 @@ def borrar_subsistema(subsistema_id):
     cursor.execute('DELETE FROM Subsistemas WHERE id = ?', (subsistema_id,))
     conexion.commit()
     conexion.close()
+
+def obtener_id_subsistema(nombre_subsistema):
+    """Devuelve el ID del subsistema dado su nombre."""
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+    cursor.execute("SELECT id FROM Subsistemas WHERE nombre = ?", (nombre_subsistema,))
+    resultado = cursor.fetchone()
+    conexion.close()
+    
+    return resultado[0] if resultado else None
