@@ -38,10 +38,11 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
     
     # Base de la consulta
     query = """
-    SELECT r.*
+    SELECT r.id, r.capitulo, r.requisito, r.documento_id
     FROM Requisitos r
-    JOIN Asociacion_Documento_Subsistema ads ON r.documento_id = ads.documento_id
     JOIN Documentos d ON r.documento_id = d.id
+    JOIN Asociacion_Documento_Subsistema ads ON r.documento_id = ads.documento_id
+    JOIN Subsistemas s ON ads.subsistema_id = s.id
     WHERE 1=1
     """
     params = []
@@ -64,9 +65,15 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
     # Imprimir la consulta y los parámetros para debugging
     print("Consulta SQL generada:", query)
     print("Parámetros de consulta:", params)
-    
+   
     cursor.execute(query, params)
     requisitos = cursor.fetchall()
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    requisitos = [nombres_columnas] + requisitos
+    
     conexion.close()
     return requisitos
 
