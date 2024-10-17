@@ -1,13 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
-from almacenamiento.func_documentos import obtener_documentos, obtener_iddocumento #función de consulta de documentos
-from almacenamiento.func_subsistemas import obtener_id_subsistema, obtener_subsistemas #funcion de consulta de subssistemas
-from almacenamiento.func_requisitos import obtener_requisitos # funcion de consulta de requisitos
-from almacenamiento.func_proyectos import obtener_id_proyecto, obtener_proyectos # funcion de consulta de proyectos
-from almacenamiento.func_documentos import obtener_documentos_filtrados #funcion de consulta de doc filtrados
-from almacenamiento.func_subsistemas import obtener_subsistemas_filtrados #funcion de consulta de subsistemas filtrados
-from almacenamiento.func_requisitos import obtener_requisitos_filtrados #funcin de ocnsulta requisitos fitlrados
-from almacenamiento.func_proyectos import obtener_proyectos_filtrados 
+from almacenamiento.func_documentos import obtener_documentos, obtener_documentos_filtrados, obtener_iddocumento #función de consulta de documentos
+from almacenamiento.func_subsistemas import obtener_id_subsistema, obtener_subsistemas_filtrados, obtener_subsistemas #funcion de consulta de subssistemas
+from almacenamiento.func_requisitos import obtener_requisitos, obtener_requisitos_filtrados # funcion de consulta de requisitos
+from almacenamiento.func_proyectos import obtener_id_proyecto, obtener_proyectos_filtrados, obtener_proyectos # funcion de consulta de proyectos
 
 # Función para limpiar el contenido del visualizador (por si es necesario en alguna funcionalidad)
 def limpiar_visualizador(frame_visual):
@@ -17,6 +13,7 @@ def limpiar_visualizador(frame_visual):
 
 #funcion para verificar que opcion se ha escogido para realizar la consulta
 def verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos, var_subsistemas):
+    
     print(f"Requisitos:{var_requisitos.get()},Documentos: {var_documentos.get()},Proyectos: {var_proyectos.get()},Subsistemas:{var_subsistemas.get()}")
     if var_requisitos.get():
         print("Requisitos seleccionados")
@@ -52,9 +49,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
     print(f"Proyecto seleccionado: {proyecto}")
     print(f"Documento seleccionado: {documento}")
     print(f"Subsistema seleccionado: {subsistema}")
-
   
-    
     if tipo_consulta == "requisitos":
         if subsistema or proyecto or documento:
             subsistemaid = obtener_id_subsistema(subsistema)
@@ -64,7 +59,8 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
             requisitos = obtener_requisitos_filtrados(subsistemaid, proyectoid, documentoid)
         else:
             requisitos = obtener_requisitos()
-        mostrar_resultados(requisitos,frame_visual)
+
+        mostrar_resultados(requisitos,frame_visual,tipo_datos="requisitos")
 
     elif tipo_consulta== "documentos":
         if subsistema or proyecto or documento:
@@ -74,7 +70,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
             print(f"Subsistema seleccionado: {subsistema}")
         else:
             documentos = obtener_documentos() 
-        mostrar_resultados(documentos,frame_visual)
+        mostrar_resultados(documentos,frame_visual,tipo_datos="documentos")
     
 
     elif tipo_consulta == "proyectos":
@@ -86,7 +82,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
 
         else:
             proyectos = obtener_proyectos()
-        mostrar_resultados(proyectos,frame_visual) 
+        mostrar_resultados(proyectos,frame_visual,tipo_datos="general") 
 
     elif tipo_consulta == "subsistemas":
         if proyecto or documento:
@@ -98,13 +94,13 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
 
         else:
             subsistemas = obtener_subsistemas()
-        mostrar_resultados(subsistemas,frame_visual)
+        mostrar_resultados(subsistemas,frame_visual,tipo_datos="general")
    
     else:
         messagebox.showerror("Error","Debe seleccionar un tipo de consulta")
 
 
-def mostrar_resultados(resultados, frame_visual):
+def mostrar_resultados(resultados, frame_visual, tipo_datos="general"):
 
     limpiar_visualizador(frame_visual)  # Limpiamos el visualizador de resultados previos
 
@@ -126,23 +122,35 @@ def mostrar_resultados(resultados, frame_visual):
 
     # Si no hay resultados, mostramos un mensaje
     if not resultados:
-        label_vacio = tk.Label(scrollable_frame, text="No se encontraron resultados.")
+        label_vacio = tk.Label(scrollable_frame, text="No se encontraron resultados...........")
         label_vacio.pack(pady=5)
         return
 
+    
+
+    # Asignamos el peso de las columnas para que se distribuyan uniformemente
+    #for i in range(len(resultados[0])):
+    #    scrollable_frame.grid_columnconfigure(i, weight=1, uniform="columna")
+
+
+    # Asignamos el peso de las columnas para que se distribuyan según el tipo de datos
+    for i in range(len(resultados[0])):
+        if tipo_datos == "documentos" and i == 2:  # Si es documentos, expande la columna 2
+            scrollable_frame.grid_columnconfigure(i, weight=3, minsize=150)
+        elif tipo_datos == "requisitos" and i == 3:  # Si es requisitos, expande la columna 3
+            scrollable_frame.grid_columnconfigure(i, weight=3, minsize=150)
+        else:
+            scrollable_frame.grid_columnconfigure(i, weight=1, minsize=100)  # Otras columnas
+    
     # Configuramos el uso del grid en el frame visual
     for i, nombre_columna in enumerate(resultados[0]):
         label_encabezado = tk.Label(scrollable_frame, text=nombre_columna, font=("Arial", 10, "bold"), anchor="w", bg="lightgray", padx=5, pady=5)
         label_encabezado.grid(row=0, column=i, sticky="nsew", padx=5, pady=5)
 
-    # Asignamos el peso de las columnas para que se distribuyan uniformemente
-    for i in range(len(resultados[0])):
-        scrollable_frame.grid_columnconfigure(i, weight=1, uniform="columna")
-
     # Mostrar los datos
     for fila_index, fila in enumerate(resultados[1:], start=1):  # Empezamos desde la segunda fila (los datos)
         for col_index, dato in enumerate(fila):
-            label_dato = tk.Label(scrollable_frame, text=str(dato), anchor="w", padx=5, pady=5, wraplength=210)  # wraplength ajustado
+            label_dato = tk.Label(scrollable_frame, text=str(dato), anchor="w", padx=5, pady=5, wraplength=800)  # wraplength ajustado
             label_dato.grid(row=fila_index, column=col_index, sticky="nsew", padx=5, pady=5)
 
     # Forzar redimensionamiento equitativo

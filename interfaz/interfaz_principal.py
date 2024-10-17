@@ -54,8 +54,9 @@ def interfaz_principal(db_path):
 
     # Configurar la ventana para que el bloque gris esté dividido en dos partes (izquierda y derecha)
     ventana.grid_columnconfigure(0, weight=1)  # Parte izquierda para botones
-    ventana.grid_columnconfigure(1, weight=4)  # Parte derecha para visualización
+    ventana.grid_columnconfigure(1, weight=7)  # Parte derecha para visualización
     ventana.grid_rowconfigure(0, weight=1)
+
 
     # Crear el frame para la visualización (parte derecha)
     frame_visual = tk.Frame(ventana, bg="white")
@@ -69,10 +70,13 @@ def interfaz_principal(db_path):
     label_fondo = tk.Label(frame_visual, image=imagen_fondo_tk, bg="white")
     label_fondo.pack(expand=True)
 
+
     # Crear el frame para las funcionalidades (parte izquierda)
     frame_funcionalidades = tk.Frame(ventana, bg="#125ca6", padx=30, pady=20)  # #"lightgray" Ajustamos el padding para mayor expansión
     frame_funcionalidades.grid(row=0, column=0, sticky="nsew")
-
+    
+    #ventana.grid_columnconfigure(0, maxsize=300)  # Límite máximo de expansión
+  
     # Configurar la expansión dentro del frame de funcionalidades
     frame_funcionalidades.grid_columnconfigure(0, weight=1)  # Aseguramos que la única columna ocupe todo el espacio
 
