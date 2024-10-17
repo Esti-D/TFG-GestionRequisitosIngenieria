@@ -45,11 +45,10 @@ def obtener_documentos():
 
     # Obtenemos los nombres de las columnas sin afectar la base de datos
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
-
     # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
     documentos = [nombres_columnas] + documentos
-    conexion.close()
 
+    conexion.close()
     return documentos
 
 def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
@@ -110,6 +109,12 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
     
     cursor.execute(query,params)
     documentos = cursor.fetchall()
+    
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    documentos = [nombres_columnas] + documentos
+
     conexion.close()
     return documentos
 

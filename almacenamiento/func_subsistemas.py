@@ -28,9 +28,9 @@ def obtener_subsistemas():
     
     # Obtenemos los nombres de las columnas sin afectar la base de datos
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
-
     # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
     subsistemas = [nombres_columnas] + subsistemas
+
     conexion.close()
     return subsistemas
 
@@ -68,6 +68,12 @@ def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoi
     
     cursor.execute(query, params)
     subsistemas = cursor.fetchall()
+    
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    subsistemas = [nombres_columnas] + subsistemas
+
     conexion.close()
     return subsistemas
 

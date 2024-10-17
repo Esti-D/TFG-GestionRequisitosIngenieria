@@ -23,9 +23,9 @@ def obtener_proyectos():
 
     # Obtenemos los nombres de las columnas sin afectar la base de datos
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
-
     # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
     proyectos = [nombres_columnas] + proyectos
+
     conexion.close()
     return proyectos
 
@@ -62,6 +62,12 @@ def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=
     
     cursor.execute(query, params)
     proyectos = cursor.fetchall()
+    
+    # Obtenemos los nombres de las columnas sin afectar la base de datos
+    nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
+    # Añadimos los nombres de las columnas como la primera fila en la lista de documentos
+    proyectos = [nombres_columnas] + proyectos
+    
     conexion.close()
     return proyectos
 
