@@ -1,6 +1,8 @@
 import sys
 import os
 
+from interfaz.b_bloque_consulta.filtros import actualizar_combobox_documentos
+
 # Añadir la ruta del directorio principal del proyecto al sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -72,6 +74,9 @@ def crear_interfaz_documentos(frame_funcionalidades, frame_visual):
     boton_eliminar.pack(pady=10)
 
 def mostrar_documentos_combobox(combobox_documentos):
+
+    actualizar_combobox_documentos(combobox_documentos)
+
     """Muestra todos los subsistemas en el Combobox."""
     documentos = obtener_documentos()  # Obtener subsistemas de la BD
     # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)

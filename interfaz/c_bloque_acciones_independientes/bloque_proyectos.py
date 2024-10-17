@@ -4,6 +4,8 @@ import tkinter as tk
 from almacenamiento.func_proyectos import insertar_proyecto, obtener_proyectos, borrar_proyecto
 from tkinter import messagebox
 
+from interfaz.b_bloque_consulta.filtros import actualizar_combobox_proyectos
+
 # Añade la carpeta raíz al sys.path para que Python pueda encontrar los módulos correctamente
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -77,6 +79,8 @@ def crear_boton_proyecto(frame_funcionalidades, frame_visual):
     boton_eliminar.pack(pady=10)
 
 def mostrar_proyectos_combobox(combobox_proyectos):
+
+    actualizar_combobox_proyectos(combobox_proyectos)
     """Muestra todos los subsistemas en el Combobox."""
     proyectos = obtener_proyectos()  # Obtener subsistemas de la BD
     # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)

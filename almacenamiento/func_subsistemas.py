@@ -35,25 +35,36 @@ def obtener_subsistemas():
     return subsistemas
 
 #Consultar subsistemas filtrados
-def obtener_subsistemas_filtrados(subsistema=None, proyecto=None, documento=None):
+def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoid=None):
+    
+   
     """Devuelve los subsistemas filtrados por proyecto, documento o ambos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
     
-    query = "SELECT * FROM Subsistemas WHERE 1=1"
+    # Base de la consulta
+    query = """
+    SELECT DISTINCT s.id, s.nombre
+    FROM Subsistemas s
+    JOIN Asociacion_Documento_Subsistema ads ON s.id = ads.subsistema_id
+    JOIN Documentos d ON ads.documento_id = d.id
+    WHERE 1=1
+    """
     params = []
-    
-    if subsistema:
-        query += " AND id = ?"
-        params.append(subsistema)
-    
-    if proyecto:
-        query += " AND proyecto_id = ?"
-        params.append(proyecto)
-    
-    if documento:
-        query += " AND titulo LIKE ?"
-        params.append(f"%{documento}%")
+
+    # Agregar filtro por documento si está presente
+    if documentoid:
+        query += " AND d.id = ?"
+        params.append(documentoid)
+
+    # Agregar filtro por proyecto si está presente
+    if proyectoid:
+        query += " AND d.id_proyecto = ?"
+        params.append(proyectoid)
+
+    # Imprimir la consulta y los parámetros para debugging
+    print("Consulta SQL generada:", query)
+    print("Parámetros de consulta:", params)
     
     cursor.execute(query, params)
     subsistemas = cursor.fetchall()

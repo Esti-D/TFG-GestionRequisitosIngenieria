@@ -41,15 +41,20 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
     proyecto = combobox_proyectos.get()
     documento = combobox_documentos.get()
 
-    # Inicializar documentos y requisitos para evitar errores si no se inicializan en los bloques posteriores
-    #documentos = []
-    #requisitos = []
-    #proyectos = []
-    #subsistemas = []
+   # limpieza de filtros
+    if proyecto == "TODOS":
+        proyecto = None
+    if subsistema == "TODOS":
+        subsistema = None
+    if documento == "TODOS":
+        documento = None
+
     print(f"Proyecto seleccionado: {proyecto}")
     print(f"Documento seleccionado: {documento}")
     print(f"Subsistema seleccionado: {subsistema}")
 
+  
+    
     if tipo_consulta == "requisitos":
         if subsistema or proyecto or documento:
             subsistemaid = obtener_id_subsistema(subsistema)
@@ -71,16 +76,26 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
             documentos = obtener_documentos() 
         mostrar_resultados(documentos,frame_visual)
     
+
     elif tipo_consulta == "proyectos":
         if documento or subsistema:
-            proyectos = obtener_proyectos_filtrados(subsistema, proyecto, documento)
+            subsistemaid = obtener_id_subsistema(subsistema)
+            proyectoid = obtener_id_proyecto(proyecto)
+            documentoid = obtener_iddocumento(documento,proyectoid)
+            proyectos = obtener_proyectos_filtrados(subsistemaid, proyectoid, documentoid)
+
         else:
             proyectos = obtener_proyectos()
         mostrar_resultados(proyectos,frame_visual) 
 
     elif tipo_consulta == "subsistemas":
         if proyecto or documento:
-            subsistemas= obtener_subsistemas_filtrados(subsistema, proyecto, documento)
+            subsistemaid = obtener_id_subsistema(subsistema)
+            proyectoid = obtener_id_proyecto(proyecto)
+            documentoid = obtener_iddocumento(documento,proyectoid)
+            subsistemas= obtener_subsistemas_filtrados(subsistemaid, proyectoid, documentoid)
+
+
         else:
             subsistemas = obtener_subsistemas()
         mostrar_resultados(subsistemas,frame_visual)

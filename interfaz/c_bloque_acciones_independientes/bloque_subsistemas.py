@@ -3,6 +3,7 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 from almacenamiento.func_subsistemas import insertar_subsistema, obtener_subsistemas, borrar_subsistema
+from interfaz.b_bloque_consulta.filtros import actualizar_combobox_subsistemas
 
 # Añade la carpeta raíz al sys.path para que Python pueda encontrar los módulos correctamente
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -80,6 +81,9 @@ def crear_boton_subsistema(frame_funcionalidades, frame_visual):
     boton_eliminar.pack(pady=10)
 
 def mostrar_subsistemas_combobox(combobox_subsistemas):
+    
+    actualizar_combobox_subsistemas(combobox_subsistemas)
+    
     """Muestra todos los subsistemas en el Combobox."""
     subsistemas = obtener_subsistemas()  # Obtener subsistemas de la BD
     # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)

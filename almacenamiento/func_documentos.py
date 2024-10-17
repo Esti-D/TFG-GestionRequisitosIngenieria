@@ -53,6 +53,8 @@ def obtener_documentos():
     return documentos
 
 def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
+
+
     """Devuelve los documentos filtrados por nombre de proyecto, título del documento o subsistema."""
     conexion = conectar_db()
     cursor = conexion.cursor()

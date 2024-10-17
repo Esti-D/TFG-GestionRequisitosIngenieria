@@ -4,11 +4,10 @@ from tkinter import ttk
 import os
 import sys
 
-from interfaz.b_bloque_consulta.consulta_de import verificar_opcion_seleccionada, realizar_consulta, mostrar_resultados
-from interfaz.b_bloque_consulta.filtros import actualizar_combobox
+from interfaz.b_bloque_consulta.consulta_de import verificar_opcion_seleccionada, realizar_consulta
 from interfaz.c_bloque_acciones_independientes.bloque_subsistemas import mostrar_subsistemas_combobox 
 from interfaz.c_bloque_acciones_independientes.bloque_proyectos import mostrar_proyectos_combobox
-from interfaz.c_bloque_acciones_independientes.bloque_documentos import mostrar_documentos_combobox 
+from interfaz.c_bloque_acciones_independientes.bloque_documentos import mostrar_documentos_combobox
 
 # Color azul del logo 
 color_azul_logo = "#125ca6"
@@ -19,7 +18,9 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
 
     # Configurar la columna del frame_consulta para que se expanda
     frame_consulta.grid_columnconfigure(0, weight=1)
-
+    
+    
+    
     # Botón de CONSULTA dentro del bloque 2
     boton_consulta = tk.Button(frame_consulta, text=traducciones["P_CONSULTA"], command=lambda: realizar_consulta(verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos, var_subsistemas),
         combobox_subsistemas, combobox_proyectos, combobox_documentos, frame_visual))
@@ -70,6 +71,8 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     checkbox_subsistemas = tk.Checkbutton(filtros_frame, text=traducciones["P_TICK_SUBSISTEMAS"], variable=var_subsistemas, command=lambda: seleccionar_unico(var_subsistemas))
     checkbox_subsistemas.grid(row=0, column=3, padx=5, pady=5, sticky="ew")
 
+
+
     # Filtro de Subsistemas dentro del bloque 2
     label_subsistemas = tk.Label(frame_consulta, text=traducciones["P_FILTRO_SUBSISTEMAS"], bg="white")
     label_subsistemas.grid(row=2, column=0, padx=10, pady=5, sticky="w")
@@ -81,6 +84,7 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     label_proyectos = tk.Label(frame_consulta, text=traducciones["P_FILTRO_PROYECTOS"], bg="white")
     label_proyectos.grid(row=4, column=0, padx=10, pady=5, sticky="w")
 
+    
     combobox_proyectos = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_proyectos_combobox(combobox_proyectos))
     combobox_proyectos.grid(row=5, column=0, padx=10, pady=5, sticky="ew")
 
@@ -90,3 +94,5 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
 
     combobox_documentos = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_documentos_combobox(combobox_documentos))
     combobox_documentos.grid(row=7, column=0, padx=10, pady=5, sticky="ew")
+
+  

@@ -31,6 +31,7 @@ def obtener_requisitos():
     return requisitos
 
 def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None):
+    
     """Devuelve los documentos filtrados por subsistema, proyecto o ambos."""
     conexion = conectar_db()
     cursor = conexion.cursor()

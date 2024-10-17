@@ -30,30 +30,41 @@ def obtener_proyectos():
     return proyectos
 
 #Consultar ciudades/proyectos filtradass
-def obtener_proyectos_filtrados(subsistema=None, proyecto=None, documento=None):
+def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=None):
+
     """Devuelve las proyectos filtrados por subsistema, documento o ambos."""
     conexion = conectar_db()
     cursor = conexion.cursor()
     
-    query = "SELECT * FROM Proyectos WHERE 1=1"
+    # Base de la consulta
+    query = """
+    SELECT DISTINCT p.id, p.n_proyecto
+    FROM Proyectos p
+    JOIN Documentos d ON p.id = d.id_proyecto
+    JOIN Asociacion_Documento_Subsistema ads ON d.id = ads.documento_id
+    WHERE 1=1
+    """
     params = []
-    
-    if subsistema:
-        query += " AND subsistema_id = ?"
-        params.append(subsistema)
-    
-    if proyecto:
-        query += " AND proyecto_id = ?"
-        params.append(proyecto)
-    
-    if documento:
-        query += " AND titulo LIKE ?"
-        params.append(f"%{documento}%")
+
+    # Agregar filtro por documento si está presente
+    if documentoid:
+        query += " AND d.id = ?"
+        params.append(documentoid)
+
+    # Agregar filtro por subsistema si está presente
+    if subsistemaid:
+        query += " AND ads.subsistema_id = ?"
+        params.append(subsistemaid)
+
+    # Imprimir la consulta y los parámetros para debugging
+    print("Consulta SQL generada:", query)
+    print("Parámetros de consulta:", params)
     
     cursor.execute(query, params)
-    proyecto = cursor.fetchall()
+    proyectos = cursor.fetchall()
     conexion.close()
-    return proyecto
+    return proyectos
+
 
 # Eliminar una proyecto
 def borrar_proyecto(proyecto_id):
