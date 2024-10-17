@@ -62,7 +62,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
         mostrar_resultados(requisitos,frame_visual)
 
     elif tipo_consulta== "documentos":
-        if subsistema or proyecto:
+        if subsistema or proyecto or documento:
             documentos = obtener_documentos_filtrados(subsistema, proyecto, documento)
             print(f"Proyecto seleccionado: {proyecto}")
             print(f"Documento seleccionado: {documento}")
