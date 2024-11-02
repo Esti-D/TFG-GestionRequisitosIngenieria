@@ -8,25 +8,9 @@ import json #importar la libreria json
 from interfaz.a_bloque_load.interfaz_load import crear_bloque_load
 from interfaz.b_bloque_consulta.interfaz_consulta import crear_bloque_consulta
 from interfaz.c_bloque_acciones_independientes.interfaz_acciones import crear_bloque_acciones
+from interfaz.d_bloque_otros.interfaz_otros import crear_bloque_otros
 
-from .bloque_ajustes import abrir_ajustes
-
-
-# Cargar el archivo de idioma
-def cargar_idioma():
-    ruta_base = os.path.dirname(os.path.abspath(__file__))
-    ruta_idioma = os.path.join(ruta_base, 'd_bloque_ajustes', 'idioma_castellano.json')
-    try:
-        with open(ruta_idioma, 'r', encoding='utf-8') as archivo:
-            traducciones = json.load(archivo)
-            return traducciones
-    except FileNotFoundError:
-        print(f"Error: No se encontró el archivo en {ruta_idioma}")
-        return {}
-    except json.JSONDecodeError:
-        print("Error: El archivo no está en un formato JSON válido.")
-        return {}
-  
+#from interfaz.d_bloque_otros.opciones_ajustes import cargar_idioma
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
@@ -36,16 +20,15 @@ def limpiar_visualizador(frame_visual):
 
 
 # FUNCION PRINCIPAL INTERFAZ  que encapsula toda la lógica de la interfaz
-def interfaz_principal(db_path):
-
-    # Cargar las traducciones del archivo JSON
-    traducciones = cargar_idioma()
+def interfaz_principal(traducciones, db_path): 
     
     # Crear ventana principal
     ventana = tk.Tk()
+    ventana.withdraw()  # Oculta la ventana durante la configuración inicial
+    
     ventana.title("RM Requirements Management")
     ventana.state('zoomed')  # Maximizar la ventana
-
+    
     # Incluir el logo en la barra del software
     ruta_base = os.path.dirname(os.path.abspath(__file__))
     ruta_raiz = os.path.abspath(os.path.join(ruta_base,'..'))
@@ -65,7 +48,7 @@ def interfaz_principal(db_path):
     # Cargar imagen de fondo para la parte visual
     ruta_fondo = os.path.join(ruta_raiz, 'logos', "logofondo4.png")  # Ruta de la imagen de fondo
     imagen_fondo = Image.open(ruta_fondo)
-    imagen_fondo = imagen_fondo.resize((800, 600))  # Ajustar el tamaño de la imagen
+    imagen_fondo = imagen_fondo.resize((700, 500))  # Ajustar el tamaño de la imagen
     imagen_fondo_tk = ImageTk.PhotoImage(imagen_fondo)  # Convertir la imagen a formato compatible con Tkinter
     label_fondo = tk.Label(frame_visual, image=imagen_fondo_tk, bg="white")
     label_fondo.pack(expand=True)
@@ -75,8 +58,6 @@ def interfaz_principal(db_path):
     frame_funcionalidades = tk.Frame(ventana, bg="#125ca6", padx=30, pady=20)  # #"lightgray" Ajustamos el padding para mayor expansión
     frame_funcionalidades.grid(row=0, column=0, sticky="nsew")
     
-    #ventana.grid_columnconfigure(0, maxsize=300)  # Límite máximo de expansión
-  
     # Configurar la expansión dentro del frame de funcionalidades
     frame_funcionalidades.grid_columnconfigure(0, weight=1)  # Aseguramos que la única columna ocupe todo el espacio
 
@@ -86,18 +67,20 @@ def interfaz_principal(db_path):
     ### BLOQUE 1: LOAD
     crear_bloque_load(frame_funcionalidades, traducciones, frame_visual)
     
-    
     ### BLOQUE 2: CONSULTA
     crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual)
     
-
     ### BLOQUE 3: ACCIONES
     crear_bloque_acciones(frame_funcionalidades, traducciones, frame_visual)
 
-   # Botón Ajustes (lo colocamos debajo de Eliminar)
-    boton_ajustes = tk.Button(frame_funcionalidades, text=traducciones["P_AJUSTES"], command=lambda: abrir_ajustes(frame_visual))
-    boton_ajustes.grid(row=3, column=0, padx=10, pady=8, sticky="ew", ipady=8)
+    ### BLOQUE 4: OTROS
+    crear_bloque_otros(frame_funcionalidades, traducciones, frame_visual)
+
+    ventana.deiconify()  # Muestra la ventana ya maximizada
 
     # Ejecutar el mainloop de la ventana
     ventana.mainloop()
+
+
+
 
