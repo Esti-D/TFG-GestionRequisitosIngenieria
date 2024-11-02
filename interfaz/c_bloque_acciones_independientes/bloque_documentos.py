@@ -73,9 +73,9 @@ def crear_interfaz_documentos(frame_funcionalidades, frame_visual):
     boton_eliminar = tk.Button(frame_funcionalidades, text="Eliminar Documento", command=eliminar_documento)
     boton_eliminar.pack(pady=10)
 
-def mostrar_documentos_combobox(combobox_documentos):
+def mostrar_documentos_combobox(traducciones,combobox_documentos):
 
-    actualizar_combobox_documentos(combobox_documentos)
+    actualizar_combobox_documentos(traducciones,combobox_documentos)
 
     """Muestra todos los subsistemas en el Combobox."""
     documentos = obtener_documentos()  # Obtener subsistemas de la BD
