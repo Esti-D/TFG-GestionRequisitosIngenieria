@@ -23,14 +23,14 @@ def crear_bloque_load(frame_funcionalidades, traducciones, frame_visual):
     entry_archivo.grid(row=2, column=0, padx=10, pady=5, sticky="ew")
 
     # Botón de LOAD
-    boton_load = tk.Button(frame_load, text=traducciones["P_LOAD"], command=lambda: ventana_seleccionar_proyecto(
+    boton_load = tk.Button(frame_load, text=traducciones["P_LOAD"], command=lambda: ventana_seleccionar_proyecto(traducciones,
         lambda proyecto_nombre, proyectos, ventana: aceptar_proyecto(
             proyecto_nombre, proyectos, ventana, entry_archivo, 
-            lambda proyecto_id: cargar_documento(entry_archivo, proyecto_id, frame_visual))))
+            lambda proyecto_id: cargar_documento(traducciones, entry_archivo, proyecto_id, frame_visual))))
     boton_load.grid(row=0, column=0, padx=10, pady=8, sticky="ew", ipady=8)
 
     # Botón de Seleccionar archivo
-    boton_seleccionar = tk.Button(frame_load, text=traducciones["P_SELECCIONAR"], command=lambda: seleccionar_archivo(entry_archivo))
+    boton_seleccionar = tk.Button(frame_load, text=traducciones["P_SELECCIONAR"], command=lambda: seleccionar_archivo(entry_archivo, traducciones))
     boton_seleccionar.grid(row=1, column=0, padx=10, pady=8, sticky="ew")
 
     return frame_load
