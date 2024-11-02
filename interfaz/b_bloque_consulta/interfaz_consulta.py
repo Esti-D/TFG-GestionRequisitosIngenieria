@@ -22,7 +22,7 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     
     
     # Botón de CONSULTA dentro del bloque 2
-    boton_consulta = tk.Button(frame_consulta, text=traducciones["P_CONSULTA"], command=lambda: realizar_consulta(verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos, var_subsistemas),
+    boton_consulta = tk.Button(frame_consulta, text=traducciones["P_CONSULTA"], command=lambda: realizar_consulta(traducciones,verificar_opcion_seleccionada(traducciones,var_requisitos, var_documentos, var_proyectos, var_subsistemas),
         combobox_subsistemas, combobox_proyectos, combobox_documentos, frame_visual))
     boton_consulta.grid(row=0, column=0, padx=10, pady=8, ipady=5, sticky="ew")
 
@@ -77,7 +77,7 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     label_subsistemas = tk.Label(frame_consulta, text=traducciones["P_FILTRO_SUBSISTEMAS"], bg="white")
     label_subsistemas.grid(row=2, column=0, padx=10, pady=5, sticky="w")
 
-    combobox_subsistemas = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_subsistemas_combobox(combobox_subsistemas))
+    combobox_subsistemas = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_subsistemas_combobox(traducciones, combobox_subsistemas))
     combobox_subsistemas.grid(row=3, column=0, padx=10, pady=5, sticky="ew")
 
     # Filtro de Proyectos dentro del bloque 2
@@ -85,14 +85,14 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     label_proyectos.grid(row=4, column=0, padx=10, pady=5, sticky="w")
 
     
-    combobox_proyectos = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_proyectos_combobox(combobox_proyectos))
+    combobox_proyectos = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_proyectos_combobox(traducciones, combobox_proyectos))
     combobox_proyectos.grid(row=5, column=0, padx=10, pady=5, sticky="ew")
 
     # Filtro de Documentos dentro del bloque 2
     label_documentos = tk.Label(frame_consulta, text=traducciones["P_FILTRO_DOCUMENTOS"], bg="white")
     label_documentos.grid(row=6, column=0, padx=10, pady=5, sticky="w")
 
-    combobox_documentos = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_documentos_combobox(combobox_documentos))
+    combobox_documentos = ttk.Combobox(frame_consulta, state="readonly",postcommand=lambda:mostrar_documentos_combobox(traducciones, combobox_documentos))
     combobox_documentos.grid(row=7, column=0, padx=10, pady=5, sticky="ew")
 
   

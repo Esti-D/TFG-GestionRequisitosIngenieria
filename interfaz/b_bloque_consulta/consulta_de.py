@@ -12,9 +12,9 @@ def limpiar_visualizador(frame_visual):
 
 
 #funcion para verificar que opcion se ha escogido para realizar la consulta
-def verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos, var_subsistemas):
+def verificar_opcion_seleccionada(traducciones,var_requisitos, var_documentos, var_proyectos, var_subsistemas):
     
-    print(f"Requisitos:{var_requisitos.get()},Documentos: {var_documentos.get()},Proyectos: {var_proyectos.get()},Subsistemas:{var_subsistemas.get()}")
+    print(f"{traducciones["C_Requisitos"]}:{var_requisitos.get()},{traducciones["C_Documentos"]}: {var_documentos.get()},{traducciones["C_Proyectos"]}: {var_proyectos.get()},{traducciones["C_Subsistemas"]}:{var_subsistemas.get()}")
     if var_requisitos.get():
         print("Requisitos seleccionados")
         return "requisitos"
@@ -32,18 +32,18 @@ def verificar_opcion_seleccionada(var_requisitos, var_documentos, var_proyectos,
         return""
 
 # Función para realizar la consulta y mostrar los resultados
-def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, combobox_documentos,frame_visual):
+def realizar_consulta(traducciones, tipo_consulta, combobox_subsistemas, combobox_proyectos, combobox_documentos,frame_visual):
     limpiar_visualizador(frame_visual) #limpiamos visualizador
     subsistema = combobox_subsistemas.get()
     proyecto = combobox_proyectos.get()
     documento = combobox_documentos.get()
 
    # limpieza de filtros
-    if proyecto == "TODOS":
+    if proyecto == traducciones["O_TODOS"]:
         proyecto = None
-    if subsistema == "TODOS":
+    if subsistema == traducciones["O_TODOS"]:
         subsistema = None
-    if documento == "TODOS":
+    if documento == traducciones["O_TODOS"]:
         documento = None
 
     print(f"Proyecto seleccionado: {proyecto}")
@@ -60,7 +60,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
         else:
             requisitos = obtener_requisitos()
 
-        mostrar_resultados(requisitos,frame_visual,tipo_datos="requisitos")
+        mostrar_resultados(traducciones,requisitos,frame_visual,tipo_datos="requisitos")
 
     elif tipo_consulta== "documentos":
         if subsistema or proyecto or documento:
@@ -70,7 +70,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
             print(f"Subsistema seleccionado: {subsistema}")
         else:
             documentos = obtener_documentos() 
-        mostrar_resultados(documentos,frame_visual,tipo_datos="documentos")
+        mostrar_resultados(traducciones, documentos,frame_visual,tipo_datos="documentos")
     
 
     elif tipo_consulta == "proyectos":
@@ -82,7 +82,7 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
 
         else:
             proyectos = obtener_proyectos()
-        mostrar_resultados(proyectos,frame_visual,tipo_datos="general") 
+        mostrar_resultados(traducciones,proyectos,frame_visual,tipo_datos="general") 
 
     elif tipo_consulta == "subsistemas":
         if proyecto or documento:
@@ -94,13 +94,13 @@ def realizar_consulta(tipo_consulta, combobox_subsistemas, combobox_proyectos, c
 
         else:
             subsistemas = obtener_subsistemas()
-        mostrar_resultados(subsistemas,frame_visual,tipo_datos="general")
+        mostrar_resultados(traducciones, subsistemas,frame_visual,tipo_datos="general")
    
     else:
-        messagebox.showerror("Error","Debe seleccionar un tipo de consulta")
+        messagebox.showerror(traducciones["M_Error"],traducciones["M_Debe_seleccionar_un_tipo_de_consulta"])
 
 
-def mostrar_resultados(resultados, frame_visual, tipo_datos="general"):
+def mostrar_resultados(traducciones, resultados, frame_visual, tipo_datos="general"):
 
     limpiar_visualizador(frame_visual)  # Limpiamos el visualizador de resultados previos
 
@@ -122,15 +122,9 @@ def mostrar_resultados(resultados, frame_visual, tipo_datos="general"):
 
     # Si no hay resultados, mostramos un mensaje
     if not resultados:
-        label_vacio = tk.Label(scrollable_frame, text="No se encontraron resultados...........")
+        label_vacio = tk.Label(scrollable_frame, traducciones["M_No_se_encontraron_resultados"])
         label_vacio.pack(pady=5)
         return
-
-    
-
-    # Asignamos el peso de las columnas para que se distribuyan uniformemente
-    #for i in range(len(resultados[0])):
-    #    scrollable_frame.grid_columnconfigure(i, weight=1, uniform="columna")
 
 
     # Asignamos el peso de las columnas para que se distribuyan según el tipo de datos
