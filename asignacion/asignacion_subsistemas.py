@@ -5,6 +5,7 @@ import os
 from .cargar_palabras import cargar_palabras_desde_csv
 from .trie import Trie
 
+
 # Función para construir un Trie para cada subsistema
 def construir_trie_para_subsistemas(subsistemas_palabras):
     """
@@ -16,10 +17,13 @@ def construir_trie_para_subsistemas(subsistemas_palabras):
     for subsistema, palabras_clave in subsistemas_palabras.items():
         trie = Trie()  # Crear un Trie para el subsistema
         for palabra in palabras_clave:
-            trie.insertar_palabra(palabra.lower())  # Insertar cada palabra clave en el Trie
+            trie.insertar_palabra(
+                palabra.lower()
+            )  # Insertar cada palabra clave en el Trie
         subsistemas_trie[subsistema] = trie  # Asociar el Trie con el subsistema
 
     return subsistemas_trie
+
 
 # Función para asignar subsistemas a un documento basado en el contenido y los Tries
 def asignar_subsistemas_a_documento_trie(texto_documento, subsistemas_trie):
@@ -50,19 +54,23 @@ def asignar_subsistemas_a_documento_trie(texto_documento, subsistemas_trie):
 
 # Función para asignar subsistemas a un documento (para ser llamada desde bloque_load.py)
 def asignar_subsistemas_a_documento(texto_documento):
-     # Obtener la ruta de la carpeta actual donde se encuentra el script
-    ruta_base = os.path.dirname(os.path.abspath(__file__))  # Ruta base del archivo actual
+    # Obtener la ruta de la carpeta actual donde se encuentra el script
+    ruta_base = os.path.dirname(
+        os.path.abspath(__file__)
+    )  # Ruta base del archivo actual
 
-    # Combinar la ruta base con la carpeta  asignacion  y el archivo  TOKENES.csv 
+    # Combinar la ruta base con la carpeta  asignacion  y el archivo  TOKENES.csv
     ruta_csv = os.path.join(ruta_base, "TOKENES.csv")
 
     # Cargar las palabras clave desde el archivo CSV
     subsistemas_palabras = cargar_palabras_desde_csv(ruta_csv)
-   
+
     # Construir los Tries para cada subsistema
     subsistemas_trie = construir_trie_para_subsistemas(subsistemas_palabras)
 
     # Asignar subsistemas basados en el texto del documento
-    subsistemas_sugeridos = asignar_subsistemas_a_documento_trie(texto_documento, subsistemas_trie)
-    
+    subsistemas_sugeridos = asignar_subsistemas_a_documento_trie(
+        texto_documento, subsistemas_trie
+    )
+
     return subsistemas_sugeridos

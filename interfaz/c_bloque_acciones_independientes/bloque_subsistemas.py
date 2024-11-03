@@ -2,17 +2,23 @@ import sys
 import os
 import tkinter as tk
 from tkinter import messagebox
-from almacenamiento.func_subsistemas import insertar_subsistema, obtener_subsistemas, borrar_subsistema
+from almacenamiento.func_subsistemas import (
+    insertar_subsistema,
+    obtener_subsistemas,
+    borrar_subsistema,
+)
 from interfaz.b_bloque_consulta.filtros import actualizar_combobox_subsistemas
 
 # Añade la carpeta raíz al sys.path para que Python pueda encontrar los módulos correctamente
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
     """Elimina todos los widgets dentro del frame_visual."""
     for widget in frame_visual.winfo_children():
         widget.destroy()
+
 
 # Función para agregar un subsistema
 def agregar_subsistema(entry_subsistema, lista_subsistemas):
@@ -25,69 +31,91 @@ def agregar_subsistema(entry_subsistema, lista_subsistemas):
     else:
         messagebox.showerror("Error", "Por favor, ingrese un nombre de subsistema.")
 
+
 # Función para mostrar todos los subsistemas
 def mostrar_subsistemas(lista_subsistemas):
     """Muestra todos los subsistemas en la lista."""
     lista_subsistemas.delete(0, tk.END)
     subsistemas = obtener_subsistemas()  # Obtener subsistemas de la BD
     for subsistema in subsistemas:
-        lista_subsistemas.insert(tk.END, f"ID: {subsistema[0]} - Nombre: {subsistema[1]}")
+        lista_subsistemas.insert(
+            tk.END, f"ID: {subsistema[0]} - Nombre: {subsistema[1]}"
+        )
     return subsistemas
 
+
 # Función para eliminar un subsistema
-def eliminar_subsistema(traducciones,entry_id_eliminar, lista_subsistemas):
+def eliminar_subsistema(traducciones, entry_id_eliminar, lista_subsistemas):
     """Elimina un subsistema de la base de datos y actualiza la lista."""
     subsistema_id = entry_id_eliminar.get()
     if subsistema_id:
         borrar_subsistema(int(subsistema_id))  # Llamada para eliminar de la BD
         mostrar_subsistemas(lista_subsistemas)  # Actualizar la lista de subsistemas
     else:
-        messagebox.showerror(traducciones["M_Error"], traducciones["M_Ingrese_un_ID_valido"])
+        messagebox.showerror(
+            traducciones["M_Error"], traducciones["M_Ingrese_un_ID_valido"]
+        )
+
 
 # Función para crear el bloque de Subsistema en el visualizador
-def crear_boton_subsistema(traducciones,frame_funcionalidades, frame_visual):
+def crear_boton_subsistema(traducciones, frame_funcionalidades, frame_visual):
     """Crea el bloque de gestión de subsistemas (Agregar, Mostrar, Eliminar)."""
     # Limpiar visualizador antes de agregar nuevos widgets
     limpiar_visualizador(frame_visual)
-    
+
     # Crear widgets en el visualizador
-    label_subsistema = tk.Label(frame_visual, text=traducciones["A_NUEVO_Subsistema"], font=("Arial", 12))
+    label_subsistema = tk.Label(
+        frame_visual, text=traducciones["A_NUEVO_Subsistema"], font=("Arial", 12)
+    )
     label_subsistema.pack(pady=5)
-    
+
     entry_subsistema = tk.Entry(frame_visual)
     entry_subsistema.pack(pady=5)
-    
+
     # Crear la lista de subsistemas
     lista_subsistemas = tk.Listbox(frame_visual, width=50)
     lista_subsistemas.pack(pady=10)
-    
+
     # Botón para agregar subsistema
-    boton_agregar = tk.Button(frame_visual, text=traducciones["A_Agregar_Subsistema"], 
-                              command=lambda: agregar_subsistema(entry_subsistema, lista_subsistemas))
+    boton_agregar = tk.Button(
+        frame_visual,
+        text=traducciones["A_Agregar_Subsistema"],
+        command=lambda: agregar_subsistema(entry_subsistema, lista_subsistemas),
+    )
     boton_agregar.pack(pady=10)
 
     # Mostrar subsistemas al inicio
     mostrar_subsistemas(lista_subsistemas)
-    
+
     # Entrada y botón para eliminar subsistema
-    label_id_eliminar = tk.Label(frame_visual, text=traducciones["A_ID_de_Subsistema_a_Eliminar"], font=("Arial", 12))
+    label_id_eliminar = tk.Label(
+        frame_visual,
+        text=traducciones["A_ID_de_Subsistema_a_Eliminar"],
+        font=("Arial", 12),
+    )
     label_id_eliminar.pack(pady=5)
-    
+
     entry_id_eliminar = tk.Entry(frame_visual)
     entry_id_eliminar.pack(pady=5)
-    
-    boton_eliminar = tk.Button(frame_visual, text=traducciones["A_Eliminar_Subsistema"], command=lambda: eliminar_subsistema(traducciones,entry_id_eliminar, lista_subsistemas))
+
+    boton_eliminar = tk.Button(
+        frame_visual,
+        text=traducciones["A_Eliminar_Subsistema"],
+        command=lambda: eliminar_subsistema(
+            traducciones, entry_id_eliminar, lista_subsistemas
+        ),
+    )
     boton_eliminar.pack(pady=10)
 
-def mostrar_subsistemas_combobox(traducciones,combobox_subsistemas):
-    
-    actualizar_combobox_subsistemas(traducciones,combobox_subsistemas)
-    
+
+def mostrar_subsistemas_combobox(traducciones, combobox_subsistemas):
+
+    actualizar_combobox_subsistemas(traducciones, combobox_subsistemas)
+
     """Muestra todos los subsistemas en el Combobox."""
     subsistemas = obtener_subsistemas()  # Obtener subsistemas de la BD
     # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)
     lista_nombres_subsistemas = [subsistema[1] for subsistema in subsistemas]
-    
+
     # Asignar los valores al combobox
-    combobox_subsistemas['values'] = lista_nombres_subsistemas
-    
+    combobox_subsistemas["values"] = lista_nombres_subsistemas
