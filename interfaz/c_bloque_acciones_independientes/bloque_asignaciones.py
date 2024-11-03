@@ -42,7 +42,7 @@ def eliminar_asociacion(traducciones, entry_documento_id, entry_subsistema_id, l
         entry_documento_id.delete(0, tk.END)  # Limpiar el campo de entrada
         entry_subsistema_id.delete(0, tk.END)  # Limpiar el campo de entrada
     else:
-        messagebox.showerror("Error", "Por favor, ingrese IDs válidos para documento y subsistema.")
+        messagebox.showerror(traducciones["M_Error"], traducciones["M_Ingrese_IDs_validos_documento_subsistema"])
 
 # Función para crear el bloque de "Asignar" en el visualizador
 def crear_boton_asignar(traducciones,frame_funcionalidades, frame_visual):

@@ -5,7 +5,6 @@ import os
 import sys
 
 from interfaz.c_bloque_acciones_independientes.bloque_asignaciones import crear_boton_asignar
-from interfaz.c_bloque_acciones_independientes.bloque_eliminaciones import crear_boton_documento, crear_boton_eliminar
 from interfaz.c_bloque_acciones_independientes.bloque_proyectos import crear_boton_proyecto
 from interfaz.c_bloque_acciones_independientes.bloque_subsistemas import crear_boton_subsistema
 
@@ -32,10 +31,4 @@ def crear_bloque_acciones(frame_funcionalidades, traducciones, frame_visual):
     boton_asignar = tk.Button(frame_acciones, text=traducciones["P_ASIGNAR"], command=lambda: crear_boton_asignar(traducciones,frame_acciones, frame_visual))
     boton_asignar.grid(row=2, column=0, padx=10, pady=8, ipady=5, sticky="ew")
 
-    # Botón Eliminar dentro del bloque 3
-    boton_eliminar = tk.Button(frame_acciones, text=traducciones["P_ELIMINAR"], command=lambda: crear_boton_eliminar(traducciones,frame_acciones, frame_visual))
-    boton_eliminar.grid(row=3, column=0, padx=10, pady=8, ipady=5, sticky="ew")
-
-    # Botón Documentos dentro del bloque 3
-    #boton_documento = tk.Button(frame_acciones, text=traducciones["P_DOCUMENTOS"], command=lambda: crear_boton_documento(frame_acciones, frame_visual))
-    #boton_documento.grid(row=3, column=0, padx=10, pady=8, ipady=5, sticky="ew")
+   

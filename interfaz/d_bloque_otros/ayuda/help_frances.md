@@ -25,10 +25,9 @@
 1. **Projets** : Vous pouvez ajouter de nouveaux projets à la base de données pour leur attribuer des documents et des exigences. Le critère recommandé est d'utiliser le nom de la ville où le projet aura lieu. Vous pouvez également supprimer des projets.
 2. **Sous-systèmes** : Vous pouvez ajouter de nouveaux sous-systèmes à la base de données. Pour qu'un sous-système soit reconnu dans l'analyse de portée d'un document/exigence, il est nécessaire d'inclure ses mots-clés dans le fichier `TOKENES.csv` associé. Vous pouvez également supprimer des sous-systèmes.
 3. **Attribuer** : Cette option vous permet de créer des relations entre documents et sous-systèmes après le chargement du document. Elle est conçue pour les cas où vous devez associer un document à un autre sous-système par la suite. Vous pouvez également supprimer des associations.
-4. **Supprimer** : Permet de supprimer des exigences du système.
 
 ### Paramètres
-1. Vous pouvez choisir la langue dans laquelle vous souhaitez utiliser cette application. Dans cette version, l'espagnol (par défaut), l'anglais et le français sont disponibles.
+1. Vous pouvez choisir la langue dans laquelle vous souhaitez utiliser cette application. Dans cette version, l'espagnol, l'anglais et le français sont disponibles.
 
 ### Aide
 1. Explication de chaque option disponible dans cette version du logiciel.

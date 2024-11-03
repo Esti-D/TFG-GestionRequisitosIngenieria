@@ -20,8 +20,15 @@ def cargar_idioma(archivo_idioma='idioma_castellano.json'):
 def seleccionar_idioma():
     """Abre una ventana para seleccionar el idioma y retorna las traducciones correspondientes."""
     ventana_idioma = tk.Tk()
-    ventana_idioma.title=("SELECCION_IDIOMA")
+    ventana_idioma.title("RM Requirements Management")
     ventana_idioma.geometry("300x150")
+
+    # Incluir el logo en la barra del software
+    ruta_base = os.path.dirname(os.path.abspath(__file__))
+    ruta_raiz = os.path.abspath(os.path.join(ruta_base,'..'))
+    ruta_icono = os.path.join(ruta_raiz,'logos', "logo_reducido.ico")  # Ruta del icono de la aplicación
+    ventana_idioma.iconbitmap(ruta_icono)  # Asignar icono a la ventana
+
 
     opciones_idioma = {
         "Castellano": "idioma_castellano.json",

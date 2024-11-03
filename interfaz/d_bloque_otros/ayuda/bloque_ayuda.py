@@ -1,5 +1,6 @@
 import tkinter as tk
 import os
+from PIL import Image, ImageTk
 from tkinterweb import HtmlFrame
 import markdown2
 
@@ -33,6 +34,13 @@ def abrir_ayuda(traducciones, frame_visual):
     ventana_ayuda = tk.Toplevel()
     ventana_ayuda.title(traducciones["HELP_RM_Requirements_Management"])
     ventana_ayuda.geometry("800x600")
+
+    # Incluir el logo en la barra del software
+    ruta_base = os.path.dirname(os.path.abspath(__file__))
+    ruta_raiz = os.path.abspath(os.path.join(ruta_base,'..','..','..'))
+    ruta_icono = os.path.join(ruta_raiz,'logos', "logo_reducido.ico")  # Ruta del icono de la aplicación
+    ventana_ayuda.iconbitmap(ruta_icono)  # Asignar icono a la ventana
+
 
     # Leer el archivo de ayuda en Markdown y convertirlo a HTML
     with open(ruta_ayuda, "r", encoding="utf-8") as archivo:

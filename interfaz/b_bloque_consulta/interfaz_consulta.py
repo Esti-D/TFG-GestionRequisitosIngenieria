@@ -5,6 +5,7 @@ import os
 import sys
 
 from interfaz.b_bloque_consulta.consulta_de import verificar_opcion_seleccionada, realizar_consulta
+from interfaz.b_bloque_consulta.descarga import descargar_csv
 from interfaz.c_bloque_acciones_independientes.bloque_subsistemas import mostrar_subsistemas_combobox 
 from interfaz.c_bloque_acciones_independientes.bloque_proyectos import mostrar_proyectos_combobox
 from interfaz.c_bloque_acciones_independientes.bloque_documentos import mostrar_documentos_combobox
@@ -18,13 +19,18 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
 
     # Configurar la columna del frame_consulta para que se expanda
     frame_consulta.grid_columnconfigure(0, weight=1)
-    
+    frame_consulta.grid_columnconfigure(1, weight=1)
     
     
     # Botón de CONSULTA dentro del bloque 2
     boton_consulta = tk.Button(frame_consulta, text=traducciones["P_CONSULTA"], command=lambda: realizar_consulta(traducciones,verificar_opcion_seleccionada(traducciones,var_requisitos, var_documentos, var_proyectos, var_subsistemas),
         combobox_subsistemas, combobox_proyectos, combobox_documentos, frame_visual))
-    boton_consulta.grid(row=0, column=0, padx=10, pady=8, ipady=5, sticky="ew")
+    boton_consulta.grid(row=0, column=0, padx=5, pady=8, ipady=5, sticky="ew")
+
+    # Botón de DESCARGA dentro del bloque 2
+    boton_consulta = tk.Button(frame_consulta, text=traducciones["P_DESCARGA"], command=lambda: descargar_csv(traducciones,frame_visual))
+
+    boton_consulta.grid(row=0, column=1, padx=5, pady=8, ipady=5, sticky="ew")
 
     # Frame para filtros dentro del bloque 2
     filtros_frame = tk.Frame(frame_consulta, bg=color_azul_logo)

@@ -25,10 +25,9 @@ Al finalizar, los requisitos/documento estarán almacenados y vinculados al proy
 1. **Proyectos**: Puedes añadir nuevos proyectos a la base de datos para asignarles documentos y requisitos. El criterio recomendado es usar el nombre de la ciudad donde se desarrollará el proyecto. También puedes eliminar proyectos.
 2. **Subsistemas**: Puedes añadir nuevos subsistemas a la base de datos. Para que un subsistema se reconozca en el análisis de alcance de un documento/requisito, es necesario incluir sus palabras clave en el archivo asociado `TOKENES.csv`. También puedes eliminar subsistemas.
 3. **Asignar**: Esta opción permite crear relaciones entre documentos y subsistemas tras la carga del documento. Está diseñada para casos en los que necesites asociar un documento con otro subsistema posteriormente. También permite eliminar asociaciones.
-4. **Eliminar**: Permite la eliminación de requisitos del sistema.
 
 ### Ajustes
-1. Puedes elegir el idioma en el que deseas trabajar con esta aplicación. En esta versión, se dispone de español (por defecto), inglés y francés.
+1. Puedes elegir el idioma en el que deseas trabajar con esta aplicación. En esta versión, se dispone de español, inglés y francés.
 
 ### Ayuda
 1. Explicación de cada una de las opciones disponibles en esta versión del software.

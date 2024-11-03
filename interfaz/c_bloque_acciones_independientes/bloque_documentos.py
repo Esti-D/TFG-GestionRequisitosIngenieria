@@ -3,13 +3,16 @@ import os
 
 from interfaz.b_bloque_consulta.filtros import actualizar_combobox_documentos
 
+
 # Añadir la ruta del directorio principal del proyecto al sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import tkinter as tk
 from almacenamiento.func_documentos import insertar_documento, obtener_documentos, borrar_documento
 
+#interfaz de consulta
 def crear_interfaz_documentos(frame_funcionalidades, frame_visual):
+    
     # Función para agregar un nuevo documento
     def agregar_documento():
         titulo = entry_titulo.get()
@@ -84,3 +87,10 @@ def mostrar_documentos_combobox(traducciones,combobox_documentos):
     
     # Asignar los valores al combobox
     combobox_documentos['values'] = lista_nombres_documentos
+
+# Función para limpiar el visualizador
+def limpiar_visualizador(frame_visual):
+    """Elimina todos los widgets dentro del frame_visual."""
+    for widget in frame_visual.winfo_children():
+        widget.destroy()
+

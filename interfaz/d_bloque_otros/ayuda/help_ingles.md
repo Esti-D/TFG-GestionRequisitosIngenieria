@@ -25,10 +25,9 @@ Upon completion, the requirements/document will be stored and linked to the sele
 1. **Projects**: You can add new projects to the database to assign documents and requirements to them. The recommended criterion is to use the city name where the project will take place. You can also delete projects.
 2. **Subsystems**: You can add new subsystems to the database. To ensure a subsystem is recognized in a document/requirement scope analysis, it is necessary to include its keywords in the associated `TOKENES.csv` file. You can also delete subsystems.
 3. **Assign**: This option allows you to create relationships between documents and subsystems after loading the document. It is designed for cases where you need to associate a document with another subsystem afterward. You can also delete associations.
-4. **Delete**: Allows you to delete requirements from the system.
 
 ### Settings
-1. You can select the language in which you want to work with this application. In this version, Spanish (default), English, and French are available.
+1. You can select the language in which you want to work with this application. In this version, Spanish, English, and French are available.
 
 ### Help
 1. Explanation of each available option in this version of the software.
