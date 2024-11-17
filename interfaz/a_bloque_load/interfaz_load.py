@@ -1,22 +1,37 @@
 import tkinter as tk
 from tkinter import filedialog
-import os
-import sys
 
+from .cargar_documento import cargar_documento
 from .seleccionar_archivo import (
     seleccionar_archivo,
     ventana_seleccionar_proyecto,
     aceptar_proyecto,
 )
-from .cargar_documento import cargar_documento, guardar_requisitos_y_asociaciones
-from .asignar_subsistemas import (
-    asignar_subsistemas_a_documento_y_mostrar_ventana,
-    aceptar_asignacion_subsistemas,
-)
 
 
 def crear_bloque_load(frame_funcionalidades, traducciones, frame_visual):
-    """Crea el bloque de carga de archivos y proyectos"""
+    """
+    Crea y configura el bloque de carga de archivos y proyectos en la interfaz gráfica.
+
+    Este bloque incluye:
+    - Un cuadro de texto para mostrar la ruta del archivo seleccionado.
+    - Botones para seleccionar un archivo y cargar el proyecto asociado.
+    - La lógica para gestionar la selección de proyectos y la carga del archivo.
+
+    Args:
+        frame_funcionalidades (tk.Frame): Frame principal donde se colocan los bloques funcionales.
+        traducciones (dict): Diccionario con las traducciones de los textos para los botones e interfaz.
+        frame_visual (tk.Frame): Frame de la interfaz donde se visualizan los contenidos dinámicos.
+
+    Returns:
+        tk.Frame: Frame configurado con los componentes del bloque "LOAD".
+
+    Funcionalidad:
+    - Permite al usuario seleccionar un archivo PDF.
+    - Asocia el archivo a un proyecto existente en la base de datos.
+    - Procesa el archivo y muestra el contenido extraído en la interfaz gráfica.
+
+    """
     # Crear el frame de LOAD dentro del frame de funcionalidades
     frame_load = tk.Frame(
         frame_funcionalidades,

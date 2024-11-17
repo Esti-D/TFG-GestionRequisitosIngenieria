@@ -11,15 +11,39 @@ from interfaz.c_bloque_acciones_independientes.interfaz_acciones import (
 )
 from interfaz.d_bloque_otros.interfaz_otros import crear_bloque_otros
 
-# Función para limpiar el visualizador
+
 def limpiar_visualizador(frame_visual):
-    """Elimina todos los widgets dentro del frame de visualización."""
+    """
+    Elimina todos los widgets dentro del frame de visualización.
+
+    Args:
+        frame_visual (tk.Frame): Frame donde se visualizan los contenidos dinámicos.
+    """
     for widget in frame_visual.winfo_children():
         widget.destroy()
 
 
 # FUNCION PRINCIPAL INTERFAZ  que encapsula toda la lógica de la interfaz
 def interfaz_principal(traducciones, db_path):
+    """
+    Configura e inicia la interfaz gráfica de usuario principal de la aplicación.
+
+    La interfaz está dividida en dos secciones principales:
+    1. **Panel de funcionalidades (izquierda):** Contiene botones y bloques funcionales.
+    2. **Área de visualización (derecha):** Muestra contenido dinámico basado en las acciones del usuario.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        db_path (str): Ruta a la base de datos utilizada por la aplicación.
+
+    Estructura:
+    - Carga de un fondo gráfico.
+    - Inclusión de un icono para la ventana.
+    - División en bloques funcionales: `LOAD`, `CONSULTA`, `ACCIONES`, y `OTROS`.
+
+    Raises:
+        FileNotFoundError: Si los archivos de icono o fondo no se encuentran en las rutas especificadas.
+    """
 
     # Crear ventana principal
     ventana = tk.Tk()

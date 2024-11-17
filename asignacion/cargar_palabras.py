@@ -4,9 +4,20 @@ import ast
 
 # Función para leer el archivo CSV con ';' como delimitador y procesar la columna 'tokenes'
 def cargar_palabras_desde_csv(ruta_csv):
+    """
+    Lee un archivo CSV que contiene subsistemas y sus palabras clave (tokenes).
+    Los tokenes están en formato de lista dentro de una columna específica.
+
+    Args:
+        ruta_csv (str): Ruta al archivo CSV que se desea procesar.
+
+    Returns:
+        dict: Diccionario donde las claves son los subsistemas y los valores
+              son listas de palabras clave asociadas.
+    """
     subsistemas_palabras = {}
 
-    # Abrir el archivo CSV con el delimitador ";"
+    # Abrir el archivo CSV con el delimitador ";" y codificación UTF-8
     with open(ruta_csv, newline="", encoding="utf-8") as archivo_csv:
         lector_csv = csv.reader(archivo_csv, delimiter=";")
 
@@ -19,10 +30,11 @@ def cargar_palabras_desde_csv(ruta_csv):
                 print(f"Fila incompleta o sin palabras clave ignorada: {fila}")
                 continue
 
-            subsistema = fila[0].strip()  # Primera columna: subsistema
-            tokenes_str = fila[
-                1
-            ].strip()  # Segunda columna: tokenes en formato de lista como cadena
+            # Primera columna: Nombre del subsistema
+            subsistema = fila[0].strip()
+
+            # Segunda columna: Lista de palabras clave en formato de cadena
+            tokenes_str = fila[1].strip()
 
             # Convertir la cadena de lista a una lista real usando ast.literal_eval
             try:
@@ -41,6 +53,11 @@ def cargar_palabras_desde_csv(ruta_csv):
 
 # Verificación de la lectura del CSV
 if __name__ == "__main__":
+    """
+    Código de prueba para verificar la funcionalidad de la lectura del archivo CSV.
+    Carga los subsistemas y sus palabras clave desde un archivo llamado "TOKENES.csv"
+    y los imprime en consola.
+    """
     subsistemas = cargar_palabras_desde_csv("TOKENES.csv")
 
     # Imprimir los subsistemas y sus palabras clave para verificar que se han leído correctamente

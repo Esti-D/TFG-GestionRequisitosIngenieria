@@ -24,10 +24,11 @@ def abrir_ajustes(traducciones, frame_visual):
     boton_cambiar_idioma.pack(pady=10)
 
 
-#def reiniciar_aplicacion():
- #   """Reinicia la aplicación ejecutando de nuevo `main.py`."""
- #   python = sys.executable
- #   os.execl(python, python, *sys.argv)
+# def reiniciar_aplicacion():
+#   """Reinicia la aplicación ejecutando de nuevo `main.py`."""
+#   python = sys.executable
+#   os.execl(python, python, *sys.argv)
+
 
 def reiniciar_aplicacion():
     """Reinicia la aplicación utilizando el mismo intérprete de Python."""
@@ -35,10 +36,13 @@ def reiniciar_aplicacion():
         nuevo_proceso = subprocess.Popen([sys.executable] + sys.argv)
 
         # Cierra el proceso actual para evitar que ambos queden abiertos
-        os._exit(0)  # Es más seguro que sys.exit() en este caso para asegurar cierre inmediato
+        os._exit(
+            0
+        )  # Es más seguro que sys.exit() en este caso para asegurar cierre inmediato
 
     except subprocess.CalledProcessError as e:
         print(f"Error al reiniciar la aplicación: {e}")
+
 
 def limpiar_visualizador(frame_visual):
     """Función para limpiar el frame visual de la interfaz."""
