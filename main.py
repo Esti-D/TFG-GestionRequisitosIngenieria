@@ -1,6 +1,7 @@
 """
 Este archivo inicia la aplicación de gestión de requisitos.  
 Verifica y crea la base de datos, y luego lanza la interfaz gráfica.  
+prueba
 """
 
 import os
