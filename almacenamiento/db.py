@@ -88,8 +88,33 @@ def crear_tablas(db_path):
     conexion.close()  # Cerrar la conexión con la base de datos.
 
 
+def crear_directorio_base(ruta_base):
+    """
+    Crea el directorio base en la ubicación especificada para almacenar reqisitos imagenes y tablas.
+
+    Args:
+        ruta_base (str): Ruta completa del directorio base.
+    """
+    #ruta_base = os.path.join(o.getcwd(),"almacen")
+    
+    if not os.path.exists(ruta_base):
+        os.makedirs(ruta_base)
+        print(f"Directorio base creado en: {ruta_base}")
+    else:
+        print(f"Directorio base ya existe en: {ruta_base}")
+
+
 # Llamar a la función para crear las tablas cuando se ejecute el archivo directamente.
 if __name__ == "__main__":
     # Usar una base de datos de prueba si se ejecuta directamente este archivo.
-    db_path = os.path.join(os.getcwd(), "BD_Requisitos.db")
+    ruta_principal = os.getcwd()
+
+    # Ruta de la base de datos
+    db_path = os.path.join(ruta_principal, "BD_Requisitos.db")
+
+    # Ruta de la base de datos
+    ruta_base = os.path.join(ruta_principal, "almacen")
+
+    # Crear tablas y directorio
     crear_tablas(db_path)
+    crear_directorio_base(ruta_base)

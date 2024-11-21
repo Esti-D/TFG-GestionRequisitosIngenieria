@@ -1,12 +1,11 @@
 """
 Este archivo inicia la aplicación de gestión de requisitos.  
 Verifica y crea la base de datos, y luego lanza la interfaz gráfica.  
-prueba
 """
 
 import os
 import logging
-from almacenamiento.db import crear_tablas
+from almacenamiento.db import crear_directorio_base, crear_tablas
 from idiomas.selector_idioma import seleccionar_idioma
 from interfaz.interfaz_principal import interfaz_principal
 
@@ -28,22 +27,31 @@ def iniciar_aplicacion():
         1. Selección de idioma mediante `selector_idioma`.
         2. Verificación de la existencia de la base de datos.
         3. Creación de tablas si la base de datos no existe.
-        4. Inicio de la interfaz gráfica.
+        4. Verificación y creación del directorio de almacenamiento.
+        5. Inicio de la interfaz gráfica.
 
     Raises:
         Exception: En caso de errores críticos durante la inicialización.
     """
     try:
         # Seleccionar idioma para la aplicación y obtener traducciones.
+        logging.info("Seleccionando idioma para la aplicación...")
         traducciones = seleccionar_idioma()
 
-        # Obtener la ruta absoluta de la base de datos.
-        db_path = os.path.join(os.path.dirname(__file__), "BD_Requisitos.db")
+        # Definir rutas absolutas
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # Ruta del directorio actual
+        db_path = os.path.join(base_dir, "BD_Requisitos.db")  # Ruta para la base de datos
+        ruta_base = os.path.join(base_dir, "almacen")  # Ruta para el almacenamiento
 
         # Verificar si la base de datos ya existe.
         if not os.path.exists(db_path):
             logging.info("La base de datos no existe, creando tablas...")
             crear_tablas(db_path)  # Crear las tablas solo si la base de datos no existe.
+            
+        if not os.path.exists(ruta_base):
+            logging.info("El directorio de almacenamiento no existe, creándolo...")
+            crear_directorio_base(ruta_base)     
+            
 
         # Iniciar la interfaz gráfica.
         logging.info("Iniciando la interfaz de usuario...")
