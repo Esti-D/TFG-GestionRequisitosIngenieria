@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+import sys
 
 
 # Importar funciones específicas de otros módulos
@@ -59,6 +60,15 @@ def interfaz_principal(traducciones, db_path):
         ruta_raiz, "logos", "logo_reducido.ico"
     )  # Ruta del icono de la aplicación
     ventana.iconbitmap(ruta_icono)  # Asignar icono a la ventana
+
+    def on_closing():
+        """
+        Maneja el cierre de la ventana principal para garantizar que el proceso termine completamente.
+        """
+        print("Cerrando la aplicación ...")
+        os._exit(0)  # Fuerza la salida inmediata del proceso
+
+    ventana.protocol("WM_DELETE_WINDOW", on_closing)
 
     # Configurar la ventana para que el bloque gris esté dividido en dos partes (izquierda y derecha)
     ventana.grid_columnconfigure(0, weight=1)  # Parte izquierda para botones

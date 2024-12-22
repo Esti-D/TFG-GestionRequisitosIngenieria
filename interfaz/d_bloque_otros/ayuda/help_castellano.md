@@ -10,7 +10,17 @@
 ---
 
 ### Carga de documentos a la Base de Datos
-1. Mediante el botón **Seleccionar archivo** (que abre el explorador de archivos), elige el archivo PDF con los requisitos. Este aparecerá en la ventana del visor. Luego, inicia el proceso presionando el botón **CARGAR**. Se mostrará una ventana para seleccionar el proyecto al que deseas añadir los requisitos.
+1. Mediante el botón **Seleccionar archivo** (que abre el explorador de archivos), elige el archivo PDF con los requisitos. Este aparecerá en la ventana del visor. Luego, inicia el proceso presionando el botón **CARGAR**. 
+1.1. Búsqueda de la jerarquía de capítulos, los patrones que reconoce son: 
+        1.
+        1
+        1-
+        1) 
+1.2. Patronones no reconocidos
+1.2.1. En caso de no reconocimiento, la opción recomendada es "Modificar" implica que se convierta el pdf a editable mediante un software externo para incorporar uno de los patrones reconocidos y realizar la gestion de documento. 
+1.2.2. La otra opción disponible es Forzar.  De este modo, todo el documento se entenderá como capítulo unico y todos los requisitos estarán en el mismo nivel jerarquico. 
+1.3. Patrones reconocidos o forzados. Se mostrará una ventana para seleccionar el proyecto al que deseas añadir los requisitos.
+
 2. Una vez seleccionado el proyecto, acepta para continuar. El proceso de carga se completará, mostrando el contenido, y permitiendo la edición (si deseas corregir o eliminar algo).
 3. El sistema analizará el alcance potencial de los subsistemas y propondrá los que podrían estar afectados; podrás seleccionar algunos o todos según convenga.
    

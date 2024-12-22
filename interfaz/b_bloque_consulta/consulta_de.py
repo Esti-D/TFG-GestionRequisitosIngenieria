@@ -1,4 +1,5 @@
 import tkinter as tk
+import os
 from tkinter import messagebox
 from almacenamiento.func_documentos import (
     obtener_documentos,
@@ -29,7 +30,7 @@ def limpiar_visualizador(frame_visual):
 
 # funcion para verificar que opcion se ha escogido para realizar la consulta
 def verificar_opcion_seleccionada(
-    traducciones, var_requisitos, var_documentos, var_proyectos, var_subsistemas
+    traducciones, var_requisitos, var_documentos, var_proyectos, var_subsistemas, var_tab_ima
 ):
 
     print(
@@ -47,6 +48,9 @@ def verificar_opcion_seleccionada(
     elif var_subsistemas.get():
         print("Subsistemas seleccionados")
         return "subsistemas"
+    elif var_tab_ima.get():
+        print("R. Tablas_Figuras seleccionados")
+        return "r_tab_ima"
     else:
         print("Ninguna opcion")
         return ""
@@ -133,13 +137,136 @@ def realizar_consulta(
         mostrar_resultados(
             traducciones, subsistemas, frame_visual, tipo_datos="general"
         )
+    elif tipo_consulta == "r_tab_ima":
+        if proyecto or documento:
+            proyectoid = obtener_id_proyecto(proyecto)
+            documentoid = obtener_iddocumento(documento, proyectoid)
+            mostrar_archivos(frame_visual,traducciones,proyectoid, documentoid)
+        else:
+            mostrar_archivos(frame_visual,traducciones,None,None)
+
 
     else:
         messagebox.showerror(
             traducciones["M_Error"],
             traducciones["M_Debe_seleccionar_un_tipo_de_consulta"],
         )
+def mostrar_archivos(frame_visual, traducciones,proyectoid=None,documentoid=None):
+    limpiar_visualizador(
+        frame_visual
+    )  # Limpiamos el visualizador de resultados previos
 
+    # Ruta de la carpeta 'almacen/permanente'
+    ruta_permanente = os.path.join(os.getcwd(), "almacen", "permanente")
+    archivos = os.listdir(ruta_permanente)
+    
+
+    # Mostrar cada archivo con un botón de visualización
+        # Filtrar archivos
+    archivos_filtrados = []
+    for archivo in archivos:
+        if not archivo.lower().endswith(('.jpeg', '.jpg', '.png', '.csv')):
+            continue
+        
+        # Filtro por proyecto (buscar P<num>)
+        if proyectoid and f"P0{proyectoid}" not in archivo:
+            continue
+
+        # Filtro por documento (buscar D<num>)
+        if documentoid and f"D0{documentoid}" not in archivo:
+            continue
+
+        #Agregar archivo que cumple con los filtros
+        archivos_filtrados.append(archivo)
+
+    # Mostrar los archivos filtrados o todos si no hay filtros
+    for archivo in archivos_filtrados:
+
+        frame_item = tk.Frame(frame_visual, bg="white", pady=5)
+        frame_item.pack(fill="x")
+
+        label_archivo = tk.Label(frame_item, text=archivo, bg="white")
+        label_archivo.pack(side="left", padx=10)
+
+        boton_visualizar = tk.Button(
+            frame_item,
+            text=traducciones["B_VER"],
+            #text="👁️",
+            command=lambda archivo=archivo: abrir_archivo(ruta_permanente, archivo),
+            bg="#125ca6",
+            fg="white",
+            width=3
+        )
+        boton_visualizar.pack(side="right", padx=10)
+
+        # Botón Eliminar
+        boton_eliminar = tk.Button(
+            frame_item,
+            text=traducciones["B_ELIMINAR"],  # Puedes usar traducciones["B_ELIMINAR"] si lo tienes
+            command=lambda archivo=archivo: eliminar_archivo(traducciones,ruta_permanente, archivo, frame_item),
+            bg="red",
+            fg="white",
+            width=7
+        )
+        boton_eliminar.pack(side="right", padx=5)
+
+
+
+
+
+
+def eliminar_archivo(traducciones,ruta_permanente, archivo, frame_item):
+    """
+    Eliminar un archivo de la carpeta 'almacen/permanente' tras confirmación.
+    """
+    respuesta = messagebox.askyesno(
+        traducciones["M_Confirmar_Eliminacion"], traducciones["M_Confirmar_Eliminacion_T"].format(archivo=archivo))
+    
+    if respuesta:
+        ruta_completa = os.path.join(ruta_permanente, archivo)
+        try:
+            os.remove(ruta_completa)  # Eliminar el archivo
+            frame_item.destroy()  # Quitar el elemento visual
+            messagebox.showinfo(traducciones["M_Archivo_Eliminado"],traducciones["M_Archivo_Eliminado"])
+        except Exception as e:
+            messagebox.showerror(traducciones["M_Error"],traducciones["M_Error"].format (archivo=archivo))
+
+
+
+def abrir_archivo(ruta_permanente, archivo):
+    """
+    Abrir una ventana para visualizar el contenido de un archivo.
+    """
+    ruta_completa = os.path.join(ruta_permanente, archivo)
+
+    # Crear una nueva ventana
+    ventana = tk.Toplevel()
+    ventana.title(f"Visualizando {archivo}")
+
+    # Mostrar imágenes
+    if archivo.lower().endswith(('.jpeg', '.jpg', '.png')):
+        from PIL import Image, ImageTk
+
+        imagen = Image.open(ruta_completa)
+        imagen_tk = ImageTk.PhotoImage(imagen)
+
+        label_imagen = tk.Label(ventana, image=imagen_tk)
+        label_imagen.image = imagen_tk  # Necesario para mantener la referencia
+        label_imagen.pack()
+
+    # Mostrar tablas (CSV)
+    elif archivo.lower().endswith('.csv'):
+        import csv
+
+        with open(ruta_completa, newline='', encoding='utf-8') as csvfile:
+            lector = csv.reader(csvfile)
+            text_area = tk.Text(ventana, wrap="none", width=80, height=20)
+            text_area.pack(fill="both", expand=True)
+
+            for fila in lector:
+                text_area.insert(tk.END, ', '.join(fila) + '\n')
+    else:
+        tk.Label(ventana, text="Tipo de archivo no soportado").pack()
 
 def mostrar_resultados(traducciones, resultados, frame_visual, tipo_datos="general"):
 

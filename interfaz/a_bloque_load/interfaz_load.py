@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog
 
-from .cargar_documento import cargar_documento, cargar_documento_completo
+from interfaz.a_bloque_load.cargar_documento import detectar_estructura_capitulos_pdf
+
+from .cargar_documento import cargar_documento_completo
 from .seleccionar_archivo import (
     seleccionar_archivo,
     ventana_seleccionar_proyecto,
@@ -61,10 +63,10 @@ def crear_bloque_load(frame_funcionalidades, traducciones, frame_visual):
                 proyectos,
                 ventana,
                 entry_archivo,
-                #lambda proyecto_id: cargar_documento(
+                #lambda proyecto_id: cargar_documento_completo(
                 #    traducciones, entry_archivo, proyecto_id, frame_visual
                 #),
-                lambda proyecto_id: cargar_documento_completo(
+                lambda proyecto_id: detectar_estructura_capitulos_pdf(
                     traducciones, entry_archivo, proyecto_id, frame_visual
                 ),
             ),

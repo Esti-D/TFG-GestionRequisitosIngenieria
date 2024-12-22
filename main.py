@@ -5,6 +5,7 @@ Verifica y crea la base de datos, y luego lanza la interfaz gráfica.
 
 import os
 import logging
+import sys
 from almacenamiento.db import crear_directorio_base, crear_tablas
 from idiomas.selector_idioma import seleccionar_idioma
 from interfaz.interfaz_principal import interfaz_principal
@@ -66,4 +67,8 @@ def iniciar_aplicacion():
 
 # Punto de entrada principal para ejecutar la aplicación.
 if __name__ == "__main__":
-    iniciar_aplicacion()
+    try:
+        iniciar_aplicacion()
+    except KeyboardInterrupt:
+        logging.info("Aplicación cerrada por el usuario.")
+        sys.exit(0)  # Asegura que el programa termine correctamente.

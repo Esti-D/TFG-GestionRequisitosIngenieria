@@ -50,6 +50,7 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
                 var_documentos,
                 var_proyectos,
                 var_subsistemas,
+                var_tab_ima
             ),
             combobox_subsistemas,
             combobox_proyectos,
@@ -71,13 +72,14 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
     # Frame para filtros dentro del bloque 2
     filtros_frame = tk.Frame(frame_consulta, bg=color_azul_logo)
     filtros_frame.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
-    filtros_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
+    filtros_frame.grid_columnconfigure((0, 1, 2, 3, 4), weight=1)
 
     # Variables para almacenar el estado de las opciones
     var_requisitos = tk.BooleanVar()
     var_documentos = tk.BooleanVar()
     var_proyectos = tk.BooleanVar()
     var_subsistemas = tk.BooleanVar()
+    var_tab_ima = tk.BooleanVar()
 
     # Función que controla que solo un Checkbutton pueda estar seleccionado a la vez
     def seleccionar_unico(selected_var):
@@ -86,18 +88,28 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
             var_documentos.set(0)
             var_proyectos.set(0)
             var_subsistemas.set(0)
+            var_tab_ima.set(0)
         elif selected_var == var_documentos:
             var_requisitos.set(0)
             var_proyectos.set(0)
             var_subsistemas.set(0)
+            var_tab_ima.set(0)
         elif selected_var == var_proyectos:
             var_requisitos.set(0)
             var_documentos.set(0)
             var_subsistemas.set(0)
+            var_tab_ima.set(0)
         elif selected_var == var_subsistemas:
             var_requisitos.set(0)
             var_documentos.set(0)
             var_proyectos.set(0)
+            var_tab_ima.set(0)
+        elif selected_var == var_tab_ima:
+            var_requisitos.set(0)
+            var_documentos.set(0)
+            var_proyectos.set(0)
+            var_subsistemas.set(0)
+
 
     # Casillas de selección para los filtros dentro del bloque 2
     checkbox_requisitos = tk.Checkbutton(
@@ -131,6 +143,15 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
         command=lambda: seleccionar_unico(var_subsistemas),
     )
     checkbox_subsistemas.grid(row=0, column=3, padx=5, pady=5, sticky="ew")
+
+    checkbox_subsistemas = tk.Checkbutton(
+        filtros_frame,
+        text=traducciones["P_TICK_R_TABLAS/IMAGENES"],
+        variable=var_tab_ima,
+        command=lambda: seleccionar_unico(var_tab_ima),
+    )
+    checkbox_subsistemas.grid(row=0, column=4, padx=5, pady=5, sticky="ew")
+
 
     # Filtro de Subsistemas dentro del bloque 2
     label_subsistemas = tk.Label(
