@@ -36,7 +36,7 @@ def insertar_documento(titulo, version, proyecto_id):
 
 
 # Obtener el ID de un documento
-def obtener_iddocumento(titulo, proyecto_id):
+def obtener_iddocumento(titulo, proyecto_id, version):
     """
     Obtiene el ID de un documento en función de su título y proyecto asociado.
 
@@ -47,18 +47,47 @@ def obtener_iddocumento(titulo, proyecto_id):
     Returns:
         int or None: ID del documento, o None si no se encuentra.
     """
+    if not version:
+        version="1.0"
+
     conexion = conectar_db()
     cursor = conexion.cursor()
 
     # Consultar el ID del documento
     cursor.execute(
-        "SELECT id FROM Documentos WHERE titulo = ? and id_proyecto = ?",
-        (titulo, proyecto_id),
+        "SELECT id FROM Documentos WHERE titulo = ? and id_proyecto = ? AND version = ?",
+        (titulo, proyecto_id, version),
     )
     id_documento = cursor.fetchone()
     conexion.close()
 
     return id_documento[0] if id_documento else None
+
+# Obtener version de un documento
+def obtener_version(id_documento, proyecto_id):
+    """
+    Obtiene el ID de un documento en función de su título y proyecto asociado.
+
+    Args:
+        titulo (str): Título del documento.
+        proyecto_id (int): ID del proyecto asociado.
+
+    Returns:
+        float or None: Versión del documento convertida a número real, o None si no se encuentra.
+    """
+    conexion = conectar_db()
+    cursor = conexion.cursor()
+
+    # Consultar el ID del documento
+    cursor.execute(
+        "SELECT version FROM Documentos WHERE id = ? and id_proyecto = ?",
+        (id_documento, proyecto_id),
+    )
+    version = cursor.fetchone()
+
+    conexion.close()
+    # Devuelve la versión convertida a float, o None si no se encuentra
+    return float(version[0]) if version and version[0] else None
 
 
 # Consultar todos los documentos

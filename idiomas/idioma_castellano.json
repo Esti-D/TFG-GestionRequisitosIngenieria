@@ -8,6 +8,7 @@
     "P_TICK_DOCUMENTOS": "Documentos",
     "P_TICK_PROYECTOS": "Proyectos",
     "P_TICK_SUBSISTEMAS": "Subsistemas",
+    "P_TICK_R_TABLAS/IMAGENES": "R.Tablas/Figuras",
     "P_FILTRO_SUBSISTEMAS": "Subsistemas",
     "P_FILTRO_PROYECTOS": "Proyectos",
     "P_FILTRO_DOCUMENTOS": "Documentos",
@@ -19,11 +20,17 @@
     "P_AJUSTES": "Ajustes",
     "P_AYUDA": "Ayuda",
     
+    
     "B_CONFIRMAR": "Confirmar",
     "B_GUARDAR": "Guardar",
     "B_ACEPTAR": "Aceptar",
     "B_ASIGNAR": "Asignar",
     "B_Guardar_como": "Guardar_como",
+    "B_Forzar": "Forzar",
+    "B_Cancelar": "Cancelar",
+    "B_Modificar": "Modificar pdf",
+    "B_VER": "ver",
+    "B_ELIMINAR": "borrar",
 
 
     "M_Seleccionar_archivo_PDF": "Seleccionar archivo PDF",
@@ -35,7 +42,7 @@
     "M_Subsistemas_sugeridos_para_el_documento": "Subsistemas sugeridos para el documento:",
 
     "C_Requisitos": "Requisitos",
-    "C_Documentos": "Documetos",
+    "C_Documentos": "Documentos",
     "C_Proyectos" : "Proyectos",
     "C_Subsistemas": "Subsistemas",
     "M_No_se_encontraron_resultados": "No se encontraron resultados...........",
@@ -79,6 +86,7 @@
     "M_No_se_pudo_extraer_texto_del_PDF": "No se pudo extraer texto del PDF.",
     "M_No_se_pudo_encontrar_ningún_capítulo_o_requisito_en_el_documento" :"No se pudo encontrar ningún capítulo o requisito en el documento.",
     "M_Error_al_cargar_el_documento": "Error al cargar el documento",
+    "Estructura_de_capitulos_no_reconocida": "Estructura de capitulos no reconocida",
     "M_Debe_seleccionar_un_tipo_de_consulta": "Debe seleccionar un tipo de consulta",
     "M_Ingrese_un_ID_valido": "Por favor, ingrese un ID válido.",
     "M_Ingrese_un_nombre_de_proyecto": "Por favor, ingrese un nombre de proyecto (ciudad).",
@@ -89,6 +97,10 @@
     "M_No_se_pudo_guardar_el_archivo_CSV" : "No se pudo guardar el archivo CSV",
     "M_Info": "Info",
     "M_No_hay_datos_para_guardar":"No hay datos para guardar",
+    "M_Confirmar_Eliminacion": "Confirmar Eliminación",
+    "M_Confirmar_Eliminacion_T": "¿Estás seguro de que deseas eliminar el archivo?",
+    "M_Archivo_Eliminado": "Archivo Eliminado.",
+    "M_Archivo_Eliminado_T": "El archivo se ha eliminado correctamente.",
 
     "M_Exito": "Éxito",
     "M_Documentos,requisitos_y_asociaciones_guardados_correctamente": "Documentos, requisitos y asociaciones guardados correctamente"
