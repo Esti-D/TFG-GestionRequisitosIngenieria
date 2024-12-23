@@ -27,7 +27,7 @@ def abrir_ayuda(traducciones, frame_visual):
     ruta_ayuda = archivos_ayuda.get(idioma_actual)
     if not ruta_ayuda or not os.path.exists(ruta_ayuda):
         print(
-            f"{traducciones["M_El_archivo_de_ayuda"]} {idioma_actual} {traducciones["M_no_existe_en "]} {ruta_ayuda}."
+            f"{traducciones["M_El_archivo_de_ayuda"]} {idioma_actual} {traducciones["M_no_existe_en"]} {ruta_ayuda}."
         )
         return
 

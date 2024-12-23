@@ -1,5 +1,13 @@
-import sqlite3
+"""
+Archivo: func_documentos.py
+Descripción: Contiene funciones para gestionar documentos en la base de datos SQLite, 
+incluyendo inserción, consulta, filtrado y eliminación de documentos.
+Autor: Estíbalitz Díez
+Fecha: 23/12/2024
+Version: 2
+"""
 
+import sqlite3
 
 # Conectar a la base de datos
 def conectar_db():
@@ -11,7 +19,6 @@ def conectar_db():
     """
     return sqlite3.connect("BD_Requisitos.db")
 
-
 # Insertar un documento
 def insertar_documento(titulo, version, proyecto_id):
     """
@@ -19,13 +26,12 @@ def insertar_documento(titulo, version, proyecto_id):
 
     Args:
         titulo (str): Título del documento.
-        version (str): Versión del documento.
+        version (int): Versión del documento.
         proyecto_id (int): ID del proyecto asociado al documento.
     """
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Insertar el documento en la tabla Documentos
     cursor.execute(
         "INSERT INTO Documentos (titulo, version, id_proyecto) VALUES (?, ?, ?)",
         (titulo, version, proyecto_id),
@@ -34,28 +40,24 @@ def insertar_documento(titulo, version, proyecto_id):
     conexion.commit()
     conexion.close()
 
-
 # Obtener el ID de un documento
 def obtener_iddocumento(titulo, proyecto_id, version):
     """
-    Obtiene el ID de un documento en función de su título y proyecto asociado.
+    Obtiene el ID de un documento en función de su título, versión y proyecto asociado.
 
     Args:
         titulo (str): Título del documento.
+        version (int): Versión del documento.
         proyecto_id (int): ID del proyecto asociado.
 
     Returns:
         int or None: ID del documento, o None si no se encuentra.
     """
-    if not version:
-        version="1.0"
-
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consultar el ID del documento
     cursor.execute(
-        "SELECT id FROM Documentos WHERE titulo = ? and id_proyecto = ? AND version = ?",
+        "SELECT id FROM Documentos WHERE titulo = ? AND id_proyecto = ? AND version = ?",
         (titulo, proyecto_id, version),
     )
     id_documento = cursor.fetchone()
@@ -63,32 +65,29 @@ def obtener_iddocumento(titulo, proyecto_id, version):
 
     return id_documento[0] if id_documento else None
 
-# Obtener version de un documento
-def obtener_version(id_documento, proyecto_id):
+# Obtener la última versión de un documento
+def obtener_version(titulo, proyecto_id):
     """
-    Obtiene el ID de un documento en función de su título y proyecto asociado.
+    Obtiene la última versión de un documento en función de su título y proyecto asociado.
 
     Args:
         titulo (str): Título del documento.
         proyecto_id (int): ID del proyecto asociado.
 
     Returns:
-        float or None: Versión del documento convertida a número real, o None si no se encuentra.
+        int or None: Última versión del documento como entero, o None si no se encuentra.
     """
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consultar el ID del documento
     cursor.execute(
-        "SELECT version FROM Documentos WHERE id = ? and id_proyecto = ?",
-        (id_documento, proyecto_id),
+        "SELECT MAX(version) FROM Documentos WHERE titulo = ? AND id_proyecto = ?",
+        (titulo, proyecto_id),
     )
     version = cursor.fetchone()
-
     conexion.close()
-    # Devuelve la versión convertida a float, o None si no se encuentra
-    return float(version[0]) if version and version[0] else None
 
+    return int(version[0]) if version and version[0] else None
 
 # Consultar todos los documentos
 def obtener_documentos():
@@ -101,7 +100,6 @@ def obtener_documentos():
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consultar todos los documentos con sus proyectos asociados
     cursor.execute(
         """
         SELECT Documentos.id, Documentos.titulo, Documentos.version, Proyectos.n_proyecto 
@@ -111,14 +109,11 @@ def obtener_documentos():
     )
 
     documentos = cursor.fetchall()
-
-    # Obtener los nombres de las columnas para incluir como encabezados
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
     documentos = [nombres_columnas] + documentos
 
     conexion.close()
     return documentos
-
 
 # Consultar documentos filtrados
 def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
@@ -136,24 +131,6 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Imprimir valores iniciales para debugging
-    print(
-        f"Parámetros recibidos - Proyecto: {proyecto}, Documento: {documento}, Subsistema: {subsistema}"
-    )
-
-    # Limpiar espacios y manejar valores None
-    if proyecto:
-        proyecto = proyecto.strip()
-    if documento:
-        documento = documento.strip()
-    if subsistema:
-        subsistema = subsistema.strip()
-
-    # Imprimir valores después de limpiar
-    print(
-        f"Parámetros después de limpiar - Proyecto: {proyecto}, Documento: {documento}, Subsistema: {subsistema}"
-    )
-
     # Base de la consulta
     query = """
     SELECT d.id, d.titulo, d.version, p.n_proyecto
@@ -166,11 +143,11 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
     # Agregar filtros condicionales
     if proyecto:
         query += " AND p.n_proyecto = ?"
-        params.append(proyecto)
+        params.append(proyecto.strip())
 
     if documento:
         query += " AND d.titulo = ?"
-        params.append(documento)
+        params.append(documento.strip())
 
     if subsistema:
         query += """
@@ -181,23 +158,16 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
             WHERE s.nombre = ?
         )
         """
-        params.append(subsistema)
+        params.append(subsistema.strip())
 
-    # Imprimir consulta final y parámetros
-    print("Consulta SQL generada:", query)
-    print("Parámetros de consulta:", params)
-
-    # Ejecutar la consulta
     cursor.execute(query, params)
     documentos = cursor.fetchall()
 
-    # Obtener nombres de columnas
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
     documentos = [nombres_columnas] + documentos
 
     conexion.close()
     return documentos
-
 
 # Eliminar un documento
 def borrar_documento(documento_id):
@@ -210,7 +180,11 @@ def borrar_documento(documento_id):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
+    # Eliminar primero los requisitos asociados
+    cursor.execute("DELETE FROM Requisitos WHERE documento_id = ?", (documento_id,))
+
     # Eliminar el documento por su ID
     cursor.execute("DELETE FROM Documentos WHERE id = ?", (documento_id,))
+
     conexion.commit()
     conexion.close()

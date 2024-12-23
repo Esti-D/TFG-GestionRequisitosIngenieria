@@ -1,9 +1,16 @@
-import logging
+"""
+Archivo: leer_pdf.py
+Descripción: Funciones para extraer texto, imágenes y tablas de archivos PDF y guardar las tablas en formato CSV.
+Autor: Estíbalitz Díez
+Fecha: 23/12/2024
+Versión: 2
+"""
+
+
 import pdfplumber
 import fitz
 import os
 import csv
-import re
 
 def extraer_texto_pdf(ruta_pdf):
     """
@@ -15,26 +22,20 @@ def extraer_texto_pdf(ruta_pdf):
     Returns:
         str: Texto completo extraído del archivo PDF. Si ocurre algún error, devuelve una cadena vacía.
     """
-    texto_completo = ""  # Variable para almacenar el texto extraído
+    texto_completo = ""
 
     try:
-        # Abrir el archivo PDF usando pdfplumber
         with pdfplumber.open(ruta_pdf) as pdf:
-            # Iterar por cada página del PDF
             for pagina in pdf.pages:
-                # Extraer el texto de la página actual y añadirlo a la variable
                 texto_completo += pagina.extract_text() + "\n"
     except Exception as e:
-        # Manejar errores durante la lectura del PDF y mostrar un mensaje
         print(f"Error al leer el archivo PDF: {e}")
 
-    return (
-        texto_completo  # Devolver el texto extraído o una cadena vacía en caso de error
-    )
+    return texto_completo
 
 def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
     """
-    Extrae texto de un PDF y guarda imágenes/tablas en la carpeta temporal.
+    Extrae texto de un PDF y guarda imágenes/tablas en una carpeta temporal.
 
     Args:
         ruta_pdf (str): Ruta al archivo PDF.
@@ -48,7 +49,7 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
     contador_imagenes = 1
     contador_tablas = 1
 
-    # Asegurar que la carpeta temporal exista y esté vacía
+    # Crear o limpiar la carpeta temporal
     if not os.path.exists(ruta_temporal):
         os.makedirs(ruta_temporal)
     else:
@@ -56,7 +57,6 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
             os.remove(os.path.join(ruta_temporal, archivo))
 
     try:
-        # Abrir el PDF para procesar texto e imágenes
         pdf_document = fitz.open(ruta_pdf)
         with pdfplumber.open(ruta_pdf) as pdf:
             for num_pagina, pagina in enumerate(pdf.pages, start=1):
@@ -65,7 +65,7 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
                 if texto_pagina:
                     contenido_completo += texto_pagina + "\n"
 
-                # Extraer tablas y guardarlas en temporal
+                # Extraer tablas
                 tablas = pagina.extract_tables()
                 for tabla in tablas:
                     codigo_tabla = f"TAB{contador_tablas:02}P{proyecto_id:02}"
@@ -73,8 +73,8 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
                     guardar_tabla_csv(tabla, archivo_csv)
                     contador_tablas += 1
 
-                # Extraer imágenes y guardarlas en temporal
-                page_mupdf = pdf_document[num_pagina - 1]  # PyMuPDF usa índice 0-based
+                # Extraer imágenes
+                page_mupdf = pdf_document[num_pagina - 1]
                 for img_index, img in enumerate(page_mupdf.get_images(full=True), start=1):
                     xref = img[0]
                     base_image = pdf_document.extract_image(xref)
@@ -94,10 +94,7 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
     except Exception as e:
         print(f"Error al procesar el archivo PDF: {e}")
 
-    print(contenido_completo)
     return contenido_completo
-
-
 
 def guardar_tabla_csv(tabla, archivo_csv):
     """
@@ -107,8 +104,6 @@ def guardar_tabla_csv(tabla, archivo_csv):
         tabla (list): Lista de filas representando la tabla.
         archivo_csv (str): Ruta al archivo CSV donde se guardará la tabla.
     """
-    import csv
-
     with open(archivo_csv, mode="w", newline="", encoding="utf-8") as archivo:
         writer = csv.writer(archivo)
         writer.writerows(tabla)

@@ -372,11 +372,11 @@ def verificacion_version (traducciones,
     frame_visual):
 
     
-    verificacion=obtener_iddocumento(titulo_documento,proyecto_id,version=None)
-    version="1.0"
+    version=obtener_version(titulo_documento,proyecto_id)
+    
         
-    if not verificacion:
-            
+    if not version:
+        version = 1    
         return guardar_requisitos_completos_y_asociaciones (version, traducciones, titulo_documento, lista_req_cap,
                                                                     requisitos_editados,
                                                                     ruta_archivo,
@@ -387,8 +387,7 @@ def verificacion_version (traducciones,
         "Documento existente",
         "El documento ya existe. ¿Deseas crear una nueva versión?" )
         if respuesta == "yes":
-            version=obtener_version(verificacion, proyecto_id)
-            nueva_version = round(float(version) + 0.1, 1)
+            nueva_version = version + 1
             return guardar_requisitos_completos_y_asociaciones (nueva_version, traducciones, titulo_documento, lista_req_cap,
                                                                     requisitos_editados,
                                                                     ruta_archivo,
@@ -421,7 +420,7 @@ def guardar_requisitos_completos_y_asociaciones(
             insertar_requisito(capitulo, texto_requisito, documento_id)
 
         # 3. Renombrar y mover tablas e imágenes.
-        mover_archivos_desde_temporal(documento_id)
+        mover_archivos_desde_temporal(documento_id,version)
 
         # 4. Mostrar mensaje de éxito tras guardar los datos.
         messagebox.showinfo(
@@ -444,7 +443,7 @@ def guardar_requisitos_completos_y_asociaciones(
         )
 
 
-def mover_archivos_desde_temporal(documento_id):
+def mover_archivos_desde_temporal(documento_id,version):
     """
     Mueve los archivos gráficos desde la carpeta temporal a su ubicación definitiva.
 
@@ -470,7 +469,7 @@ def mover_archivos_desde_temporal(documento_id):
         # Validar el tipo de archivo (CSV para tablas, PNG para imágenes)
         if ext.lower() in [".csv", ".jpeg"]:
             tipo = "tabla" if ext.lower() == ".csv" else "imagen"
-            nuevo_nombre = f"{nombre}D{documento_id:02}{ext}"
+            nuevo_nombre = f"{nombre}D{documento_id:02}V{version:02}{ext}"
             archivo_origen = os.path.join(temporal_path, archivo)
             archivo_destino = os.path.join(permanente_path, nuevo_nombre)
 

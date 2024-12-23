@@ -1,5 +1,13 @@
-import sqlite3
+"""
+Archivo: func_proyectos.py
+Descripción: Funciones para gestionar proyectos en la base de datos SQLite, incluyendo inserción,
+consulta, filtrado y eliminación de proyectos.
+Autor: Estíbalitz Díez
+Fecha: 23/12/2024
+Versión: 2
+"""
 
+import sqlite3
 
 # Conectar a la base de datos
 def conectar_db():
@@ -11,8 +19,7 @@ def conectar_db():
     """
     return sqlite3.connect("BD_Requisitos.db")
 
-
-# Insertar una proyecto
+# Insertar un proyecto
 def insertar_proyecto(nombre_proyecto):
     """
     Inserta un nuevo proyecto en la tabla Proyectos.
@@ -23,35 +30,31 @@ def insertar_proyecto(nombre_proyecto):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Inserta el nombre del proyecto en la tabla Proyectos.
     cursor.execute("INSERT INTO Proyectos (n_proyecto) VALUES (?)", (nombre_proyecto,))
 
     conexion.commit()
     conexion.close()
 
-
-# Consultar todas las ciudades
+# Consultar todos los proyectos
 def obtener_proyectos():
     """
     Devuelve todos los proyectos almacenados en la tabla Proyectos.
 
     Returns:
-        list: Lista de proyectos incluyendo los nombres de columnas como primera fila.
+        list: Lista de proyectos, incluyendo los nombres de columnas como primera fila.
     """
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Ejecuta una consulta para obtener todos los proyectos en la tabla Proyectos.
     cursor.execute("SELECT * FROM Proyectos")
     proyectos = cursor.fetchall()
 
-    # Incluye los nombres de las columnas como encabezados.
+    # Agregar nombres de columnas como encabezados
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
     proyectos = [nombres_columnas] + proyectos
 
     conexion.close()
     return proyectos
-
 
 # Consultar proyectos filtrados
 def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=None):
@@ -69,7 +72,6 @@ def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consulta base para obtener proyectos filtrados.
     query = """
     SELECT DISTINCT p.id, p.n_proyecto
     FROM Proyectos p
@@ -79,7 +81,7 @@ def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=
     """
     params = []
 
-    # Agregar filtros según los parámetros proporcionados.
+    # Agregar filtros según los parámetros proporcionados
     if documentoid:
         query += " AND d.id = ?"
         params.append(documentoid)
@@ -88,23 +90,18 @@ def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=
         query += " AND ads.subsistema_id = ?"
         params.append(subsistemaid)
 
-    # Depuración: Imprime la consulta generada y los parámetros usados.
-    print("Consulta SQL generada:", query)
-    print("Parámetros de consulta:", params)
-
-    # Ejecuta la consulta con los parámetros.
+    # Ejecutar la consulta
     cursor.execute(query, params)
     proyectos = cursor.fetchall()
 
-    # Incluye los nombres de las columnas como encabezados.
+    # Agregar nombres de columnas como encabezados
     nombres_columnas = [descripcion[0].upper() for descripcion in cursor.description]
     proyectos = [nombres_columnas] + proyectos
 
     conexion.close()
     return proyectos
 
-
-# Eliminar una proyecto
+# Eliminar un proyecto
 def borrar_proyecto(proyecto_id):
     """
     Elimina un proyecto de la tabla Proyectos basado en su ID.
@@ -115,12 +112,10 @@ def borrar_proyecto(proyecto_id):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Elimina el proyecto con el ID proporcionado.
     cursor.execute("DELETE FROM Proyectos WHERE id = ?", (proyecto_id,))
 
     conexion.commit()
     conexion.close()
-
 
 # Obtener el ID de un proyecto
 def obtener_id_proyecto(nombre_proyecto):
@@ -136,7 +131,6 @@ def obtener_id_proyecto(nombre_proyecto):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Busca el ID del proyecto con el nombre proporcionado.
     cursor.execute("SELECT id FROM Proyectos WHERE n_proyecto = ?", (nombre_proyecto,))
     resultado = cursor.fetchone()
 

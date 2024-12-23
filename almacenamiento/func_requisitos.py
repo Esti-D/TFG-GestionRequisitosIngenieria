@@ -1,5 +1,13 @@
-import sqlite3
+"""
+Archivo: func_requisitos.py
+Descripción: Funciones para gestionar requisitos en la base de datos SQLite, incluyendo inserción,
+consulta, filtrado y eliminación de requisitos.
+Autor: Estíbalitz Díez
+Fecha: 23/12/2024
+Versión: 2
+"""
 
+import sqlite3
 
 # Conectar a la base de datos
 def conectar_db():
@@ -10,7 +18,6 @@ def conectar_db():
         sqlite3.Connection: Objeto de conexión a la base de datos.
     """
     return sqlite3.connect("BD_Requisitos.db")
-
 
 # Insertar un requisito
 def insertar_requisito(capitulo, requisito, documento_id):
@@ -25,7 +32,6 @@ def insertar_requisito(capitulo, requisito, documento_id):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Inserta el requisito en la tabla Requisitos
     cursor.execute(
         "INSERT INTO Requisitos (capitulo, requisito, documento_id) VALUES (?, ?, ?)",
         (capitulo, requisito, documento_id),
@@ -33,7 +39,6 @@ def insertar_requisito(capitulo, requisito, documento_id):
 
     conexion.commit()
     conexion.close()
-
 
 # Consultar todos los requisitos
 def obtener_requisitos():
@@ -46,7 +51,6 @@ def obtener_requisitos():
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consulta para obtener todos los requisitos
     cursor.execute(
         "SELECT Requisitos.id, Requisitos.capitulo, Requisitos.requisito, Requisitos.documento_id FROM Requisitos"
     )
@@ -58,7 +62,6 @@ def obtener_requisitos():
 
     conexion.close()
     return requisitos
-
 
 # Consultar requisitos filtrados
 def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None):
@@ -76,7 +79,6 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consulta base para filtrar requisitos
     query = """
     SELECT r.id, r.capitulo, r.requisito, r.documento_id
     FROM Requisitos r
@@ -87,24 +89,18 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
     """
     params = []
 
-    # Agregar filtro por subsistema si está presente
+    # Agregar filtros condicionales
     if subsistema:
-        query += " AND ads.subsistema_id =  ?"
+        query += " AND ads.subsistema_id = ?"
         params.append(subsistema)
 
-    # Agregar filtro por proyecto si está presente
     if proyecto:
-        query += " AND d.id_proyecto =  ?"
+        query += " AND d.id_proyecto = ?"
         params.append(proyecto)
 
-    # Agregar filtro por documento si está presente
     if documento:
         query += " AND d.id = ?"
         params.append(documento)
-
-    # Depuración: Imprime la consulta generada y los parámetros usados
-    print("Consulta SQL generada:", query)
-    print("Parámetros de consulta:", params)
 
     # Ejecutar la consulta con los parámetros proporcionados
     cursor.execute(query, params)
@@ -117,7 +113,6 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
     conexion.close()
     return requisitos
 
-
 # Eliminar un requisito
 def borrar_requisito(requisito_id):
     """
@@ -129,7 +124,6 @@ def borrar_requisito(requisito_id):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Elimina el requisito con el ID proporcionado
     cursor.execute("DELETE FROM Requisitos WHERE id = ?", (requisito_id,))
 
     conexion.commit()

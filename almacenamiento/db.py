@@ -1,6 +1,14 @@
+"""
+Archivo: db.py
+Descripción: Contiene funciones para la creación de tablas en la base de datos SQLite
+y la configuración del directorio base para el almacenamiento de requisitos, imágenes y tablas.
+Autor: Estíbalitz Díez
+Fecha: 23/12/2024
+Version: 2
+"""
+
 import sqlite3
 import os
-
 
 def crear_tablas(db_path):
     """
@@ -16,10 +24,8 @@ def crear_tablas(db_path):
         4. Asociacion_Documento_Subsistema: Relaciona documentos con subsistemas.
         5. Requisitos: Almacena los requisitos extraídos de documentos.
     """
-    print(
-        f"Conectando a la base de datos: {db_path}"
-    )  # Mostrar la ruta de la base de datos.
-    conexion = sqlite3.connect(db_path)  # Conectar a la base de datos especificada.
+    print(f"Conectando a la base de datos: {db_path}")
+    conexion = sqlite3.connect(db_path)
     cursor = conexion.cursor()
 
     # Crear tabla Proyectos: Gestiona los proyectos.
@@ -38,7 +44,7 @@ def crear_tablas(db_path):
         CREATE TABLE IF NOT EXISTS Documentos (
             id INTEGER PRIMARY KEY,
             titulo VARCHAR(130),
-            version VARCHAR(3),
+            version INTEGER,
             fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
             id_proyecto INTEGER NOT NULL,
             UNIQUE (titulo, version, id_proyecto),
@@ -78,7 +84,7 @@ def crear_tablas(db_path):
             capitulo INTEGER,
             requisito VARCHAR(1000),
             documento_id INTEGER,
-            FOREIGN KEY (documento_id) REFERENCES Documentos(id)
+            FOREIGN KEY (documento_id) REFERENCES Documentos(id) ON DELETE CASCADE
         );
         """
     )
@@ -95,8 +101,7 @@ def crear_directorio_base(ruta_base):
     Args:
         ruta_base (str): Ruta completa del directorio base.
     """
-    #ruta_base = os.path.join(o.getcwd(),"almacen")
-    
+        
     if not os.path.exists(ruta_base):
         os.makedirs(ruta_base)
         print(f"Directorio base creado en: {ruta_base}")
@@ -106,13 +111,15 @@ def crear_directorio_base(ruta_base):
 
 # Llamar a la función para crear las tablas cuando se ejecute el archivo directamente.
 if __name__ == "__main__":
-    # Usar una base de datos de prueba si se ejecuta directamente este archivo.
+    """
+    Ejecución directa del archivo:
+    - Crea una base de datos de prueba.
+    - Configura el directorio base de almacenamiento.
+    """
     ruta_principal = os.getcwd()
 
-    # Ruta de la base de datos
+    # Definir rutas
     db_path = os.path.join(ruta_principal, "BD_Requisitos.db")
-
-    # Ruta de la base de datos
     ruta_base = os.path.join(ruta_principal, "almacen")
 
     # Crear tablas y directorio

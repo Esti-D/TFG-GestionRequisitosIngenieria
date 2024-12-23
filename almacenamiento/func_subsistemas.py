@@ -1,6 +1,14 @@
+"""
+Archivo: func_subsistema.py
+Descripción: Funciones para gestionar subsistemas en la base de datos SQLite, incluyendo inserción,
+consulta, filtrado y eliminación de subsistemas.
+Autor: Estíbalitz Díez
+Fecha: 23/12/2024
+Versión: 2
+"""
+
 import sqlite3
 import os
-
 
 # Conectar a la base de datos
 def conectar_db():
@@ -10,15 +18,11 @@ def conectar_db():
     Returns:
         sqlite3.Connection: Objeto de conexión a la base de datos.
     """
-    # Obtener la ruta absoluta de la base de datos
     db_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "BD_Requisitos.db"
     )
-    print(
-        f"Conectando a la base de datos en: {db_path}"
-    )  # Imprimir la ruta de la base de datos para depuración
+    print(f"Conectando a la base de datos en: {db_path}")
     return sqlite3.connect(db_path)
-
 
 # Insertar un subsistema
 def insertar_subsistema(nombre_subsistema):
@@ -31,12 +35,10 @@ def insertar_subsistema(nombre_subsistema):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Inserta el subsistema en la tabla
     cursor.execute("INSERT INTO Subsistemas (nombre) VALUES (?)", (nombre_subsistema,))
 
     conexion.commit()
     conexion.close()
-
 
 # Consultar todos los subsistemas
 def obtener_subsistemas():
@@ -49,7 +51,6 @@ def obtener_subsistemas():
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consulta para obtener todos los subsistemas
     cursor.execute("SELECT * FROM Subsistemas")
     subsistemas = cursor.fetchall()
 
@@ -59,7 +60,6 @@ def obtener_subsistemas():
 
     conexion.close()
     return subsistemas
-
 
 # Consultar subsistemas filtrados
 def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoid=None):
@@ -77,7 +77,6 @@ def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoi
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Consulta base para filtrar subsistemas
     query = """
     SELECT DISTINCT s.id, s.nombre
     FROM Subsistemas s
@@ -87,19 +86,14 @@ def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoi
     """
     params = []
 
-    # Agregar filtro por documento si está presente
+    # Agregar filtros condicionales
     if documentoid:
         query += " AND d.id = ?"
         params.append(documentoid)
 
-    # Agregar filtro por proyecto si está presente
     if proyectoid:
         query += " AND d.id_proyecto = ?"
         params.append(proyectoid)
-
-    # Imprimir consulta y parámetros para depuración
-    print("Consulta SQL generada:", query)
-    print("Parámetros de consulta:", params)
 
     # Ejecutar la consulta con los parámetros proporcionados
     cursor.execute(query, params)
@@ -112,7 +106,6 @@ def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoi
     conexion.close()
     return subsistemas
 
-
 # Eliminar un subsistema
 def borrar_subsistema(subsistema_id):
     """
@@ -124,12 +117,10 @@ def borrar_subsistema(subsistema_id):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Elimina el subsistema con el ID proporcionado
     cursor.execute("DELETE FROM Subsistemas WHERE id = ?", (subsistema_id,))
 
     conexion.commit()
     conexion.close()
-
 
 # Obtener el ID de un subsistema
 def obtener_id_subsistema(nombre_subsistema):
@@ -145,7 +136,6 @@ def obtener_id_subsistema(nombre_subsistema):
     conexion = conectar_db()
     cursor = conexion.cursor()
 
-    # Busca el ID del subsistema con el nombre proporcionado
     cursor.execute("SELECT id FROM Subsistemas WHERE nombre = ?", (nombre_subsistema,))
     resultado = cursor.fetchone()
 

@@ -2,9 +2,11 @@ import tkinter as tk
 import os
 from tkinter import messagebox
 from almacenamiento.func_documentos import (
+    borrar_documento,
     obtener_documentos,
     obtener_documentos_filtrados,
     obtener_iddocumento,
+    obtener_version,
 )  # función de consulta de documentos
 from almacenamiento.func_subsistemas import (
     obtener_id_subsistema,
@@ -86,7 +88,7 @@ def realizar_consulta(
         if subsistema or proyecto or documento:
             subsistemaid = obtener_id_subsistema(subsistema)
             proyectoid = obtener_id_proyecto(proyecto)
-            documentoid = obtener_iddocumento(documento, proyectoid)
+            documentoid = obtener_iddocumento(documento, proyectoid, obtener_version(documento, proyectoid))
 
             requisitos = obtener_requisitos_filtrados(
                 subsistemaid, proyectoid, documentoid
@@ -114,7 +116,7 @@ def realizar_consulta(
         if documento or subsistema:
             subsistemaid = obtener_id_subsistema(subsistema)
             proyectoid = obtener_id_proyecto(proyecto)
-            documentoid = obtener_iddocumento(documento, proyectoid)
+            documentoid = obtener_iddocumento(documento, proyectoid, obtener_version(documento, proyectoid))
             proyectos = obtener_proyectos_filtrados(
                 subsistemaid, proyectoid, documentoid
             )
@@ -127,7 +129,7 @@ def realizar_consulta(
         if proyecto or documento:
             subsistemaid = obtener_id_subsistema(subsistema)
             proyectoid = obtener_id_proyecto(proyecto)
-            documentoid = obtener_iddocumento(documento, proyectoid)
+            documentoid = obtener_iddocumento(documento, proyectoid, obtener_version(documento, proyectoid))
             subsistemas = obtener_subsistemas_filtrados(
                 subsistemaid, proyectoid, documentoid
             )
@@ -140,7 +142,7 @@ def realizar_consulta(
     elif tipo_consulta == "r_tab_ima":
         if proyecto or documento:
             proyectoid = obtener_id_proyecto(proyecto)
-            documentoid = obtener_iddocumento(documento, proyectoid)
+            documentoid = obtener_iddocumento(documento, proyectoid, obtener_version(documento, proyectoid))
             mostrar_archivos(frame_visual,traducciones,proyectoid, documentoid)
         else:
             mostrar_archivos(frame_visual,traducciones,None,None)
@@ -209,9 +211,6 @@ def mostrar_archivos(frame_visual, traducciones,proyectoid=None,documentoid=None
             width=7
         )
         boton_eliminar.pack(side="right", padx=5)
-
-
-
 
 
 
@@ -325,7 +324,25 @@ def mostrar_resultados(traducciones, resultados, frame_visual, tipo_datos="gener
         )
         label_encabezado.grid(row=0, column=i, sticky="nsew", padx=5, pady=5)
 
-    # Mostrar los datos
+    # Traducir los encabezados según el idioma actual
+    encabezados_traducidos = [
+        traducciones.get(col, col) for col in resultados[0]
+    ]  # Traducir cada encabezado
+
+    # Mostrar encabezados traducidos
+    for i, nombre_columna in enumerate(encabezados_traducidos):
+        label_encabezado = tk.Label(
+            scrollable_frame,
+            text=nombre_columna,
+            font=("Arial", 10, "bold"),
+            anchor="w",
+            bg="lightgray",
+            padx=5,
+            pady=5,
+        )
+        label_encabezado.grid(row=0, column=i, sticky="nsew", padx=5, pady=5)
+   
+   # Mostrar los datos
     for fila_index, fila in enumerate(
         resultados[1:], start=1
     ):  # Empezamos desde la segunda fila (los datos)
@@ -342,5 +359,19 @@ def mostrar_resultados(traducciones, resultados, frame_visual, tipo_datos="gener
                 row=fila_index, column=col_index, sticky="nsew", padx=5, pady=5
             )
 
+
+        # Boton Eliminar
+        btn_eliminar = tk.Button(
+                scrollable_frame,
+                text=traducciones["B_ELIMINAR"],
+                command=lambda doc_id=fila[0]: borrar_documento(doc_id),
+                bg="red",
+                fg="white",
+                padx=5,
+                pady=5,
+            )
+        btn_eliminar.grid(
+                row=fila_index, column=len(resultados[0]), sticky="nsew", padx=5, pady=5
+            )
     # Forzar redimensionamiento equitativo
     scrollable_frame.update_idletasks()
