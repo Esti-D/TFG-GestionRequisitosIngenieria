@@ -1,5 +1,5 @@
 {
-    "IDIOMA": "english",
+    "IDIOMA": "ingles",
     "P_LOAD": "LOAD",
     "P_SELECCIONAR": "Select file",
     "P_CONSULTA": "QUERY",
@@ -8,6 +8,7 @@
     "P_TICK_DOCUMENTOS": "Documents",
     "P_TICK_PROYECTOS": "Projects",
     "P_TICK_SUBSISTEMAS": "Subsystems",
+    "P_TICK_R_TABLAS/IMAGENES": "R.Tables/Figures",
     "P_FILTRO_SUBSISTEMAS": "Subsystems",
     "P_FILTRO_PROYECTOS": "Projects",
     "P_FILTRO_DOCUMENTOS": "Documents",
@@ -18,12 +19,26 @@
     "P_DOCUMENTOS": "Documents",
     "P_AJUSTES": "Settings",
     "P_AYUDA": "Help",
+    "TITULO": "TITLE",
+    "VERSION": "VERSION",
+    "ID": "ID",
+    "N_PROYECTO": "PROYECT_N",
+    "CAPITULO":"CHAPTER",
+    "REQUISITO": "REQUIREMENT",
+    "DOCUMENTO_ID": "DOCUMENT_ID",
+    "NOMBRE": "SUBSYSTEM",
     
+
     "B_CONFIRMAR": "Confirm",
     "B_GUARDAR": "Save",
     "B_ACEPTAR": "Accept",
     "B_ASIGNAR": "Assign",
-    "B_Guardar_como": "Save as",
+    "B_Guardar_como": "Save_as",
+    "B_Forzar": "Force",
+    "B_Cancelar": "Cancel",
+    "B_Modificar": "Modify PDF",
+    "B_VER": "View",
+    "B_ELIMINAR": "Delete",
 
     "M_Seleccionar_archivo_PDF": "Select PDF file",
     "M_Seleccionar_proyecto": "Select Project",
@@ -31,13 +46,13 @@
     "T_REQUISITO": "Requirement",
 
     "M_Asignacion_de_Subsistemas": "Subsystem Assignment",
-    "M_Subsistemas_sugeridos_para_el_documento": "Subsystems suggested for the document:",
+    "M_Subsistemas_sugeridos_para_el_documento": "Suggested subsystems for the document:",
 
     "C_Requisitos": "Requirements",
     "C_Documentos": "Documents",
     "C_Proyectos" : "Projects",
     "C_Subsistemas": "Subsystems",
-    "M_No_se_encontraron_resultados": "No results found...",
+    "M_No_se_encontraron_resultados": "No results found...........",
 
     "O_TODOS": "ALL",
 
@@ -47,7 +62,7 @@
     "A_Eliminar_Proyecto": "Delete Project (City)",
     "T_Nombre_proyecto": "Project name",
 
-    "A_NUEVO_Subsistema": "ADD / DELETE NEW SUBSYSTEM (SCOPE AREA):",
+    "A_NUEVO_Subsistema": "ADD / DELETE SUBSYSTEM (SCOPE AREA):",
     "A_Agregar_Subsistema": "Add Subsystem",
     "A_ID_de_Subsistema_a_Eliminar": "ID of Subsystem to Delete:",
     "A_Eliminar_Subsistema": "Delete Subsystem",
@@ -55,14 +70,14 @@
 
     "A_NUEVA_Asociocion": "ADD / DELETE ASSOCIATION (RELATION BETWEEN DOCUMENT - SUBSYSTEM):",
     "A_Agregar_Asociacion": "Add Association",
-    "A_ID_de_Asociacion_a_Eliminar": "ID of Association to Delete:",
+    "A_ID_de_Asociacion_a_Eliminar": "ID of Subsystem to Delete:",
     "A_Eliminar_Asociacion": "Delete Association (Document - Subsystem)",
     "T_ID_DOCUMENTO": "Document ID",
     "T_ID_SUBSISTEMA": "Subsystem ID",
 
-    "A_NUEVO_Documento": "ADD / DELETE NEW DOCUMENT:",
+    "A_NUEVO_Documento": "DELETE NEW DOCUMENT:",
     "A_Agregar_Documento": "Add Document",
-    "A_Titulo_de_Documento_a_Eliminar": "Document Title to Delete:",
+    "A_Titulo_de_Documento_a_Eliminar": "Title of Document to Delete:",
     "A_Eliminar_Documento": "Delete Document",
     "T_Nombre_documento": "Document title",
 
@@ -73,21 +88,27 @@
 
     "M_Error": "Error",
     "M_Error_al_guardar_los_requisitos": "Error saving requirements",
-    "M_No_se_ha_seleccionado_ningún_archivo": "No file selected.",
+    "M_No_se_ha_seleccionado_ningún_archivo": "No file has been selected.",
     "M_No_se_pudo_extraer_texto_del_PDF": "Could not extract text from PDF.",
-    "M_No_se_pudo_encontrar_ningún_capítulo_o_requisito_en_el_documento": "No chapters or requirements found in the document.",
+    "M_No_se_pudo_encontrar_ningún_capítulo_o_requisito_en_el_documento": "No chapter or requirement could be found in the document.",
     "M_Error_al_cargar_el_documento": "Error loading document",
-    "M_Debe_seleccionar_un_tipo_de_consulta": "Please select a query type",
+    "Estructura_de_capitulos_no_reconocida": "Chapter structure not recognized",
+    "M_Debe_seleccionar_un_tipo_de_consulta": "You must select a query type",
     "M_Ingrese_un_ID_valido": "Please enter a valid ID.",
-    "M_Ingrese_un_nombre_de_proyecto": "Please enter a project name (city).",
+    "M_Ingrese_un_nombre_de_proyecto": "Please enter a project (city) name.",
     "M_Ingrese_IDs_validos_documento_subsistema": "Please enter valid IDs for document and subsystem.",
-    "M_El_archivo_de_ayuda": "Error: The help file in",
-    "M_no_existe_en": "does not exist in",
+    "M_El_archivo_de_ayuda": "Error: Help file at",
+    "M_no_existe_en": "does not exist at",
     "M_Archivo_CSV_guardado_correctamente": "CSV file saved successfully",
     "M_No_se_pudo_guardar_el_archivo_CSV": "Could not save the CSV file",
     "M_Info": "Info",
     "M_No_hay_datos_para_guardar": "No data to save",
+    "M_Confirmar_Eliminacion": "Confirm Deletion",
+    "M_Confirmar_Eliminacion_T": "Are you sure you want to delete the file?",
+    "M_Archivo_Eliminado": "File Deleted.",
+    "M_Archivo_Eliminado_T": "The file has been deleted successfully.",
 
     "M_Exito": "Success",
-    "M_Documentos,requisitos_y_asociaciones_guardados_correctamente": "Documents, requirements, and associations saved successfully"
+    "M_Documentos,requisitos_y_asociaciones_guardados_correctamente": "Documents, requirements and associations saved successfully"
 }
+

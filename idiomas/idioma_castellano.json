@@ -19,6 +19,15 @@
     "P_DOCUMENTOS": "Documentos",
     "P_AJUSTES": "Ajustes",
     "P_AYUDA": "Ayuda",
+    "TITULO": "TITULO",
+    "VERSION": "VERSION",
+    "ID": "ID",
+    "N_PROYECTO":"N_PROYECTO",
+    "CAPITULO":"CAPITULO",
+    "REQUISITO": "REQUISITO",
+    "DOCUMENTO_ID": "DOCUMENTO_ID",
+    "NOMBRE": "SUBSISTEMA",
+
     
     
     "B_CONFIRMAR": "Confirmar",
