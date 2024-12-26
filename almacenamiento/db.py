@@ -1,7 +1,9 @@
 """
 Archivo: db.py
-Descripción: Contiene funciones para la creación de tablas en la base de datos SQLite
-y la configuración del directorio base para el almacenamiento de requisitos, imágenes y tablas.
+Descripción: Contiene funciones para la creación de tablas en la base de
+datos SQLite y la configuración del directorio base para el almacenamiento
+de requisitos, imágenes y tablas.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Version: 2
@@ -21,7 +23,8 @@ def crear_tablas(db_path):
         1. Proyectos: Almacena los proyectos gestionados.
         2. Documentos: Almacena los documentos asociados a proyectos.
         3. Subsistemas: Almacena los subsistemas definidos.
-        4. Asociacion_Documento_Subsistema: Relaciona documentos con subsistemas.
+        4. Asociacion_Documento_Subsistema: Relaciona documentos con
+           subsistemas.
         5. Requisitos: Almacena los requisitos extraídos de documentos.
     """
     print(f"Conectando a la base de datos: {db_path}")
@@ -63,7 +66,8 @@ def crear_tablas(db_path):
         """
     )
 
-    # Crear tabla Asociacion_Documento_Subsistema: Relaciona documentos con subsistemas.
+    # Crear tabla Asociacion_Documento_Subsistema: Relaciona
+    # documentos con subsistemas.
     cursor.execute(
         """
         CREATE TABLE IF NOT EXISTS Asociacion_Documento_Subsistema (
@@ -96,20 +100,21 @@ def crear_tablas(db_path):
 
 def crear_directorio_base(ruta_base):
     """
-    Crea el directorio base en la ubicación especificada para almacenar reqisitos imagenes y tablas.
+    Crea el directorio base en la ubicación especificada para almacenar
+     requisitos imagenes y tablas.
 
     Args:
         ruta_base (str): Ruta completa del directorio base.
     """
-        
+
     if not os.path.exists(ruta_base):
         os.makedirs(ruta_base)
         print(f"Directorio base creado en: {ruta_base}")
     else:
         print(f"Directorio base ya existe en: {ruta_base}")
 
-
-# Llamar a la función para crear las tablas cuando se ejecute el archivo directamente.
+# Llamar a la función para crear las tablas cuando se ejecute
+# el archivo directamente.
 if __name__ == "__main__":
     """
     Ejecución directa del archivo:

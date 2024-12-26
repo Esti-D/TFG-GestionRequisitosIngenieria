@@ -1,12 +1,15 @@
 """
 Archivo: func_relaciones.py
-Descripción: Funciones para gestionar las relaciones entre documentos y subsistemas en la base de datos SQLite.
+Descripción: Funciones para gestionar las relaciones entre documentos y subsistemas
+en la base de datos SQLite.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
 """
 
 import sqlite3
+
 
 # Conectar a la base de datos
 def conectar_db():
@@ -17,6 +20,7 @@ def conectar_db():
         sqlite3.Connection: Objeto de conexión a la base de datos.
     """
     return sqlite3.connect("BD_Requisitos.db")
+
 
 # Insertar la relación entre Documento y Subsistema
 def insertar_relacion_documento_subsistema(documento_id, subsistema_id):
@@ -38,6 +42,7 @@ def insertar_relacion_documento_subsistema(documento_id, subsistema_id):
 
     conexion.commit()
     conexion.close()
+
 
 # Consultar subsistemas por documento
 def obtener_subsistemas_por_documento(documento_id):
@@ -68,6 +73,7 @@ def obtener_subsistemas_por_documento(documento_id):
     conexion.close()
     return subsistemas
 
+
 # Consultar documentos por subsistema
 def obtener_documentos_por_subsistema(subsistema_id):
     """
@@ -97,6 +103,7 @@ def obtener_documentos_por_subsistema(subsistema_id):
     conexion.close()
     return documentos
 
+
 # Eliminar una relación entre Documento y Subsistema
 def borrar_relacion_documento_subsistema(documento_id, subsistema_id):
     """
@@ -118,8 +125,11 @@ def borrar_relacion_documento_subsistema(documento_id, subsistema_id):
     conexion.commit()
     conexion.close()
 
+
 # Modificar la relación entre Documento y Subsistema
-def modificar_relacion_documento_subsistema(documento_id, subsistema_id_viejo, subsistema_id_nuevo):
+def modificar_relacion_documento_subsistema(
+    documento_id, subsistema_id_viejo, subsistema_id_nuevo
+):
     """
     Modifica una relación entre un documento y un subsistema, reemplazando la antigua con una nueva.
 
@@ -145,6 +155,7 @@ def modificar_relacion_documento_subsistema(documento_id, subsistema_id_viejo, s
 
     conexion.commit()
     conexion.close()
+
 
 # Consultar todas las relaciones
 def obtener_relaciones():

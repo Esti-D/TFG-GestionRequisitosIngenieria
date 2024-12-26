@@ -1,9 +1,14 @@
-import tkinter as tk
-from tkinter import filedialog
-from tkinter import ttk
-import os
-import sys
+"""
+Archivo: bloque_acciones.py
+Descripción: Este archivo define el bloque "Acciones" de la interfaz gráfica, que incluye botones
+para gestionar proyectos, subsistemas y asignaciones.
 
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
+import tkinter as tk
 from interfaz.c_bloque_acciones_independientes.bloque_asignaciones import (
     crear_boton_asignar,
 )
@@ -15,14 +20,30 @@ from interfaz.c_bloque_acciones_independientes.bloque_subsistemas import (
 )
 
 # Color azul del logo
-color_azul_logo = "#125ca6"
+COLOR_AZUL_LOGO = "#125ca6"
 
 
 def crear_bloque_acciones(frame_funcionalidades, traducciones, frame_visual):
+    """
+    Crea el bloque "Acciones" en la interfaz gráfica, que incluye botones para gestionar proyectos,
+    subsistemas y asignaciones.
+
+    Args:
+        frame_funcionalidades (tk.Frame): Frame principal donde se colocan los bloques funcionales.
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_visual (tk.Frame): Frame donde se visualizarán las opciones seleccionadas.
+
+    Funcionalidad:
+        - Crea un contenedor dentro del frame principal.
+        - Agrega botones para proyectos, subsistemas y asignaciones con sus respectivas
+          funcionalidades.
+    """
+
     ### BLOQUE 3: ACCIONES
+    # Crear el frame contenedor para el bloque de acciones.
     frame_acciones = tk.Frame(
         frame_funcionalidades,
-        bg=color_azul_logo,
+        bg=COLOR_AZUL_LOGO,
         highlightbackground="#3790e9",
         highlightthickness=3,
         padx=5,

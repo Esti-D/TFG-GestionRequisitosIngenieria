@@ -2,14 +2,17 @@
 Archivo: trie.py
 Descripción: Implementación de la estructura Trie para almacenar y buscar palabras clave de manera eficiente.
 Autor: Estíbalitz Díez
+
 Fecha: 23/12/2024
 Versión: 2
 """
+
 
 class TrieNode:
     """
     Clase que representa un nodo del Trie.
     """
+
     def __init__(self):
         self.children = {}  # Diccionario para almacenar los nodos hijos
         self.is_end_of_word = False  # Indica si el nodo marca el final de una palabra
@@ -19,6 +22,7 @@ class Trie:
     """
     Clase que representa la estructura completa del Trie.
     """
+
     def __init__(self):
         self.root = TrieNode()  # Nodo raíz del Trie
 
@@ -30,7 +34,11 @@ class Trie:
             palabra (str): Palabra a insertar en el Trie.
         """
         node = self.root
-        for char in palabra.lower():  # Convertir la palabra a minúsculas para búsqueda insensible a mayúsculas
+        for (
+            char
+        ) in (
+            palabra.lower()
+        ):  # Convertir la palabra a minúsculas para búsqueda insensible a mayúsculas
             if char not in node.children:
                 node.children[char] = TrieNode()
             node = node.children[char]
@@ -47,7 +55,11 @@ class Trie:
             bool: True si la palabra completa está en el Trie, False en caso contrario.
         """
         node = self.root
-        for char in palabra.lower():  # Convertir la palabra a minúsculas para búsqueda insensible a mayúsculas
+        for (
+            char
+        ) in (
+            palabra.lower()
+        ):  # Convertir la palabra a minúsculas para búsqueda insensible a mayúsculas
             if char not in node.children:
                 return False
             node = node.children[char]

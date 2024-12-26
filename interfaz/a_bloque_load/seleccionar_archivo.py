@@ -1,7 +1,17 @@
+"""
+Archivo: seleccionar_archivo.py
+Descripción: Este archivo contiene funciones para gestionar la selección de
+archivos y proyectos, incluyendo la interacción con la interfaz gráfica y la
+obtención de datos desde la base de datos.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import tkinter as tk
 import os
 import sys
-
 from tkinter import filedialog
 from almacenamiento.func_proyectos import obtener_proyectos
 
@@ -11,7 +21,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".
 
 def seleccionar_archivo(entry_archivo, traducciones):
     """
-    Abre el explorador de archivos para seleccionar un archivo PDF y actualiza el campo de entrada con la ruta seleccionada.
+    Abre el explorador de archivos para seleccionar un archivo PDF y actualiza el campo de 
+    entrada con la ruta seleccionada.
 
     Args:
         entry_archivo (tk.Entry): Campo de texto donde se mostrará la ruta del archivo seleccionado.
@@ -80,9 +91,10 @@ def aceptar_proyecto(
 
     Args:
         proyecto_seleccionado (str): Nombre del proyecto seleccionado por el usuario.
-        proyectos (list): Lista de proyectos disponibles, donde cada proyecto es una tupla (ID, nombre).
-        ventana (tk.Toplevel): Ventana emergente que se cerrará tras la selección.
-        entry_archivo (tk.Entry): Campo de texto donde se mostrará la ruta del archivo seleccionado.
+        proyectos (list): Lista de proyectos disponibles, donde cada proyecto es una tupla
+        (ID, nombre). ventana (tk.Toplevel): Ventana emergente que se cerrará tras la selección.
+        entry_archivo (tk.Entry): Campo de texto donde se mostrará la ruta del archivo 
+        seleccionado. 
         callback (function): Función que se ejecutará tras la selección del proyecto.
 
     Flujo:

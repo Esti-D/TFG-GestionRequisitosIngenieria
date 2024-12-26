@@ -1,6 +1,7 @@
 """
 Archivo: selector_idioma.py
-Descripción: Funciones para la selección y carga de archivos de idioma en formato JSON para la interfaz gráfica.
+Descripción: Funciones para la selección y carga de archivos de idioma en formato 
+JSON para la interfaz gráfica.
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
@@ -10,6 +11,7 @@ import tkinter as tk
 from tkinter import ttk
 import os
 import json
+
 
 def cargar_idioma(archivo_idioma="idioma_castellano.json"):
     """
@@ -24,7 +26,9 @@ def cargar_idioma(archivo_idioma="idioma_castellano.json"):
               Si hay un error, devuelve un diccionario vacío.
     """
     ruta_base = os.path.dirname(os.path.abspath(__file__))  # Ruta base del archivo
-    ruta_idioma = os.path.join(ruta_base, archivo_idioma)  # Ruta completa del archivo de idioma
+    ruta_idioma = os.path.join(
+        ruta_base, archivo_idioma
+    )  # Ruta completa del archivo de idioma
 
     try:
         with open(ruta_idioma, "r", encoding="utf-8") as archivo:
@@ -35,6 +39,7 @@ def cargar_idioma(archivo_idioma="idioma_castellano.json"):
     except json.JSONDecodeError:
         print("Error: El archivo no está en un formato JSON válido.")
         return {}
+
 
 def seleccionar_idioma():
     """

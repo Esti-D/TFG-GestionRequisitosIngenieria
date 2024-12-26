@@ -1,3 +1,15 @@
+"""
+Archivo: asignar_subsistemas.py
+Descripción: Este archivo contiene funciones para gestionar la asignación de
+subsistemas a documentos, incluyendo la interacción con la base de datos y la
+interfaz gráfica para sugerir subsistemas y guardar asociaciones seleccionadas
+por el usuario.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import tkinter as tk
 from almacenamiento.func_relaciones import insertar_relacion_documento_subsistema
 from almacenamiento.func_subsistemas import obtener_id_subsistema
@@ -8,7 +20,8 @@ def asignar_subsistemas_a_documento_y_mostrar_ventana(
     traducciones, texto_documento, documento_id, frame_visual
 ):
     """
-    Crea una ventana emergente para mostrar los subsistemas sugeridos y permite asignarlos al documento.
+    Crea una ventana emergente para mostrar los subsistemas sugeridos y permite
+    asignarlos al documento.
 
     Args:
         traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
@@ -62,8 +75,9 @@ def aceptar_asignacion_subsistemas(
 
     Args:
         documento_id (int): ID del documento al que se asociarán los subsistemas.
-        lista_subsistemas (tk.Listbox): Lista que contiene los subsistemas seleccionados por el usuario.
-        ventana_subsistemas (tk.Toplevel): Ventana emergente que se cerrará después de guardar las asociaciones.
+        lista_subsistemas (tk.Listbox): Lista que contiene los subsistemas seleccionados
+        por el usuario. ventana_subsistemas (tk.Toplevel): Ventana emergente que se
+        cerrará después de guardar las asociaciones.
 
     Flujo:
         1. Obtiene los índices de los subsistemas seleccionados.

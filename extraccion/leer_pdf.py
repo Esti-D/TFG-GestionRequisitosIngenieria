@@ -1,16 +1,18 @@
 """
 Archivo: leer_pdf.py
-Descripción: Funciones para extraer texto, imágenes y tablas de archivos PDF y guardar las tablas en formato CSV.
+Descripción: Funciones para extraer texto, imágenes y tablas de archivos PDF
+y guardar las tablas en formato CSV.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
 """
 
-
-import pdfplumber
-import fitz
 import os
 import csv
+import pdfplumber
+import fitz
+
 
 def extraer_texto_pdf(ruta_pdf):
     """
@@ -20,7 +22,8 @@ def extraer_texto_pdf(ruta_pdf):
         ruta_pdf (str): Ruta al archivo PDF del cual se desea extraer el texto.
 
     Returns:
-        str: Texto completo extraído del archivo PDF. Si ocurre algún error, devuelve una cadena vacía.
+        str: Texto completo extraído del archivo PDF. Si ocurre algún error, 
+        devuelve una cadena vacía.
     """
     texto_completo = ""
 
@@ -32,6 +35,7 @@ def extraer_texto_pdf(ruta_pdf):
         print(f"Error al leer el archivo PDF: {e}")
 
     return texto_completo
+
 
 def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
     """
@@ -75,7 +79,9 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
 
                 # Extraer imágenes
                 page_mupdf = pdf_document[num_pagina - 1]
-                for img_index, img in enumerate(page_mupdf.get_images(full=True), start=1):
+                for img_index, img in enumerate(
+                    page_mupdf.get_images(full=True), start=1
+                ):
                     xref = img[0]
                     base_image = pdf_document.extract_image(xref)
                     if not base_image or "image" not in base_image:
@@ -84,7 +90,9 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
                     image_bytes = base_image["image"]
                     ext = base_image["ext"]
                     codigo_imagen = f"FIG{contador_imagenes:02}P{proyecto_id:02}"
-                    archivo_imagen = os.path.join(ruta_temporal, f"{codigo_imagen}.{ext}")
+                    archivo_imagen = os.path.join(
+                        ruta_temporal, f"{codigo_imagen}.{ext}"
+                    )
 
                     with open(archivo_imagen, "wb") as f:
                         f.write(image_bytes)
@@ -95,6 +103,7 @@ def extraer_contenido_pdf(ruta_pdf, ruta_temporal, proyecto_id):
         print(f"Error al procesar el archivo PDF: {e}")
 
     return contenido_completo
+
 
 def guardar_tabla_csv(tabla, archivo_csv):
     """

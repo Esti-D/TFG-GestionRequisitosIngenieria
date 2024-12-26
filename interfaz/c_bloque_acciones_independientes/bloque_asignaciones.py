@@ -1,3 +1,14 @@
+"""
+Archivo: bloque_asignaciones.py
+Descripción: Este archivo contiene funciones para gestionar las asignaciones
+entre documentos y subsistemas en la aplicación. Permite agregar, mostrar y 
+eliminar relaciones mediante una interfaz gráfica.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import tkinter as tk
 from tkinter import messagebox
 from almacenamiento.func_relaciones import (
@@ -9,21 +20,36 @@ from almacenamiento.func_relaciones import (
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
-    """Elimina todos los widgets dentro del frame_visual."""
+    """
+    Elimina todos los widgets dentro del frame_visual.
+
+    Args:
+        frame_visual (tk.Frame): Frame que será limpiado.
+    """
     for widget in frame_visual.winfo_children():
         widget.destroy()
 
 
 # Función para mostrar todas las asociaciones actuales entre documentos y subsistemas
 def mostrar_asociaciones(traducciones, lista_asociaciones):
-    """Muestra todas las asociaciones en la lista."""
+    """
+    Muestra todas las asociaciones actuales entre documentos y subsistemas en la lista.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        lista_asociaciones (tk.Listbox): Listbox donde se mostrarán las asociaciones.
+
+    Returns:
+        list: Lista de asociaciones obtenidas desde la base de datos.
+    """
     lista_asociaciones.delete(0, tk.END)
     asociaciones = obtener_relaciones()  # Obtener asociaciones de la BD
     for asociacion in asociaciones:
         documento_id, subsistema_id = asociacion
         lista_asociaciones.insert(
             tk.END,
-            f"{traducciones["T_ID_DOCUMENTO"]} {documento_id} - {traducciones["T_ID_SUBSISTEMA"]} {subsistema_id}",
+            f"{traducciones["T_ID_DOCUMENTO"]} {documento_id} - {traducciones["T_ID_SUBSISTEMA"]}",
+            f"  {subsistema_id}",
         )
     return asociaciones
 
@@ -32,7 +58,15 @@ def mostrar_asociaciones(traducciones, lista_asociaciones):
 def agregar_asociacion(
     traducciones, entry_documento_id, entry_subsistema_id, lista_asociaciones
 ):
-    """Inserta una nueva asociación en la base de datos y actualiza la lista."""
+    """
+    Inserta una nueva asociación en la base de datos y actualiza la lista.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        entry_documento_id (tk.Entry): Campo donde se ingresa el ID del documento.
+        entry_subsistema_id (tk.Entry): Campo donde se ingresa el ID del subsistema.
+        lista_asociaciones (tk.Listbox): Listbox que se actualizará tras insertar la asociación.
+    """
     documento_id = entry_documento_id.get()
     subsistema_id = entry_subsistema_id.get()
     if documento_id and subsistema_id:
@@ -55,7 +89,15 @@ def agregar_asociacion(
 def eliminar_asociacion(
     traducciones, entry_documento_id, entry_subsistema_id, lista_asociaciones
 ):
-    """Elimina una asociación de la base de datos y actualiza la lista."""
+    """
+    Elimina una asociación de la base de datos y actualiza la lista.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        entry_documento_id (tk.Entry): Campo donde se ingresa el ID del documento.
+        entry_subsistema_id (tk.Entry): Campo donde se ingresa el ID del subsistema.
+        lista_asociaciones (tk.Listbox): Listbox que se actualizará tras eliminar la asociación.
+    """
     documento_id = entry_documento_id.get()
     subsistema_id = entry_subsistema_id.get()
     if documento_id and subsistema_id:
@@ -76,7 +118,14 @@ def eliminar_asociacion(
 
 # Función para crear el bloque de "Asignar" en el visualizador
 def crear_boton_asignar(traducciones, frame_funcionalidades, frame_visual):
-    """Crea el bloque de gestión de asociaciones (Agregar, Mostrar, Eliminar)."""
+    """
+    Crea el bloque de gestión de asociaciones (Agregar, Mostrar, Eliminar).
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_funcionalidades (tk.Frame): Frame principal de la interfaz.
+        frame_visual (tk.Frame): Frame donde se muestran los widgets relacionados con asociaciones.
+    """
     # Limpiar visualizador antes de agregar nuevos widgets
     limpiar_visualizador(frame_visual)
 

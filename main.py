@@ -1,7 +1,9 @@
 """
 Archivo: iniciar_aplicacion.py
-Descripción: Este archivo inicia la aplicación de gestión de requisitos, verificando y creando
+Descripción: Este archivo inicia la aplicación de gestión de requisitos,
+verificando y creando
 la base de datos si es necesario, y lanzando la interfaz gráfica de usuario.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Version: 2
@@ -16,9 +18,9 @@ from interfaz.interfaz_principal import interfaz_principal
 
 # Configuración del registro (logging)
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
 
 def iniciar_aplicacion():
     """
@@ -42,13 +44,15 @@ def iniciar_aplicacion():
         # Rutas absolutas
         base_dir = os.path.dirname(os.path.abspath(__file__))  # Directorio actual
         db_path = os.path.join(base_dir, "BD_Requisitos.db")  # Ruta de la base de datos
-        ruta_base = os.path.join(base_dir, "almacen")  # Ruta del directorio de almacenamiento
+        ruta_base = os.path.join(
+            base_dir, "almacen"
+        )  # Ruta del directorio de almacenamiento
 
         # Verificar y crear la base de datos si no existe
         if not os.path.exists(db_path):
             logging.info("La base de datos no existe, creando tablas...")
             crear_tablas(db_path)
-            
+
         # Verificar y crear el directorio de almacenamiento si no existe
         if not os.path.exists(ruta_base):
             logging.info("El directorio de almacenamiento no existe, creándolo...")
@@ -61,6 +65,7 @@ def iniciar_aplicacion():
     except Exception as e:
         logging.error("Error al iniciar la aplicación: %s", e)
         raise  # Propagar el error para depuración
+
 
 # Punto de entrada principal
 if __name__ == "__main__":

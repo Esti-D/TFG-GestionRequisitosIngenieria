@@ -1,3 +1,13 @@
+"""
+Archivo: opciones_ajustes.py
+Descripción: Este archivo contiene funciones para gestionar los ajustes de la aplicación,
+incluyendo la selección de idioma y el reinicio de la aplicación.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import os
 import subprocess
 import sys
@@ -5,7 +15,17 @@ import tkinter as tk
 
 
 def abrir_ajustes(traducciones, frame_visual):
-    """Función para abrir la ventana o interfaz de ajustes."""
+    """
+    Función para abrir la ventana o interfaz de ajustes.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_visual (tk.Frame): Frame donde se mostrará la interfaz de ajustes.
+
+    Funcionalidad:
+        - Limpia el frame visualizador antes de mostrar los ajustes.
+        - Crea un título y un botón para cambiar el idioma.
+    """
     # Limpiar el visualizador para mostrar la ventana de ajustes
     limpiar_visualizador(frame_visual)
 
@@ -24,14 +44,14 @@ def abrir_ajustes(traducciones, frame_visual):
     boton_cambiar_idioma.pack(pady=10)
 
 
-# def reiniciar_aplicacion():
-#   """Reinicia la aplicación ejecutando de nuevo `main.py`."""
-#   python = sys.executable
-#   os.execl(python, python, *sys.argv)
-
-
 def reiniciar_aplicacion():
-    """Reinicia la aplicación utilizando el mismo intérprete de Python."""
+    """
+    Reinicia la aplicación utilizando el mismo intérprete de Python.
+
+    Funcionalidad:
+        - Lanza un nuevo proceso utilizando `subprocess.Popen`.
+        - Cierra el proceso actual para evitar duplicados.
+    """
     try:
         nuevo_proceso = subprocess.Popen([sys.executable] + sys.argv)
 
@@ -45,6 +65,11 @@ def reiniciar_aplicacion():
 
 
 def limpiar_visualizador(frame_visual):
-    """Función para limpiar el frame visual de la interfaz."""
+    """
+    Limpia el frame visual de la interfaz eliminando todos sus widgets.
+
+    Args:
+        frame_visual (tk.Frame): Frame que será limpiado.
+    """
     for widget in frame_visual.winfo_children():
         widget.destroy()

@@ -1,13 +1,15 @@
 """
 Archivo: func_requisitos.py
-Descripción: Funciones para gestionar requisitos en la base de datos SQLite, incluyendo inserción,
-consulta, filtrado y eliminación de requisitos.
+Descripción: Funciones para gestionar requisitos en la base de datos SQLite,
+incluyendo inserción, consulta, filtrado y eliminación de requisitos.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
 """
 
 import sqlite3
+
 
 # Conectar a la base de datos
 def conectar_db():
@@ -18,6 +20,7 @@ def conectar_db():
         sqlite3.Connection: Objeto de conexión a la base de datos.
     """
     return sqlite3.connect("BD_Requisitos.db")
+
 
 # Insertar un requisito
 def insertar_requisito(capitulo, requisito, documento_id):
@@ -39,6 +42,7 @@ def insertar_requisito(capitulo, requisito, documento_id):
 
     conexion.commit()
     conexion.close()
+
 
 # Consultar todos los requisitos
 def obtener_requisitos():
@@ -62,6 +66,7 @@ def obtener_requisitos():
 
     conexion.close()
     return requisitos
+
 
 # Consultar requisitos filtrados
 def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None):
@@ -112,6 +117,7 @@ def obtener_requisitos_filtrados(subsistema=None, proyecto=None, documento=None)
 
     conexion.close()
     return requisitos
+
 
 # Eliminar un requisito
 def borrar_requisito(requisito_id):

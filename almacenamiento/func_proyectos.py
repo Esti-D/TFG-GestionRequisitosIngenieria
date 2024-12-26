@@ -2,12 +2,14 @@
 Archivo: func_proyectos.py
 Descripción: Funciones para gestionar proyectos en la base de datos SQLite, incluyendo inserción,
 consulta, filtrado y eliminación de proyectos.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
 """
 
 import sqlite3
+
 
 # Conectar a la base de datos
 def conectar_db():
@@ -18,6 +20,7 @@ def conectar_db():
         sqlite3.Connection: Objeto de conexión a la base de datos.
     """
     return sqlite3.connect("BD_Requisitos.db")
+
 
 # Insertar un proyecto
 def insertar_proyecto(nombre_proyecto):
@@ -34,6 +37,7 @@ def insertar_proyecto(nombre_proyecto):
 
     conexion.commit()
     conexion.close()
+
 
 # Consultar todos los proyectos
 def obtener_proyectos():
@@ -55,6 +59,7 @@ def obtener_proyectos():
 
     conexion.close()
     return proyectos
+
 
 # Consultar proyectos filtrados
 def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=None):
@@ -101,6 +106,7 @@ def obtener_proyectos_filtrados(subsistemaid=None, proyectoid=None, documentoid=
     conexion.close()
     return proyectos
 
+
 # Eliminar un proyecto
 def borrar_proyecto(proyecto_id):
     """
@@ -116,6 +122,7 @@ def borrar_proyecto(proyecto_id):
 
     conexion.commit()
     conexion.close()
+
 
 # Obtener el ID de un proyecto
 def obtener_id_proyecto(nombre_proyecto):

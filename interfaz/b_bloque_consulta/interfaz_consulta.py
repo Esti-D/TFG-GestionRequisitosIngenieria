@@ -1,8 +1,15 @@
+"""
+Archivo: interfaz_consulta.py
+Descripción: Este archivo contiene funciones para crear el bloque "Consulta" en la interfaz gráfica.
+Incluye funcionalidades de consulta, descarga, y aplicación de filtros mediante comboboxes y checkboxes.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import tkinter as tk
-from tkinter import filedialog
 from tkinter import ttk
-import os
-import sys
 
 from interfaz.b_bloque_consulta.consulta_de import (
     verificar_opcion_seleccionada,
@@ -24,6 +31,15 @@ color_azul_logo = "#125ca6"
 
 
 def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
+    """
+    Crea el bloque "Consulta" en la interfaz gráfica, con funcionalidades para aplicar filtros,
+    realizar consultas, y descargar datos.
+
+    Args:
+        frame_funcionalidades (tk.Frame): Frame principal donde se colocan los bloques funcionales.
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_visual (tk.Frame): Frame donde se mostrarán los resultados de las consultas.
+    """
     frame_consulta = tk.Frame(
         frame_funcionalidades,
         bg=color_azul_logo,
@@ -50,7 +66,7 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
                 var_documentos,
                 var_proyectos,
                 var_subsistemas,
-                var_tab_ima
+                var_tab_ima,
             ),
             combobox_subsistemas,
             combobox_proyectos,
@@ -110,7 +126,6 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
             var_proyectos.set(0)
             var_subsistemas.set(0)
 
-
     # Casillas de selección para los filtros dentro del bloque 2
     checkbox_requisitos = tk.Checkbutton(
         filtros_frame,
@@ -151,7 +166,6 @@ def crear_bloque_consulta(frame_funcionalidades, traducciones, frame_visual):
         command=lambda: seleccionar_unico(var_tab_ima),
     )
     checkbox_subsistemas.grid(row=0, column=4, padx=5, pady=5, sticky="ew")
-
 
     # Filtro de Subsistemas dentro del bloque 2
     label_subsistemas = tk.Label(

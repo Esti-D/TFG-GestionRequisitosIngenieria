@@ -1,20 +1,36 @@
+"""
+Archivo: bloque_ayuda.py
+Descripción: Este archivo contiene la función para abrir una ventana de ayuda que muestra
+contenido en Markdown convertido a HTML, con soporte multilingüe.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import tkinter as tk
 import os
-from PIL import Image, ImageTk
 from tkinterweb import HtmlFrame
 import markdown2
 
 
 def abrir_ayuda(traducciones, frame_visual):
     """
-    Abre una ventana nueva para mostrar el contenido del archivo de ayuda en el idioma actual de la aplicación.
+    Abre una ventana nueva para mostrar el contenido del archivo de ayuda en el idioma actual
+     de la aplicación.
 
     Args:
-    - frame_visual: el frame principal de la interfaz.
-    - idioma_actual: el idioma en el que está configurada la aplicación (ej. "castellano", "ingles", "frances").
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_visual (tk.Frame): Frame principal de la interfaz donde se integra la funcionalidad.
+
+    Funcionalidad:
+        - Verifica que el archivo de ayuda correspondiente al idioma actual exista.
+        - Convierte el archivo Markdown a HTML y lo muestra en una ventana emergente.
+        - Personaliza la ventana con un título y un icono.
     """
+    # Obtener el idioma actual desde las traducciones.
     idioma_actual = traducciones["IDIOMA"]
-    # idioma_actual= "castellano"
+
     # Rutas a los archivos de ayuda en distintos idiomas
     ruta_base = os.path.dirname(os.path.abspath(__file__))
     archivos_ayuda = {
@@ -27,7 +43,8 @@ def abrir_ayuda(traducciones, frame_visual):
     ruta_ayuda = archivos_ayuda.get(idioma_actual)
     if not ruta_ayuda or not os.path.exists(ruta_ayuda):
         print(
-            f"{traducciones["M_El_archivo_de_ayuda"]} {idioma_actual} {traducciones["M_no_existe_en"]} {ruta_ayuda}."
+            f"{traducciones["M_El_archivo_de_ayuda"]} {idioma_actual}",
+            f" {traducciones["M_no_existe_en"]} {ruta_ayuda}.",
         )
         return
 

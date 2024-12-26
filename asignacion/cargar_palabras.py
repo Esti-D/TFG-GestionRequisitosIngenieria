@@ -1,6 +1,8 @@
 """
 Archivo: cargar_palabras.py
-Descripción: Funciones para leer y procesar un archivo CSV con información sobre subsistemas y sus palabras clave.
+Descripción: Funciones para leer y procesar un archivo CSV con información
+sobre subsistemas y sus palabras clave.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
@@ -8,6 +10,7 @@ Versión: 2
 
 import csv
 import ast
+
 
 def cargar_palabras_desde_csv(ruta_csv):
     """
@@ -30,31 +33,36 @@ def cargar_palabras_desde_csv(ruta_csv):
         next(lector_csv, None)
 
         for fila in lector_csv:
-            if len(fila) < 2 or not fila[1].strip():  # Ignorar filas vacías o incompletas
+            if (
+                len(fila) < 2 or not fila[1].strip()
+            ):  # Ignorar filas vacías o incompletas
                 print(f"Fila incompleta o sin palabras clave ignorada: {fila}")
                 continue
 
-            subsistema = fila[0].strip()  # Nombre del subsistema
+            subsistema_nombre = fila[0].strip()  # Nombre del subsistema
             tokenes_str = fila[1].strip()  # Lista de palabras clave como cadena
 
             try:
-                palabras_clave = ast.literal_eval(tokenes_str)  # Convertir cadena a lista
+                palabras_clave = ast.literal_eval(
+                    tokenes_str
+                )  # Convertir cadena a lista
             except (ValueError, SyntaxError):
                 print(
-                    f"Error al convertir la lista de palabras clave para el subsistema {subsistema}: {tokenes_str}"
+                    f"Error al convertir la lista de palabras clave para el subsistema {subsistema_nombre}: {tokenes_str}"
                 )
                 continue
 
-            subsistemas_palabras[subsistema] = palabras_clave
+            subsistemas_palabras[subsistema_nombre] = palabras_clave
 
     return subsistemas_palabras
 
+
 if __name__ == "__main__":
-    """
-    Código de prueba para verificar la funcionalidad de la lectura del archivo CSV.
-    Carga los subsistemas y sus palabras clave desde un archivo llamado "TOKENES.csv"
-    y los imprime en consola.
-    """
+
+    # Código de prueba para verificar la funcionalidad de la lectura del archivo CSV.
+    # Carga los subsistemas y sus palabras clave desde un archivo llamado "TOKENES.csv"
+    # y los imprime en consola.
+
     subsistemas = cargar_palabras_desde_csv("TOKENES.csv")
 
     for subsistema, palabras in subsistemas.items():

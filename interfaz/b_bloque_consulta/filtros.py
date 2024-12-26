@@ -1,5 +1,13 @@
-import tkinter as tk
-from tkinter import messagebox
+"""
+Archivo: filtros.py
+Descripción: Este archivo contiene funciones para actualizar los valores de comboboxes con datos de subsistemas,
+proyectos y documentos obtenidos desde la base de datos.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 from almacenamiento.func_documentos import (
     obtener_documentos,
 )  # función de consulta de documentos
@@ -12,7 +20,13 @@ from almacenamiento.func_proyectos import (
 
 
 def actualizar_combobox_subsistemas(traducciones, combobox_subsistemas):
+    """
+    Actualiza el combobox de subsistemas con los valores obtenidos desde la base de datos.
 
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        combobox_subsistemas (ttk.Combobox): Combobox donde se mostrarán los subsistemas.
+    """
     default_opcion = traducciones["O_TODOS"]
 
     # Obtener todos los subsistemas
@@ -27,7 +41,13 @@ def actualizar_combobox_subsistemas(traducciones, combobox_subsistemas):
 
 
 def actualizar_combobox_proyectos(traducciones, combobox_proyectos):
+    """
+    Actualiza el combobox de proyectos con los valores obtenidos desde la base de datos.
 
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        combobox_proyectos (ttk.Combobox): Combobox donde se mostrarán los proyectos.
+    """
     default_opcion = traducciones["O_TODOS"]
     # Obtener todos los proyectos
     proyectos = (
@@ -41,7 +61,13 @@ def actualizar_combobox_proyectos(traducciones, combobox_proyectos):
 
 
 def actualizar_combobox_documentos(traducciones, combobox_documentos):
+    """
+    Actualiza el combobox de documentos con los valores obtenidos desde la base de datos.
 
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        combobox_documentos (ttk.Combobox): Combobox donde se mostrarán los documentos.
+    """
     default_opcion = traducciones["O_TODOS"]
 
     # Obtener todos los documentos

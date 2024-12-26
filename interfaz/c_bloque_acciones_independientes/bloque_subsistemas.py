@@ -1,3 +1,14 @@
+"""
+Archivo: bloque_subsistemas.py
+Descripción: Este archivo contiene funciones para gestionar los subsistemas en la 
+aplicación, incluyendo la creación, eliminación, visualización y actualización de
+subsistemas en la interfaz gráfica.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import sys
 import os
 import tkinter as tk
@@ -15,14 +26,26 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
-    """Elimina todos los widgets dentro del frame_visual."""
+    """
+    Elimina todos los widgets dentro del frame_visual.
+
+    Args:
+        frame_visual (tk.Frame): Frame que será limpiado.
+    """
     for widget in frame_visual.winfo_children():
         widget.destroy()
 
 
 # Función para agregar un subsistema
 def agregar_subsistema(entry_subsistema, lista_subsistemas):
-    """Inserta un nuevo subsistema en la base de datos y actualiza la lista."""
+    """
+    Inserta un nuevo subsistema en la base de datos y actualiza la lista.
+
+    Args:
+        entry_subsistema (tk.Entry): Campo de entrada donde el usuario ingresa el 
+        nombre del subsistema.
+        lista_subsistemas (tk.Listbox): Listbox que muestra los subsistemas actuales.
+    """
     subsistema = entry_subsistema.get()
     if subsistema:
         insertar_subsistema(subsistema)  # Llamada a la función para insertar en la BD
@@ -34,7 +57,15 @@ def agregar_subsistema(entry_subsistema, lista_subsistemas):
 
 # Función para mostrar todos los subsistemas
 def mostrar_subsistemas(lista_subsistemas):
-    """Muestra todos los subsistemas en la lista."""
+    """
+    Muestra todos los subsistemas en la lista.
+
+    Args:
+        lista_subsistemas (tk.Listbox): Listbox que será actualizado con los subsistemas actuales.
+
+    Returns:
+        list: Lista de subsistemas obtenidos desde la base de datos.
+    """
     lista_subsistemas.delete(0, tk.END)
     subsistemas = obtener_subsistemas()  # Obtener subsistemas de la BD
     for subsistema in subsistemas:
@@ -46,7 +77,15 @@ def mostrar_subsistemas(lista_subsistemas):
 
 # Función para eliminar un subsistema
 def eliminar_subsistema(traducciones, entry_id_eliminar, lista_subsistemas):
-    """Elimina un subsistema de la base de datos y actualiza la lista."""
+    """
+    Elimina un subsistema de la base de datos y actualiza la lista.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        entry_id_eliminar (tk.Entry): Campo de entrada donde el usuario ingresa el ID del
+        subsistema. lista_subsistemas (tk.Listbox): Listbox que será actualizado después de 
+        eliminar un subsistema.
+    """
     subsistema_id = entry_id_eliminar.get()
     if subsistema_id:
         borrar_subsistema(int(subsistema_id))  # Llamada para eliminar de la BD
@@ -59,7 +98,14 @@ def eliminar_subsistema(traducciones, entry_id_eliminar, lista_subsistemas):
 
 # Función para crear el bloque de Subsistema en el visualizador
 def crear_boton_subsistema(traducciones, frame_funcionalidades, frame_visual):
-    """Crea el bloque de gestión de subsistemas (Agregar, Mostrar, Eliminar)."""
+    """
+    Crea el bloque de gestión de subsistemas (Agregar, Mostrar, Eliminar).
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_funcionalidades (tk.Frame): Frame principal de la interfaz.
+        frame_visual (tk.Frame): Frame donde se muestran los widgets relacionados con subsistemas.
+    """
     # Limpiar visualizador antes de agregar nuevos widgets
     limpiar_visualizador(frame_visual)
 
@@ -109,10 +155,15 @@ def crear_boton_subsistema(traducciones, frame_funcionalidades, frame_visual):
 
 
 def mostrar_subsistemas_combobox(traducciones, combobox_subsistemas):
+    """
+    Muestra todos los subsistemas en el Combobox.
 
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        combobox_subsistemas (ttk.Combobox): Combobox donde se mostrarán los subsistemas.
+    """
     actualizar_combobox_subsistemas(traducciones, combobox_subsistemas)
 
-    """Muestra todos los subsistemas en el Combobox."""
     subsistemas = obtener_subsistemas()  # Obtener subsistemas de la BD
     # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)
     lista_nombres_subsistemas = [subsistema[1] for subsistema in subsistemas]

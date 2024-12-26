@@ -1,22 +1,40 @@
+"""
+Archivo: bloque_documentos.py
+Descripción: Este archivo contiene funciones para gestionar documentos en la aplicación,
+incluyendo la creación, visualización y eliminación de documentos mediante una interfaz gráfica.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import sys
 import os
-
-from interfaz.b_bloque_consulta.filtros import actualizar_combobox_documentos
-
-
-# Añadir la ruta del directorio principal del proyecto al sys.path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 import tkinter as tk
+from interfaz.b_bloque_consulta.filtros import actualizar_combobox_documentos
 from almacenamiento.func_documentos import (
     insertar_documento,
     obtener_documentos,
     borrar_documento,
 )
+# Añadir la ruta del directorio principal del proyecto al sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-# interfaz de consulta
 def crear_interfaz_documentos(frame_funcionalidades, frame_visual):
+    """
+    Crea la interfaz gráfica para gestionar documentos.
+
+    Args:
+        frame_funcionalidades (tk.Frame): Frame principal donde se colocan los
+         widgets de interacción.
+        frame_visual (tk.Frame): Frame donde se muestra la lista de documentos.
+
+    Funcionalidad:
+        - Permite agregar nuevos documentos con título, versión y proyecto asociado.
+        - Muestra una lista de documentos actuales almacenados en la base de datos.
+        - Proporciona una opción para eliminar documentos por ID.
+    """
 
     # Función para agregar un nuevo documento
     def agregar_documento():
@@ -94,7 +112,13 @@ def crear_interfaz_documentos(frame_funcionalidades, frame_visual):
 
 
 def mostrar_documentos_combobox(traducciones, combobox_documentos):
+    """
+    Muestra todos los documentos en el Combobox.
 
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        combobox_documentos (ttk.Combobox): Combobox donde se mostrarán los documentos.
+    """
     actualizar_combobox_documentos(traducciones, combobox_documentos)
 
     """Muestra todos los subsistemas en el Combobox."""
@@ -108,6 +132,11 @@ def mostrar_documentos_combobox(traducciones, combobox_documentos):
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
-    """Elimina todos los widgets dentro del frame_visual."""
+    """
+    Elimina todos los widgets dentro del frame_visual.
+
+    Args:
+        frame_visual (tk.Frame): Frame que será limpiado.
+    """
     for widget in frame_visual.winfo_children():
         widget.destroy()

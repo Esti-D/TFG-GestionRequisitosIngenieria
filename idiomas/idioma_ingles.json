@@ -107,7 +107,10 @@
     "M_Confirmar_Eliminacion_T": "Are you sure you want to delete the file?",
     "M_Archivo_Eliminado": "File Deleted.",
     "M_Archivo_Eliminado_T": "The file has been deleted successfully.",
-
+    "M_Documento_existente": "Existing document",
+    "M_El_documento_ya_existe": "The document already exists. Do you want to create a new version?",
+    "M_Cancelado": "Cancelled",
+    "M_El_proceso_de_guardado_ha_sido_cancelado.": "The save process had been cancelled.",
     "M_Exito": "Success",
     "M_Documentos,requisitos_y_asociaciones_guardados_correctamente": "Documents, requirements and associations saved successfully"
 }

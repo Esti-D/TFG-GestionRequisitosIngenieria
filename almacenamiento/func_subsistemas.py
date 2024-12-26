@@ -2,6 +2,7 @@
 Archivo: func_subsistema.py
 Descripción: Funciones para gestionar subsistemas en la base de datos SQLite, incluyendo inserción,
 consulta, filtrado y eliminación de subsistemas.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Versión: 2
@@ -9,6 +10,7 @@ Versión: 2
 
 import sqlite3
 import os
+
 
 # Conectar a la base de datos
 def conectar_db():
@@ -23,6 +25,7 @@ def conectar_db():
     )
     print(f"Conectando a la base de datos en: {db_path}")
     return sqlite3.connect(db_path)
+
 
 # Insertar un subsistema
 def insertar_subsistema(nombre_subsistema):
@@ -39,6 +42,7 @@ def insertar_subsistema(nombre_subsistema):
 
     conexion.commit()
     conexion.close()
+
 
 # Consultar todos los subsistemas
 def obtener_subsistemas():
@@ -60,6 +64,7 @@ def obtener_subsistemas():
 
     conexion.close()
     return subsistemas
+
 
 # Consultar subsistemas filtrados
 def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoid=None):
@@ -106,6 +111,7 @@ def obtener_subsistemas_filtrados(subsistemaid=None, proyectoid=None, documentoi
     conexion.close()
     return subsistemas
 
+
 # Eliminar un subsistema
 def borrar_subsistema(subsistema_id):
     """
@@ -121,6 +127,7 @@ def borrar_subsistema(subsistema_id):
 
     conexion.commit()
     conexion.close()
+
 
 # Obtener el ID de un subsistema
 def obtener_id_subsistema(nombre_subsistema):

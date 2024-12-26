@@ -1,3 +1,13 @@
+"""
+Archivo: bloque_proyectos.py
+Descripción: Este archivo contiene funciones para gestionar proyectos o ciudades en la aplicación.
+Permite crear, mostrar y eliminar proyectos mediante interacción con la interfaz gráfica.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import sys
 import os
 import tkinter as tk
@@ -6,8 +16,6 @@ from almacenamiento.func_proyectos import (
     obtener_proyectos,
     borrar_proyecto,
 )
-from tkinter import messagebox
-
 from interfaz.b_bloque_consulta.filtros import actualizar_combobox_proyectos
 
 # Añade la carpeta raíz al sys.path para que Python pueda encontrar los módulos correctamente
@@ -16,14 +24,26 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Función para limpiar el visualizador
 def limpiar_visualizador(frame_visual):
-    """Elimina todos los widgets del frame de visualización."""
+    """
+    Elimina todos los widgets del frame de visualización.
+
+    Args:
+        frame_visual (tk.Frame): Frame que será limpiado.
+    """
     for widget in frame_visual.winfo_children():
         widget.destroy()
 
 
 # Función para crear el bloque de Proyecto / Ciudad en el visualizador
 def crear_boton_proyecto(traducciones, frame_funcionalidades, frame_visual):
-    """Crea el interfaz para gestionar proyectos/ciudades en el frame de visualización."""
+    """
+    Crea el interfaz para gestionar proyectos o ciudades en el frame de visualización.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_funcionalidades (tk.Frame): Frame principal de la interfaz.
+        frame_visual (tk.Frame): Frame donde se mostrarán los widgets relacionados con proyectos.
+    """
 
     # Función interna para agregar un nuevo proyecto/ciudad
     def agregar_proyecto():
@@ -109,9 +129,15 @@ def crear_boton_proyecto(traducciones, frame_funcionalidades, frame_visual):
 
 
 def mostrar_proyectos_combobox(traducciones, combobox_proyectos):
+    """
+    Muestra todos los proyectos en el Combobox.
 
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        combobox_proyectos (ttk.Combobox): Combobox donde se mostrarán los proyectos.
+    """
     actualizar_combobox_proyectos(traducciones, combobox_proyectos)
-    """Muestra todos los subsistemas en el Combobox."""
+
     proyectos = obtener_proyectos()  # Obtener subsistemas de la BD
     # Extraer solo los nombres de los subsistemas (o el valor que quieras mostrar)
     lista_nombres_proyectos = [proyecto[1] for proyecto in proyectos]

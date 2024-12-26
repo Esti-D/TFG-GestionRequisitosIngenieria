@@ -1,3 +1,13 @@
+"""
+Archivo: descarga.py
+Descripción: Este archivo contiene funciones para exportar datos visibles en la interfaz gráfica
+a un archivo CSV, incluyendo la extracción de datos desde distintos widgets de Tkinter.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import csv
 from tkinter import filedialog, messagebox
 import tkinter as tk
@@ -5,7 +15,15 @@ from tkinter import ttk
 
 
 def es_numero(valor):
-    """Comprueba si el valor es un número."""
+    """
+    Comprueba si el valor proporcionado es un número.
+
+    Args:
+        valor (str): Valor a verificar.
+
+    Returns:
+        bool: True si el valor es numérico, False en caso contrario.
+    """
     try:
         float(valor)
         return True
@@ -14,7 +32,18 @@ def es_numero(valor):
 
 
 def descargar_csv(traducciones, frame_visual):
-    """Exporta el contenido visible de frame_visual a un archivo CSV."""
+    """
+    Exporta el contenido visible del frame_visual a un archivo CSV.
+
+    Args:
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_visual (tk.Frame): Frame que contiene los widgets con los datos a exportar.
+
+    Funcionalidad:
+        - Solicita al usuario una ubicación para guardar el archivo.
+        - Extrae datos de widgets como Label, Listbox, Text, Treeview, y Frame.
+        - Convierte los datos extraídos en filas y columnas y los guarda en formato CSV.
+    """
 
     # Solicitar nombre y ubicación para guardar el archivo
     archivo = filedialog.asksaveasfilename(

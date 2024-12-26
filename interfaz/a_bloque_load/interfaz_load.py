@@ -1,9 +1,16 @@
+"""
+Archivo: interfaz_load.py
+Descripción: Este archivo define el bloque funcional 'LOAD' para la interfaz gráfica.
+Este bloque permite la selección y carga de archivos, así como su asociación con
+proyectos existentes.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
 import tkinter as tk
-from tkinter import filedialog
-
 from interfaz.a_bloque_load.cargar_documento import detectar_estructura_capitulos_pdf
-
-from .cargar_documento import cargar_documento_completo
 from .seleccionar_archivo import (
     seleccionar_archivo,
     ventana_seleccionar_proyecto,
@@ -17,12 +24,13 @@ def crear_bloque_load(frame_funcionalidades, traducciones, frame_visual):
 
     Este bloque incluye:
     - Un cuadro de texto para mostrar la ruta del archivo seleccionado.
-    - Botones para seleccionar un archivo y cargar el proyecto asociado.
-    - La lógica para gestionar la selección de proyectos y la carga del archivo.
+    - Botones para seleccionar un archivo y asociarlo a un proyecto existente.
+    - La integración con otras funcionalidades como la asignación de subsistemas.
 
     Args:
         frame_funcionalidades (tk.Frame): Frame principal donde se colocan los bloques funcionales.
-        traducciones (dict): Diccionario con las traducciones de los textos para los botones e interfaz.
+        traducciones (dict): Diccionario con las traducciones de los textos para los botones e
+        interfaz.
         frame_visual (tk.Frame): Frame de la interfaz donde se visualizan los contenidos dinámicos.
 
     Returns:
@@ -32,8 +40,10 @@ def crear_bloque_load(frame_funcionalidades, traducciones, frame_visual):
     - Permite al usuario seleccionar un archivo PDF.
     - Asocia el archivo a un proyecto existente en la base de datos.
     - Procesa el archivo y muestra el contenido extraído en la interfaz gráfica.
+    - Ofrece integración para asignar subsistemas asociados.
 
     """
+
     # Crear el frame de LOAD dentro del frame de funcionalidades
     frame_load = tk.Frame(
         frame_funcionalidades,
@@ -63,9 +73,6 @@ def crear_bloque_load(frame_funcionalidades, traducciones, frame_visual):
                 proyectos,
                 ventana,
                 entry_archivo,
-                #lambda proyecto_id: cargar_documento_completo(
-                #    traducciones, entry_archivo, proyecto_id, frame_visual
-                #),
                 lambda proyecto_id: detectar_estructura_capitulos_pdf(
                     traducciones, entry_archivo, proyecto_id, frame_visual
                 ),

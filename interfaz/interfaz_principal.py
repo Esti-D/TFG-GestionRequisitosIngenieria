@@ -1,7 +1,18 @@
+"""
+Archivo: interfaz_principal.py
+Descripción: Este archivo define la función principal que configura e inicia
+la interfaz gráfica de usuario (GUI) para la gestión de requisitos. Incluye
+la configuración de bloques funcionales como carga de datos, consultas
+y acciones diversas.
+
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
+import os
 import tkinter as tk
 from PIL import Image, ImageTk
-import os
-
 
 # Importar funciones específicas de otros módulos
 from interfaz.a_bloque_load.interfaz_load import crear_bloque_load
@@ -30,7 +41,8 @@ def interfaz_principal(traducciones, db_path):
 
     La interfaz está dividida en dos secciones principales:
     1. **Panel de funcionalidades (izquierda):** Contiene botones y bloques funcionales.
-    2. **Área de visualización (derecha):** Muestra contenido dinámico basado en las acciones del usuario.
+    2. **Área de visualización (derecha):** Muestra contenido dinámico basado en las
+       acciones del usuario.
 
     Args:
         traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
@@ -42,7 +54,8 @@ def interfaz_principal(traducciones, db_path):
     - División en bloques funcionales: `LOAD`, `CONSULTA`, `ACCIONES`, y `OTROS`.
 
     Raises:
-        FileNotFoundError: Si los archivos de icono o fondo no se encuentran en las rutas especificadas.
+        FileNotFoundError: Si los archivos de icono o fondo no se encuentran en las rutas
+        especificadas.
     """
 
     # Crear ventana principal
@@ -62,14 +75,15 @@ def interfaz_principal(traducciones, db_path):
 
     def on_closing():
         """
-        Maneja el cierre de la ventana principal para garantizar que el proceso termine completamente.
+        Maneja el cierre de la ventana principal para garantizar que el proceso termine
+        completamente.
         """
         print("Cerrando la aplicación ...")
         os._exit(0)  # Fuerza la salida inmediata del proceso
 
     ventana.protocol("WM_DELETE_WINDOW", on_closing)
 
-    # Configurar la ventana para que el bloque gris esté dividido en dos partes (izquierda y derecha)
+    # Configurar ventana para que bloque gris esté dividido en dos partes: izq y drch
     ventana.grid_columnconfigure(0, weight=1)  # Parte izquierda para botones
     ventana.grid_columnconfigure(1, weight=7)  # Parte derecha para visualización
     ventana.grid_rowconfigure(0, weight=1)
@@ -102,7 +116,7 @@ def interfaz_principal(traducciones, db_path):
     )  # Aseguramos que la única columna ocupe todo el espacio
 
     # Color azul del logo
-    color_azul_logo = "#125ca6"
+    #color_azul_logo = "#125ca6"
 
     ### BLOQUE 1: LOAD
     crear_bloque_load(frame_funcionalidades, traducciones, frame_visual)

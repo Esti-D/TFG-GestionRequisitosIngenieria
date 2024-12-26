@@ -1,13 +1,32 @@
-import tkinter as tk
-from tkinter import filedialog
-import os
-import sys
+"""
+Archivo: interfaz_otros.py
+Descripción: Este archivo contiene funciones para crear el bloque "Otros" en la interfaz de usuario,
+que incluye los botones de "Ajustes" y "Ayuda".
 
+Autor: Estíbalitz Díez
+Fecha: 26/12/2024
+Versión: 2
+"""
+
+import tkinter as tk
 from interfaz.d_bloque_otros.ayuda.bloque_ayuda import abrir_ayuda
 from interfaz.d_bloque_otros.opciones_ajustes import abrir_ajustes
 
 
 def crear_bloque_otros(frame_funcionalidades, traducciones, frame_visual):
+    """
+    Crea el bloque "Otros" en la interfaz, que contiene los botones de "Ajustes" y "Ayuda".
+
+    Args:
+        frame_funcionalidades (tk.Frame): Frame principal donde se colocan los bloques funcionales.
+        traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
+        frame_visual (tk.Frame): Frame donde se visualizan las opciones seleccionadas.
+
+    Funcionalidad:
+        - Crea un contenedor para los botones de Ajustes y Ayuda.
+        - Coloca ambos botones en la misma fila y configura su distribución.
+        - Los botones ejecutan las funciones correspondientes para abrir Ajustes o Ayuda.
+    """
 
     # Frame contenedor para los botones Ajustes y Ayuda en la misma fila
     frame_ajustes_ayuda = tk.Frame(frame_funcionalidades, bg="#125ca6")

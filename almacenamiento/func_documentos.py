@@ -2,12 +2,14 @@
 Archivo: func_documentos.py
 Descripción: Contiene funciones para gestionar documentos en la base de datos SQLite, 
 incluyendo inserción, consulta, filtrado y eliminación de documentos.
+
 Autor: Estíbalitz Díez
 Fecha: 23/12/2024
 Version: 2
 """
 
 import sqlite3
+
 
 # Conectar a la base de datos
 def conectar_db():
@@ -18,6 +20,7 @@ def conectar_db():
         sqlite3.Connection: Objeto de conexión a la base de datos.
     """
     return sqlite3.connect("BD_Requisitos.db")
+
 
 # Insertar un documento
 def insertar_documento(titulo, version, proyecto_id):
@@ -39,6 +42,7 @@ def insertar_documento(titulo, version, proyecto_id):
 
     conexion.commit()
     conexion.close()
+
 
 # Obtener el ID de un documento
 def obtener_iddocumento(titulo, proyecto_id, version):
@@ -65,6 +69,7 @@ def obtener_iddocumento(titulo, proyecto_id, version):
 
     return id_documento[0] if id_documento else None
 
+
 # Obtener la última versión de un documento
 def obtener_version(titulo, proyecto_id):
     """
@@ -88,6 +93,7 @@ def obtener_version(titulo, proyecto_id):
     conexion.close()
 
     return int(version[0]) if version and version[0] else None
+
 
 # Consultar todos los documentos
 def obtener_documentos():
@@ -114,6 +120,7 @@ def obtener_documentos():
 
     conexion.close()
     return documentos
+
 
 # Consultar documentos filtrados
 def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None):
@@ -168,6 +175,7 @@ def obtener_documentos_filtrados(subsistema=None, proyecto=None, documento=None)
 
     conexion.close()
     return documentos
+
 
 # Eliminar un documento
 def borrar_documento(documento_id):
