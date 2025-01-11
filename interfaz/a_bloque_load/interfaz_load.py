@@ -11,7 +11,7 @@ Versión: 2
 
 import tkinter as tk
 from interfaz.a_bloque_load.cargar_documento import detectar_estructura_capitulos_pdf
-from .seleccionar_archivo import (
+from interfaz.a_bloque_load.seleccionar_archivo import (
     seleccionar_archivo,
     ventana_seleccionar_proyecto,
     aceptar_proyecto,

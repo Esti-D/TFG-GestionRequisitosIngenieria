@@ -64,6 +64,7 @@ def seleccionar_idioma():
         "Castellano": "idioma_castellano.json",
         "Inglés": "idioma_ingles.json",
         "Francés": "idioma_frances.json",
+        "Euskera": "idioma_euskera.json",
     }
 
     # Variable para almacenar el idioma seleccionado
