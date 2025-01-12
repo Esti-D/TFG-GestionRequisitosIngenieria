@@ -1,18 +1,18 @@
 """
-Archivo: bloque_ayuda.py
+Archivo: bloque_ayuda.py - webview
 Descripción: Este archivo contiene la función para abrir una ventana de ayuda que muestra
 contenido en Markdown convertido a HTML, con soporte multilingüe.
 """
 
 import os
-import webbrowser
 import markdown2
+import webview
 
 
 def abrir_ayuda(traducciones, frame_visual):
     """
     Abre una ventana nueva para mostrar el contenido del archivo de ayuda en el idioma actual
-    de la aplicación en el navegador predeterminado.
+    en un WebView.
 
     Args:
         traducciones (dict): Diccionario con las traducciones de los textos para la interfaz.
@@ -27,7 +27,6 @@ def abrir_ayuda(traducciones, frame_visual):
         "castellano": os.path.join(ruta_base, "help_castellano.md"),
         "ingles": os.path.join(ruta_base, "help_ingles.md"),
         "frances": os.path.join(ruta_base, "help_frances.md"),
-        "euskera": os.path.join(ruta_base, "help_euskera.md"),
     }
 
     # Verificar que el archivo de ayuda en el idioma actual existe
@@ -44,10 +43,6 @@ def abrir_ayuda(traducciones, frame_visual):
         contenido_md = archivo.read()
         contenido_html = markdown2.markdown(contenido_md)  # Convierte Markdown a HTML
 
-    # Crear un archivo temporal HTML
-    ruta_html = os.path.join(ruta_base, "ayuda_temporal.html")
-    with open(ruta_html, "w", encoding="utf-8") as archivo_html:
-        archivo_html.write(contenido_html)
-
-    # Abrir el archivo HTML en el navegador predeterminado
-    webbrowser.open(ruta_html)
+    # Mostrar el contenido HTML en un WebView
+    webview.create_window(traducciones["HELP_RM_Requirements_Management"], html=contenido_html)
+    webview.start()

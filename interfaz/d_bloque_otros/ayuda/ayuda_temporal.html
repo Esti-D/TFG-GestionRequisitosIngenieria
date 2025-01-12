@@ -1,0 +1,92 @@
+<h2>Ayuda del software RM Requirements Management</h2>
+
+<h3>Índice</h3>
+
+<ul>
+<li><a href="#carga-de-documentos-a-la-base-de-datos">Carga de documentos a la Base de Datos</a></li>
+<li><a href="#consultas">Consultas</a></li>
+<li><a href="#otros">Otros</a></li>
+<li><a href="#ajustes">Ajustes</a></li>
+<li><a href="#ayuda">Ayuda</a></li>
+</ul>
+
+<hr />
+
+<h3>Carga de documentos a la Base de Datos</h3>
+
+<ol>
+<li><p>Mediante el botón <strong>Seleccionar archivo</strong> (que abre el explorador de archivos), elige el archivo PDF con los requisitos. Este aparecerá en la ventana del visor. Luego, inicia el proceso presionando el botón <strong>CARGAR</strong>.</p>
+
+<p>1.1. <strong>Búsqueda de la jerarquía de capítulos</strong>: Los patrones que reconoce son:<br />
+     - <code>1.</code>
+     - <code>1</code>
+     - <code>1-</code>
+     - <code>1)</code></p>
+
+<p>1.2. <strong>Patrones no reconocidos</strong>:<br />
+     - 1. En caso de no reconocimiento, la opción recomendada es <strong>Modificar</strong>, lo que implica convertir el PDF a editable mediante un software externo para incorporar uno de los patrones reconocidos y realizar la gestión del documento.<br />
+     - 2. La otra opción disponible es <strong>Forzar</strong>. De este modo, todo el documento se entenderá como un capítulo único y todos los requisitos estarán en el mismo nivel jerárquico.  </p>
+
+<p>1.3. <strong>Patrones reconocidos o forzados</strong>: Se mostrará una ventana para seleccionar el proyecto al que deseas añadir los requisitos.</p></li>
+<li><p>Una vez seleccionado el proyecto, acepta para continuar. El proceso de carga se completará, mostrando el contenido y permitiendo la edición (si deseas corregir o eliminar algo).</p></li>
+<li>El sistema analizará el alcance potencial de los subsistemas y propondrá los que podrían estar afectados. Podrás seleccionar algunos o todos según convenga.</li>
+</ol>
+
+<p>Al finalizar, los requisitos/documento estarán almacenados y vinculados al proyecto y subsistemas correspondientes.</p>
+
+<hr />
+
+<h3>Consultas</h3>
+
+<ol>
+<li>Puedes realizar búsquedas de <strong>documentos</strong>, <strong>proyectos</strong>, <strong>subsistemas</strong> y <strong>requisitos</strong> (los textos y las tablas/figuras) marcando la opción deseada.</li>
+<li>Si deseas listar todos los elementos, solo debes presionar el botón <strong>Consultar</strong>.</li>
+<li>Para realizar una búsqueda específica, usa los filtros de <strong>Documentos</strong>, <strong>Proyectos</strong> y <strong>Subsistemas</strong>.  
+<ul>
+<li>Puedes aplicar un único filtro o combinarlos; por ejemplo, puedes seleccionar los documentos de un proyecto específico y de un único subsistema.  </li>
+<li>Los requisitos mostrados serán siempre de la última versión del documento, en caso de que haya más de una.  </li>
+<li>Se puede eliminar un archivo directamente desde el visor de consulta; esta opción borrará en cascada los requisitos del documento.  </li>
+<li>También se podrán eliminar las tablas/imagenes requisitos desde el visor.</li>
+</ul></li>
+</ol>
+
+<hr />
+
+<h3>Otros</h3>
+
+<ol>
+<li><strong>Proyectos</strong>:  
+<ul>
+<li>Puedes añadir nuevos proyectos a la base de datos para asignarles documentos y requisitos.  </li>
+<li>El criterio recomendado es usar el nombre de la ciudad donde se desarrollará el proyecto.  </li>
+<li>También puedes eliminar proyectos.</li>
+</ul></li>
+<li><strong>Subsistemas</strong>:  
+<ul>
+<li>Puedes añadir nuevos subsistemas a la base de datos.  </li>
+<li>Para que un subsistema se reconozca en el análisis de alcance de un documento/requisito, es necesario incluir sus palabras clave en el archivo asociado <code>TOKENES.csv</code>.  </li>
+<li>También puedes eliminar subsistemas.</li>
+</ul></li>
+<li><strong>Asignar</strong>:  
+<ul>
+<li>Esta opción permite crear relaciones entre documentos y subsistemas tras la carga del documento.  </li>
+<li>Está diseñada para casos en los que necesites asociar un documento con otro subsistema posteriormente.  </li>
+<li>También permite eliminar asociaciones.</li>
+</ul></li>
+</ol>
+
+<hr />
+
+<h3>Ajustes</h3>
+
+<ol>
+<li>Puedes elegir el idioma en el que deseas trabajar con esta aplicación. En esta versión, se dispone de <strong>español</strong>, <strong>inglés</strong> y <strong>francés</strong>.</li>
+</ol>
+
+<hr />
+
+<h3>Ayuda</h3>
+
+<ol>
+<li>Explicación de cada una de las opciones disponibles en esta versión del software.</li>
+</ol>
