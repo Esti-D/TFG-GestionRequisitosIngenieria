@@ -1,6 +1,6 @@
 # Sistema de Extracción y Gestión de Requisitos
 ![Versión](https://img.shields.io/badge/Versión-2.0-blue)
-
+[![codebeat badge](https://codebeat.co/badges/8a35aa0d-8f67-4aab-ab82-e56ced93946b)](https://codebeat.co/projects/github-com-esti-d-tfg-gestionrequisitosingenieria-v2)
 ## Descripción
 
 Este proyecto es un sistema de escritorio diseñado para **extraer, organizar y gestionar requisitos** desde documentos PDF. 
